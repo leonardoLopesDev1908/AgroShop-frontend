@@ -53,6 +53,17 @@
 
 }
 
+.main_produtos{
+    display: flex;
+    flex-direction: row;
+    margin-top: 230px;
+    padding: 20px;
+}
+
+.card-grid {
+    margin-top: 150px;
+}
+
 .home-product-card {
     width: calc(18% - 30px);
     margin: 15px;
