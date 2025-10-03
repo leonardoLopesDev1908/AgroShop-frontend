@@ -2,100 +2,80 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom' 
 import Hero from '../component/hero/Hero'
 import Paginator from '../component/common/Paginator'
-import { Card, Col, Row, Container, Button, Form} from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import ProductImage from '../component/utils/ProductImage'
-import { getDistintosProdutosByNome } from '../component/services/ProdutoService'
+import { getDistintosProdutosByNome, getProdutosFiltros } from '../component/services/ProdutoService'
 import { toast } from "react-toastify" 
 import {useSelector} from "react-redux"
+import FiltersComponent from "../component/search/FiltersComponent"
 
 const Home = () => {
     const [produtos, setProdutos] = useState([])
     const [currentPage, setCurrentPage] = useState(1) 
-    const itemsPerPage = 10
-    const {searchQuery} = useSelector((state) => state.search)
     const [filteredProdutos, setFilteredProdutos] = useState([])
+    const itemsPerPage = 10
 
+    const filters = useSelector(state => state.filters)
 
-    const [filters, setFilter] = useState({
-        termo: "",
-        categoria: "",
-        marca: "",
-        precoMin: "",
-        precoMax: ""
-    })
+    function buildQuery(filters) {
+        const params = new URLSearchParams();
+        if (filters.categoria) params.append("categoria", filters.categoria);
+        if (filters.precoMin) params.append("precoMin", filters.precoMin);
+        if (filters.precoMax) params.append("precoMax", filters.precoMax);
+        if (filters.search) params.append("search", filters.search);
+        params.append("pagina", currentPage);
+        return params.toString();
+    }
 
+    //GET Sem filtros
     useEffect(() => {
         const getProdutos = async () => {
-            try {
+            try{
                 const response = await getDistintosProdutosByNome()
-                setProdutos(response.data)
-            } catch (error) {
-                const errorMsg = error.message || "Erro ao carregar produtos"
-                toast.error(errorMsg) 
+                const data = Array.isArray(response) ? response : response.content || []
+                setProdutos(data)
+                setFilteredProdutos(data)
+            } catch(error){
+                const errorMsg = error.message || "Erro ao carregar os produtos"
+                toast.error(errorMsg)
             }
+            getProdutos()
         }
-        getProdutos()
     }, [])
 
+    //GET Com filtros
     useEffect(() => {
-        if (!searchQuery) {
-            setFilteredProdutos(produtos) 
-        } else {
-            const results = produtos.filter((produto) =>
-                produto.nome.toLowerCase().includes(searchQuery.toLowerCase())
-            )
-            setFilteredProdutos(results)
+        const getProdutos = async () => {
+            try{
+                const query = buildQuery(filters)
+                const data = await getProdutos(query)
+                console.log("Query enviada:", query) // Para debug
+                const produtosArray = Array.isArray(data) ? data : data.content || []
+                setFilteredProdutos(produtosArray)
+            } catch(error){
+                const errorMsg = error.message || "Erro ao carregar os produtos"
+                toast.error(errorMsg)
+            }
+            getProdutos()
         }
-    }, [searchQuery, produtos])
+    }, [filters, currentPage])
+
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
-
     const indexOfLastProduct = currentPage * itemsPerPage
     const indexOfFirstProduct = indexOfLastProduct - itemsPerPage
-    const currentProducts = filteredProdutos.slice( 
-        indexOfFirstProduct,
-        indexOfLastProduct
-    )
-
-    const totalItems = filteredProdutos.length
+    const currentProducts = Array.isArray(filteredProdutos)
+        ? filteredProdutos.slice(indexOfFirstProduct, indexOfLastProduct)
+        : []
+    const totalItems = Array.isArray(filteredProdutos) ? filteredProdutos.length : 0
 
     return (
-        <>
+        <>  
             <Hero/>
             <div className='main_produtos'>
-                <div className=''>
-                <h5>Filtros</h5>
-                <Form>
-                    <Form.Group className="mb-3">
-                    <Form.Label>Categoria</Form.Label>
-                    <Form.Select>
-                        <option>Todos</option>
-                        <option>Rações</option>
-                        <option>Petiscos</option>
-                        <option>Transporte</option>
-                        <option>Roupas</option>
-                    </Form.Select>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3">
-                        <Form.Label>Marca</Form.Label>
-                        
-                    </Form.Group>
-
-                    <Form.Group className="mb-3">
-                    <Form.Label>Preço Mínimo</Form.Label>
-                    <Form.Control type="number" placeholder="0" />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3">
-                    <Form.Label>Preço Máximo</Form.Label>
-                    <Form.Control type="number" placeholder="1000" />
-                    </Form.Group>
-
-                    <Button variant="primary" className="w-100">
-                        Aplicar filtros
-                    </Button>
-                </Form>
+                <div className='filters-container'>
+                    <h5>Filtros</h5>
+                    <FiltersComponent/>
                 </div>
                 <div className='d-flex flex-wrap justify-content-center'>
                     {currentProducts.map((product) => (

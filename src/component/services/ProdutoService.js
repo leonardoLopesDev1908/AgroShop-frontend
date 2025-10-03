@@ -8,3 +8,12 @@ export const getDistintosProdutosByNome = async () => {
         throw error;
     }
 }
+
+export const getProdutosFiltros = async (query) => {
+    try {
+        const response = await api.get(`/produtos/produtos?${query}`)
+        return response.data
+    }catch(error){
+        throw error
+    }
+}

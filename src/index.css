@@ -60,6 +60,13 @@
     padding: 20px;
 }
 
+.filters-container{
+    background-color: rgb(240, 238, 238);
+    padding: 20px;
+    border: solid 1px rgb(56, 56, 56);
+    height: fit-content;
+}
+
 .card-grid {
     margin-top: 150px;
 }

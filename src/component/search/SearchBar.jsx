@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {useDispatch} from 'react-redux'
-import { setSearchQuery } from '../../store/features/searchSlice'
+import { setSearch } from '../../store/features/filtersSlice'
 
 const SearchBar =() => {
     const [localSearch, setLocalSearch] = useState('');
@@ -8,7 +8,7 @@ const SearchBar =() => {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        dispatch(setSearchQuery(localSearch));
+        dispatch(setSearch(localSearch));
     }
     return (
         <div className='search-bar input-group input-group-me'>
@@ -17,7 +17,7 @@ const SearchBar =() => {
                     type='text' 
                     className='form-control flex-grow-1' 
                     value={localSearch} 
-                    placeholder='Pesquisar produtos...'
+                    placeholder='Pesquisar produtos (marca, nome, descrição)...'
                     onChange={(e) => setLocalSearch(e.target.value)}/>
                 <button type="submit" className='search-button'>Buscar</button>
             </form>
