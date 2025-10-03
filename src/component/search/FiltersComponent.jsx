@@ -44,7 +44,7 @@ const FiltersComponent = () => {
             <Form.Label>Preço Máximo</Form.Label>
             <Form.Control 
                 type="number" 
-                placeholder="1000"
+                placeholder="5000"
                 value={localPrecoMax} 
                 onChange={(e) => setLocalPrecoMax(e.target.value)}/>
             </Form.Group>

@@ -5,6 +5,7 @@ import {Route,
     } from "react-router-dom" 
 import RootLayout from "./component/layout/RootLayout"
 import Home from './home/Home'
+import Profile from './Profile'
 
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<RootLayout/>}>
         <Route index element={<Home/>}/>
-        
+        <Route path="/conta" element={<Profile/>}/>
       </Route>
     )
   )

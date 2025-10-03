@@ -9,7 +9,7 @@ export const getDistintosProdutosByNome = async () => {
     }
 }
 
-export const getProdutosFiltros = async (query) => {
+export const getProdutosFiltrados = async (query) => {
     try {
         const response = await api.get(`/produtos/produtos?${query}`)
         return response.data

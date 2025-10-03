@@ -27,7 +27,7 @@ const NavBar = () => {
                     <Nav className='ms-auto'>
                         <NavDropdown title='Conta'>
                             <>
-                                <NavDropdown.Item to={"#"} as={Link}>
+                                <NavDropdown.Item to={"/conta"} as={Link}>
                                     Minha conta
                                 </NavDropdown.Item>
 

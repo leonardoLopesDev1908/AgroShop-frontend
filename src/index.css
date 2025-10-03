@@ -56,7 +56,8 @@
 .main_produtos{
     display: flex;
     flex-direction: row;
-    margin-top: 230px;
+    gap: 80px;
+    margin-top: 200px;
     padding: 20px;
 }
 
@@ -64,20 +65,29 @@
     background-color: rgb(240, 238, 238);
     padding: 20px;
     border: solid 1px rgb(56, 56, 56);
+    border-radius: 8px;
     height: fit-content;
 }
 
 .card-grid {
-    margin-top: 150px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    max-height: 500px;
 }
 
 .home-product-card {
-    width: calc(18% - 30px);
+    width: 100px; /* Adicionei "px" ao valor */
     margin: 15px;
     border-radius: 8px;
     padding: 2px;
     overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    
+    flex: 1 0 auto; /* Permite que os cards cresçam igualmente */
+    min-height: 200px; /* Define uma altura mínima consistente */
+    display: flex;
+    flex-direction: column;
 }
 
 /* Responsive adjustments */
@@ -109,7 +119,7 @@
 .image-container {
     width: 100%;
     height: 150px;
-    overflow: hidden;
+    overflow: auto;
     position: relative;
 }
 
@@ -119,10 +129,9 @@
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 30px 5px 20px 20px;
-    height: 200px;
+    height: 100%;
     object-fit: contain;
     width: 100%;
-    height: 100%;
 }
 
 .cart-image-container {
@@ -155,7 +164,7 @@
 .price {
     color: #151212;
     font-style: normal;
-    font-weight: lighter;
+    font-weight: 500;
 }
 
 /* HeroSlider.css */
@@ -171,7 +180,6 @@
     display: block;
 }
 
-/* Start product details page */
 .product-details {
     display: flex;
     background: white;
@@ -179,23 +187,9 @@
     padding: 40px;
 }
 
-.details-container {
-    flex: 2;
-}
-
 .product-name {
     font-size: 22px;
     margin: 0;
-}
-
-.product-description {
-    height: 60px; 
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
 }
 
 .rating {
