@@ -4,11 +4,10 @@ import Hero from '../component/hero/Hero'
 import Paginator from '../component/common/Paginator'
 import { Card } from 'react-bootstrap'
 import ProductImage from '../component/utils/ProductImage'
-import { getDistintosProdutosByNome, getProdutosFiltrados } from '../component/services/ProdutoService'
+import { getDistintosProdutosByNome, getProdutosFiltrados, addProductToCart } from '../component/services/ProdutoService'
 import { toast } from "react-toastify" 
 import {useSelector} from "react-redux"
 import FiltersComponent from "../component/search/FiltersComponent"
-
 
 
 const Home = () => {
@@ -28,7 +27,6 @@ const Home = () => {
         params.append("pagina", currentPage);
         
         const queryString = params.toString();
-        console.log("Query string construída:", queryString);
         return queryString;
     }
 
@@ -37,25 +35,16 @@ const Home = () => {
             try {
                 let data;
                 
-                console.log("Filtros ativos:", filters);
-                console.log("Página atual:", currentPage);
-                
                 if (filters.categoria || filters.precoMin || filters.precoMax || filters.search) {
                     const query = buildQuery(filters, currentPage - 1);
-                    console.log("Query gerada:", query);
-                    
                     data = await getProdutosFiltrados(query)
-                    console.log("Dados recebidos com filtros:", data);
                 } else {
-                    console.log("Carregando produtos sem filtros");
                     data = await getDistintosProdutosByNome();
-                    console.log("Dados recebidos sem filtros:", data);
                 }
 
                 setProdutos(data.data);
                 setFilteredProdutos(data.data);
             } catch(error) {
-                console.error("Erro detalhado:", error);
                 const errorMsg = error.response?.data?.message || error.message || "Erro ao carregar os produtos";
                 toast.error(errorMsg);
             }
@@ -63,6 +52,11 @@ const Home = () => {
         
         fetchProdutos();
     }, [filters, currentPage]);
+
+
+    // handleAddProduct = (id) => {
+
+    // }
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
     const indexOfLastProduct = currentPage * itemsPerPage
@@ -80,7 +74,7 @@ const Home = () => {
                     <h5>Filtros</h5>
                     <FiltersComponent/>
                 </div>
-                <div className='d-flex flex-wrap justify-content-center'>
+                <div className='card-grid'>
                     {currentProducts.map((product) => (
                         <div>
                             <Card key={product.id} className="home-product-card m-3" style={{ width: '18rem' }}>
@@ -97,34 +91,42 @@ const Home = () => {
                                     <p className='product-description'>
                                         {product.nome} - {product.descricao}
                                     </p>
-                                    {/* /*Mostrar estoque apenas se tiver com menos de 10 */    }
-                                    <h4 className='price'>R$ {product.preco}</h4>
-                                        {product.estoque > 0 ? `Em estoque: ${product.estoque}` : 'Fora de estoque'} 
+                                    <h4 className='price'>R$ {product.preco.toFixed(2)}</h4>
+                                        {/* {product.estoque > 0 ? `Em estoque: ${product.estoque}` : 'Fora de estoque'} 
                                     <p className={`${product.estoque > 0 ? 'text-success' : 'text-danger'}`}>
-                                    </p>
+                                    </p> */}
                                     <Link
                                         to={`/produtos/produto/${product.name}`}
-                                        className='btn btn-primary w-100'
                                     >
-                                        Compre agora
+                                        <button
+                                            className='btn btn-primary w-100'
+                                            onClick={(e) => {
+                                                e.preventDefault()
+                                                handleAddProduct(product.id)
+                                            }}
+                                         >
+                                            Adicionar ao carrinho
+                                        </button>
                                     </Link>
                                 </Card.Body>
                             </Card>
                         </div>
                     ))}
                 
-                    {currentProducts.length > 0 && (
-                        <div className='w-100 mt-4'>
-                            <Paginator
-                                itemsPerPage={itemsPerPage}
-                                totalItems={totalItems}
-                                currentPage={currentPage}
-                                paginate={paginate}
-                            />
-                        </div>
-                    )}
                 </div>
             </div>
+                    <div>
+                        {currentProducts.length > 0 && (
+                            <div className='w-100 mt-4'>
+                                <Paginator
+                                    itemsPerPage={itemsPerPage}
+                                    totalItems={totalItems}
+                                    currentPage={currentPage}
+                                    paginate={paginate}
+                                />
+                            </div>
+                        )}
+                    </div>
         </>
     )
 }

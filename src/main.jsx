@@ -5,11 +5,17 @@ import App from './App.jsx'
 import "bootstrap/dist/css/bootstrap.min.css"
 import {Provider} from "react-redux"
 import {store} from "./store/store.js"
+import ErrorBoundaryClass from "./component/error/ErrorBoundary.jsx"
+import AuthProvider from './auth/AuthContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <AuthProvider>
+      <ErrorBoundaryClass>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </ErrorBoundaryClass>
+    </AuthProvider>
   </StrictMode>,
 )

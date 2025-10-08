@@ -19,7 +19,11 @@ const SearchBar =() => {
                     value={localSearch} 
                     placeholder='Pesquisar produtos (marca, nome, descrição)...'
                     onChange={(e) => setLocalSearch(e.target.value)}/>
-                <button type="submit" className='search-button'>Buscar</button>
+                <button type="submit" className='search-button'>
+                    <span style={{color: "white"}}>
+                        Buscar
+                    </span>
+                </button>
             </form>
         </div>
     )

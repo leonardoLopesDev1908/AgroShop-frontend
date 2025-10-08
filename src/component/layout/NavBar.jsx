@@ -1,14 +1,22 @@
 import React from 'react'
 import { Container, Navbar, Nav, NavDropdown} from "react-bootstrap"
-import { Link } from "react-router-dom"
-
+import { Link , useNavigate} from "react-router-dom"
+import {useAuth} from "../../auth/AuthContext"
 
 const NavBar = () => {
+    const navigate = useNavigate()
+    const{user, logout, isAuthenticated} = useAuth()
+
+    const handleLogout = () => {
+        logout();
+        navigate("/")
+    }
+
     return (
         <Navbar expand='lg' sticky='top' className='nav-bg'>
             <Container>
                 <Navbar.Brand to={"/"} as={Link}>
-                    <span className='shop-home'>AgroShop</span>
+                    <span className='shop-home' style={{color: "white"}}>AgroShop</span>
                 </Navbar.Brand>
 
                 <Navbar.Toggle/>
@@ -16,16 +24,17 @@ const NavBar = () => {
                 <Navbar.Collapse>
                     <Nav className='me-auto'>
                         <Nav.Link to={"#"} as={Link}>
-                            Todos produtos
+                            <span>Todos produtos</span>
                         </Nav.Link>
                     </Nav>
                     <Nav className='me-auto'>
                         <Nav.Link to={"#"} as={Link}>
-                            Gerenciar pedidos
+                            <span>Gerenciar pedidos</span>
                         </Nav.Link>
                     </Nav>
-                    <Nav className='ms-auto'>
-                        <NavDropdown title='Conta'>
+                    <Nav className='ms-auto '>
+                        {isAuthenticated ? (
+                        <NavDropdown title={`Olá, ${user.nome}`}>
                             <>
                                 <NavDropdown.Item to={"/conta"} as={Link}>
                                     Minha conta
@@ -39,18 +48,27 @@ const NavBar = () => {
 
                                 <NavDropdown.Divider/>
 
-                                <NavDropdown.Item to={"#"} as={Link}>
+                                <NavDropdown.Item onClick={handleLogout}>
                                     Logout
                                 </NavDropdown.Item>
+
                             </>
-                            <NavDropdown.Item to={"#"} as={Link}>
-                                Login
-                            </NavDropdown.Item>
-
                         </NavDropdown>
+                            ) : (
+                                <Nav.Link to={"/login"} as={Link}>
+                                    Entre ou Cadastre-se
+                                </Nav.Link>
+                            )}
+
                     </Nav>
-
-
+                    <Nav className='ms-auto'>
+                        <a href="#" className="carrinho-link">
+                            <div className="carrinho-container">
+                                <img src="carrinho.png" alt="Carrinho de compras" />
+                                <span className="carrinho-badge">0</span>
+                            </div>
+                        </a>
+                    </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>

@@ -27,7 +27,7 @@ const FiltersComponent = () => {
                 <option value="Racoes">Rações</option>
                 <option value="Petiscos">Petiscos</option>
                 <option value="Transporte">Transporte</option>
-                <option value="Roupas">Roupas</option>
+                <option value="Roupas">Remédios</option>
             </Form.Select>
             </Form.Group>
 

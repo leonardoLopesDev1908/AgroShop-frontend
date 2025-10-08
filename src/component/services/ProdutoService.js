@@ -17,3 +17,11 @@ export const getProdutosFiltrados = async (query) => {
         throw error
     }
 }
+
+export const addProductToCart = async (id) => {
+    try{
+
+    }catch(error){
+        
+    }
+}
