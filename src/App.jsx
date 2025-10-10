@@ -9,6 +9,7 @@ import Profile from './profile/Profile'
 import Login from './profile/Login'
 import NotFound from "./component/error/NotFound"
 import Cadastro from "./profile/Cadastro"
+import FormProdutos from "./store/features/FormProdutos"
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/conta" element={<Profile/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/cadastro" element={<Cadastro/>}/>
+        <Route path="/cadastro-produto" element={<FormProdutos/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Route>
     )

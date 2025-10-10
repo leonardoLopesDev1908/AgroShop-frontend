@@ -31,8 +31,8 @@ const Cadastro = () => {
     }
 
     return (
-<div className="cadastro-container">
-            <form className="cadastro-form" onSubmit={handleSubmit}>
+        <div className="cadastro-container">
+            <form className="cadastro-form" onSubmit={handleSubmit} encType='multipart/form-data'>
                 <h2>Cadastro</h2>
 
                 {error && <div className="error-message">{error}</div>}
