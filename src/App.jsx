@@ -9,6 +9,9 @@ import Profile from './profile/Profile'
 import Login from './profile/Login'
 import NotFound from "./component/error/NotFound"
 import Cadastro from "./profile/Cadastro"
+import Carrinho from "./store/Carrinho"
+import Produto from "./component/utils/Produto"
+
 
 function App() {
 
@@ -17,6 +20,8 @@ function App() {
       <Route path="/" element={<RootLayout/>}>
         <Route index element={<Home/>}/>
         <Route path="/conta" element={<Profile/>}/>
+        <Route path="/carrinho" element={<Carrinho/>}/>
+        <Route path="/produtos/produto/:id/:nome" element={<Produto />} />
         <Route path="/login" element={<Login/>}/>
         <Route path="/cadastro" element={<Cadastro/>}/>
         <Route path="*" element={<NotFound/>}/>

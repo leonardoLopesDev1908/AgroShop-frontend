@@ -34,16 +34,16 @@ class ErrorBoundaryClass extends React.Component{
     }
 
     render() {
-    if (this.state.hasError) {
-        return <ErrorFallback 
-        error={this.state.error}
-        errorInfo={this.state.errorInfo}
-        onReset={() => this.setState({ hasError: false, error: null, errorInfo: null })}
-        onReload={() => window.location.reload()}
-        />;
-    }
+        if (this.state.hasError) {
+            return <ErrorBoundary 
+                error={this.state.error}
+                errorInfo={this.state.errorInfo}
+                onReset={() => this.setState({ hasError: false, error: null, errorInfo: null })}
+                onReload={() => window.location.reload()}
+            />;
+        }
 
-    return this.props.children;
+        return this.props.children;
     }
 }
 
