@@ -11,7 +11,7 @@ import NotFound from "./component/error/NotFound"
 import Cadastro from "./profile/Cadastro"
 import Carrinho from "./store/Carrinho"
 import Produto from "./component/utils/Produto"
-
+import FormProdutos from "./store/features/FormProdutos"
 
 function App() {
 
@@ -24,6 +24,7 @@ function App() {
         <Route path="/produtos/produto/:id/:nome" element={<Produto />} />
         <Route path="/login" element={<Login/>}/>
         <Route path="/cadastro" element={<Cadastro/>}/>
+        <Route path="/cadastro-produto" element={<FormProdutos/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Route>
     )
