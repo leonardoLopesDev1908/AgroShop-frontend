@@ -99,9 +99,6 @@ const Home = () => {
                                         {product.nome} - {product.descricao}
                                     </p>
                                     <h4 className='price'>R$ {product.preco.toFixed(2)}</h4>
-                                    {product.estoque > 0 ? `Em estoque: ${product.estoque}` : 'Fora de estoque'} 
-                                    <p className={`${product.estoque > 0 ? 'text-success' : 'text-danger'}`}>
-                                    </p>
                                     <Link to={`/produtos/produto/${product.id}/${createSlug(product.nome)}`}>
                                         <button className='btn btn-primary w-100'>Ver produto</button>
                                     </Link>
@@ -112,18 +109,18 @@ const Home = () => {
                 
                 </div>
             </div>
-                    <div>
-                        {currentProducts.length > 0 && (
-                            <div className='w-100 mt-4'>
-                                <Paginator
-                                    itemsPerPage={itemsPerPage}
-                                    totalItems={totalItems}
-                                    currentPage={currentPage}
-                                    paginate={paginate}
-                                />
-                            </div>
-                        )}
+            <div>
+                {currentProducts.length > 0 && (
+                    <div className='w-100 mt-4'>
+                        <Paginator
+                            itemsPerPage={itemsPerPage}
+                            totalItems={totalItems}
+                            currentPage={currentPage}
+                            paginate={paginate}
+                        />
                     </div>
+                )}
+            </div>
         </>
     )
 }

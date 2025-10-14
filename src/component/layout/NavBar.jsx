@@ -1,11 +1,13 @@
-import React from 'react'
+import {React, useEffect} from 'react'
 import { Container, Navbar, Nav, NavDropdown} from "react-bootstrap"
 import { Link , useNavigate} from "react-router-dom"
 import {useAuth} from "../../auth/AuthContext"
+import { useCart } from '../../store/CarrinhoContext'
 
 const NavBar = () => {
     const navigate = useNavigate()
     const{user, logout, isAuthenticated} = useAuth()
+    const {contagem} = useCart()
 
     const handleLogout = () => {
         logout();
@@ -62,10 +64,12 @@ const NavBar = () => {
 
                     </Nav>
                     <Nav className='ms-auto'>
-                        <a href="#" className="carrinho-link">
+                        <a href="/carrinho" className="carrinho-link">
                             <div className="carrinho-container">
                                 <img src="carrinho.png" alt="Carrinho de compras" />
-                                <span className="carrinho-badge">0</span>
+                                <span className="carrinho-badge">
+                                    {contagem}
+                                </span>
                             </div>
                         </a>
                     </Nav>

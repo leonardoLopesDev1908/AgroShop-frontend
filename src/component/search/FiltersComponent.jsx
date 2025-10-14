@@ -7,6 +7,7 @@ const FiltersComponent = () => {
     const [localCategoria, setLocalCategoria] = useState('')
     const [localPrecoMin, setLocalPrecoMin] = useState('')
     const [localPrecoMax, setLocalPrecoMax] = useState('')
+    const [limparFiltros, setLimparFiltros] = useState(false);
     const dispatch = useDispatch();
 
     const handleFilters = (e) => {
@@ -19,6 +20,20 @@ const FiltersComponent = () => {
     return (
         <Form onSubmit={handleFilters}>
             <Form.Group className="mb-3">
+            <Form.Label>Limpar filtros: </Form.Label>
+            <Form.Check 
+                type="checkbox" 
+                label="" 
+                checked={limparFiltros} 
+                onChange={(e) => {
+                    setLimparFiltros(e.target.checked); 
+                    if (e.target.checked) {
+                        setLocalCategoria('');
+                        setLocalPrecoMax('');
+                        setLocalPrecoMin('') 
+                    }
+                }}
+            />
             <Form.Label>Categoria</Form.Label>
             <Form.Select
                 value={localCategoria}
@@ -27,7 +42,7 @@ const FiltersComponent = () => {
                 <option value="Racoes">Rações</option>
                 <option value="Petiscos">Petiscos</option>
                 <option value="Transporte">Transporte</option>
-                <option value="Roupas">Remédios</option>
+                <option value="Remedios">Remédios</option>
             </Form.Select>
             </Form.Group>
 

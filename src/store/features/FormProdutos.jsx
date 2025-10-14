@@ -23,6 +23,7 @@ const FormProdutos = () => {
                 await uploadImage(imagens, response.data.id)
             }
             
+            alert("Produto cadastrado com sucesso!");
             setNome('')
             setMarca('')
             setDescricao('')
