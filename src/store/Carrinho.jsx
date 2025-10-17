@@ -33,9 +33,9 @@ const Carrinho = () => {
         clearCarrinho();
         setItens([]);
     }
-
-    if (loading) return <p>Carregando...</p>;
+    
     if (!itens.length) return <p>Seu carrinho está vazio.</p>;
+    if (loading) return <p>Carregando...</p>;
     
     return (
         <div className="cart-page">

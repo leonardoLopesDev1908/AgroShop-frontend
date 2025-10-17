@@ -11,6 +11,8 @@ const Cadastro = () => {
     const[email, setEmail] = useState("")
     const[senha, setSenha] = useState("")
     const[endereco, setEndereco] = useState("")
+    const[numero, setNumero] = useState("")
+    const[complemento, setComplemento] = useState("")
     const[cidade, setCidade] = useState("")
     const[estado, setEstado] = useState("")
     const[cep, setCep] = useState("")
@@ -25,7 +27,8 @@ const Cadastro = () => {
         setLoading(true)
         try{
             await CadastroService(nome, sobrenome, email, senha, 
-                                        endereco, cidade, estado, cep)
+                                        endereco, numero, complemento,
+                                        cidade, estado, cep)
             alert("Cadastro realizado com sucesso")
             await login(email, senha, true)
             navigate("/")
@@ -69,6 +72,17 @@ const Cadastro = () => {
                     <div className="form-group">
                         <label  htmlFor="endereco">Endereço</label>
                         <input type="text" id="endereco" value={endereco} onChange={e => setEndereco(e.target.value)} placeholder="Rua, número, complemento" disabled={loading}/>
+                    </div>
+                    <div className="form-group">
+                        <label  htmlFor="numero">Número</label>
+                        <input type="text" id="numero" value={numero} onChange={e => setNumero(e.target.value)} placeholder="Número" disabled={loading}/>
+                    </div>
+                </div>
+
+                <div className='datas'>
+                    <div className="form-group">
+                        <label  htmlFor="complemento">Complemento</label>
+                        <input type="text" id="complemento" value={complemento} onChange={e => setComplemento(e.target.value)} placeholder="Complemento, ap., bloco... " disabled={loading}/>
                     </div>
                     <div className="form-group">
                         <label  htmlFor="cidade">Cidade</label>

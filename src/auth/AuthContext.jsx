@@ -32,7 +32,6 @@ const AuthProvider = ({children}) => {
             const {accessToken} = response  
     
             const data = await NameService(email)
-            
             const nome = data.nome
             const sobrenome = data.sobrenome
 
