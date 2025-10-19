@@ -10,10 +10,12 @@ export const CarrinhoProvider = ({children}) => {
     }, [contagem]);
 
     useEffect(() => {
-        const saved = localStorage.getItem("cartCount");
-        if (saved !== null) setContagem(parseInt(saved, 10));
-    }, []);
-
+    const saved = localStorage.getItem("cartCount");
+    if (saved !== null && contagem === 0) {
+        setContagem(parseInt(saved, 10));
+    }
+    }, []); 
+    
     const addToCarrinho = (quantidade = 1) => {
         setContagem((prev) => prev + quantidade)
     }
@@ -22,10 +24,10 @@ export const CarrinhoProvider = ({children}) => {
         setContagem((prev) => prev - quantidade)
     }
 
-    const clearCarrinho = () => setContagem(0)
+    const clearCarrinhoContagem = () => setContagem(0)
     
     return (
-    <CarrinhoContext.Provider value={{ contagem, addToCarrinho, clearCarrinho, removeFromCarrinho}}>
+    <CarrinhoContext.Provider value={{ contagem, addToCarrinho, clearCarrinhoContagem, removeFromCarrinho}}>
       {children}
     </CarrinhoContext.Provider>
   );

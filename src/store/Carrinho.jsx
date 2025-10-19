@@ -1,12 +1,13 @@
 import {React, useState, useEffect} from "react"
 import { useCart } from "./CarrinhoContext"
-import { getItensCarrinho } from "../component/services/ProdutoService"
+import { getItensCarrinho, removeItemFromCart, clearCarrinho } from "../component/services/ProdutoService"
 import { useAuth } from "../auth/AuthContext/"
 import ProductImage from '../component/utils/ProductImage'
+import lixeira from "../assets/imagens/lixeira-de-reciclagem.png"
 
 const Carrinho = () => {
+    const { clearCarrinhoContagem } = useCart()
     const {user} = useAuth()
-    const { removeFromCarrinho, clearCarrinho } = useCart()
     const [itens, setItens] = useState([])
     const [loading, setLoading] = useState(true)
 
@@ -24,18 +25,73 @@ const Carrinho = () => {
         fetchItens();
     }, [user]);
     
-    const handleExcluirProduto = (item) => {
-        removeFromCarrinho(item.quantidade);
-        setItens(prev => prev.filter(i => i.id !== item.id));
-    }
-    
-    const limparCarrinho = () => {
-        clearCarrinho();
-        setItens([]);
+    const handleExcluirProduto = async (item) => {
+        setLoading(true);
+        try {
+            await removeItemFromCart(item.produto.id);
+            const data = await getItensCarrinho(); 
+            setItens(data);
+            alert("Produto removido do carrinho");
+        } catch (error) {  
+            console.log(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleAumentarQuantidade = (item) => {
+        const novosItens = itens.map((i) =>
+            i.id === item.id ? { ...i, quantidade: i.quantidade + 1 } : i
+        );
+        setItens(novosItens);
+    };
+
+    const handleDiminuirQuantidade = (item) => {
+        const novosItens = itens.map((i) => 
+            i.id === item.id && i.quantidade > 1 
+                ? {...i, quantidade: i.quantidade - 1}
+                : i
+        )
+        setItens(novosItens)
     }
 
-    if (loading) return <p>Carregando...</p>;
-    if (!itens.length) return <p>Seu carrinho está vazio.</p>;
+    const handleMudarQuantidade = (item, novaQuantidade) => {
+        const quantidade = Math.max(1, Number(novaQuantidade));
+        const novosItens = itens.map((i)=> 
+            i.id === item.id ? {...i, quantidade} : i
+        );
+        setItens(novosItens)
+    }
+
+    const limparCarrinho = async () => {
+        setLoading(true)
+        try{
+            await clearCarrinho();
+            clearCarrinhoContagem()
+            setItens([]);
+        }catch(error){
+            console.error("Erro ao limpar o carrinho: ", error.message)
+        }finally{
+            setLoading(false)
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className="cart-page loading-state">
+                <div className="spinner"></div>
+                <p>Carregando carrinho...</p>
+            </div>
+        )
+    }
+
+    if (!itens.length) {
+        return (
+            <div className="cart-page empty-state">
+                <p>Seu carrinho está vazio.</p>
+            </div>
+        )
+    }
     
     return (
         <div className="cart-page">
@@ -47,18 +103,31 @@ const Carrinho = () => {
                 {itens.map((item, index) => (
                     <div key={index} className="cart-item">
                         <div>
-                            <h5>{item.produto.nome}</h5>
-                            <ProductImage productId={item.produto.imagens[0].id}/>
+                            <h6>{item.produto.nome}</h6>
+                            {item.produto && item.produto.imagens && item.produto.imagens.length > 0 && (
+                                <ProductImage productId={item.produto.imagens[0].id} />
+                            )}
                         </div>
                         <div className="cart-item-details">
                             <p>R$ {item.precoUnitario.toFixed(2)}</p>
-                            <p>{item.quantidade}x</p>
-                            <p>Total: <strong>R$ {(item.quantidade * item.precoUnitario).toFixed(2)}</strong></p>
-                            <button
-                                className="btn-excluir"
-                                onClick={() => handleExcluirProduto(item.id)}
+                            <div className="quantity-control">
+                                <button
+                                    onClick={() => handleDiminuirQuantidade(item)}
+                                    disabled={item.quantidade <= 1}
                                 >
-                                Excluir
+                                    -
+                                </button>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    value={item.quantidade}
+                                    onChange={(e) => handleMudarQuantidade(item, e.target.value)}
+                                />
+                                <button onClick={() => handleAumentarQuantidade(item)}>+</button>
+                            </div>
+                            <p>Total: <strong>R$ {(item.quantidade * item.precoUnitario).toFixed(2)}</strong></p>
+                            <button className="btn-excluir" onClick={() => handleExcluirProduto(item)}>
+                                <img src={lixeira} alt="Excluir" />
                             </button>
                         </div>
                     </div>

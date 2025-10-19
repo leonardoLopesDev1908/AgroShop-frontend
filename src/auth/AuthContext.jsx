@@ -1,5 +1,5 @@
 import {React, useState, createContext, useContext, useEffect} from "react"
-import { LoginService, NameService } from "../component/services/UserService"
+import { LoginService, NameService, RefreshService } from "../component/services/UserService"
 import { store } from "../store/store";
 
 const AuthContext = createContext()
@@ -21,8 +21,14 @@ const AuthProvider = ({children}) => {
         const storedUser = localStorage.getItem("user")
 
         if (storedToken && storedUser) {
-            setToken(storedToken)
-            setUser(JSON.parse(storedUser))
+            const payload = parseJwt(storedToken)
+            
+            if(payload && payload.exp * 1000 < Date.now()){
+                refreshToken()
+            } else {
+                setToken(storedToken)
+                setUser(JSON.parse(storedUser))
+            }
         }
     }, [])
     
@@ -58,6 +64,26 @@ const AuthProvider = ({children}) => {
         }
     }
 
+    const refreshToken = async () => {
+        try {
+            const { accessToken } = await RefreshService();
+
+            setToken(accessToken);
+            localStorage.setItem("token", accessToken);
+
+            const payload = parseJwt(accessToken);
+            if (payload && user) {
+                setUser({ ...user, email: payload.sub, roles: payload.roles });
+            }
+
+            return accessToken;
+        } catch (error) {
+            console.error("Erro ao atualizar token:", error);
+            logout();
+        }
+    };
+
+
     const logout = () => {
         setUser(null)
         setToken(null)
@@ -71,6 +97,7 @@ const AuthProvider = ({children}) => {
         isAuthenticated: !!token,
         login,
         logout,
+        refreshToken
     }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

@@ -11,14 +11,15 @@ const Produto = () => {
     const [produto, setProduto] = useState({});
     const[loading, setLoading] = useState(false)
     const[error, setError] = useState("")
+    const[message, setMessage] = useState("")
 
     const handleAdicionarProduto = async () => {
       setError("")
       setLoading(true)
       try{
         const response = await addProductToCart(produto.id, 1)
-        alert("Produto adicionado ao carrinho")
         addToCarrinho(1)
+        setMessage("Produto adicionado ao carrinho")
       }catch(error){
         setError(error.message)
         console.log(error.message)
@@ -75,7 +76,7 @@ const Produto = () => {
         <span className="produto-marca">{produto.marca || "Marca não informada"}</span>
         <h2 className="produto-nome">{produto.nome}</h2>
         <p className="produto-codigo">Código: {produto.id || "N/A"}</p>
-
+        <p className="success-message">{message}</p>
         <p className="produto-descricao">{produto.descricao}</p>
 
         <div className="produto-precos">
