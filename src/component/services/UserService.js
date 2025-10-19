@@ -22,7 +22,8 @@ export const NameService = async (email) => {
 }
 
 export const CadastroService = async(nome, sobrenome, email, senha,
-                                    endereco, cidade, estado, cep
+                                    endereco, numero, complemento,
+                                    cidade, estado, cep
 ) => {
     try{
         const response = await api.post(`/usuarios/cadastrar`, {
@@ -32,6 +33,8 @@ export const CadastroService = async(nome, sobrenome, email, senha,
             senha: senha,
             endereco: {
                 endereco: endereco,
+                numero: numero,
+                complemento: complemento,
                 cidade: cidade,
                 estado: estado,
                 cep: cep

@@ -92,7 +92,7 @@ const Carrinho = () => {
             </div>
         )
     }
-    
+
     return (
         <div className="cart-page">
             <div className="cart-details">

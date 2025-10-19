@@ -3,6 +3,7 @@ import { Container, Navbar, Nav, NavDropdown} from "react-bootstrap"
 import { Link , useNavigate} from "react-router-dom"
 import {useAuth} from "../../auth/AuthContext"
 import { useCart } from '../../store/CarrinhoContext'
+import RoleGuard from '../roles/RoleGuard'
 
 const NavBar = () => {
     const navigate = useNavigate()
@@ -29,11 +30,15 @@ const NavBar = () => {
                             <span>Todos produtos</span>
                         </Nav.Link>
                     </Nav>
-                    <Nav className='me-auto'>
-                        <Nav.Link to={"#"} as={Link}>
-                            <span>Gerenciar pedidos</span>
-                        </Nav.Link>
-                    </Nav>
+
+                    <RoleGuard allowedRoles={["Gerente", "ADM"]}>
+                        <Nav className='me-auto'>
+                            <Nav.Link to={"#"} as={Link}>
+                                <span>Gerenciar pedidos</span>
+                            </Nav.Link>
+                        </Nav>
+                    </RoleGuard>
+
                     <Nav className='ms-auto '>
                         {isAuthenticated ? (
                         <NavDropdown title={`Olá, ${user.nome}`}>
@@ -61,7 +66,6 @@ const NavBar = () => {
                                     Entre ou Cadastre-se
                                 </Nav.Link>
                             )}
-
                     </Nav>
                     <Nav className='ms-auto'>
                         <a href="/carrinho" className="carrinho-link">
