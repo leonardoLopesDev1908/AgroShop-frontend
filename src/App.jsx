@@ -12,6 +12,7 @@ import Cadastro from "./profile/Cadastro"
 import Carrinho from "./store/Carrinho"
 import Produto from "./component/utils/Produto"
 import FormProdutos from "./store/features/FormProdutos"
+import Pedido from "./store/Pedido"
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/cadastro" element={<Cadastro/>}/>
         <Route path="/cadastro-produto" element={<FormProdutos/>}/>
+        <Route path="/pedidos" element={<Pedido/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Route>
     )

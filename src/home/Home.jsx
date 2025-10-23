@@ -4,7 +4,7 @@ import Hero from '../component/hero/Hero'
 import Paginator from '../component/common/Paginator'
 import { Card } from 'react-bootstrap'
 import ProductImage from '../component/utils/ProductImage'
-import { getDistintosProdutosByNome, getProdutosFiltrados, addProductToCart } from '../component/services/ProdutoService'
+import { getDistintosProdutosByNome, getProdutosFiltrados} from '../component/services/ProdutoService'
 import { toast } from "react-toastify" 
 import {useSelector} from "react-redux"
 import FiltersComponent from "../component/search/FiltersComponent"

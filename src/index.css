@@ -1167,8 +1167,9 @@
 }
 
 .empty-state {
-  color: #666;
-  font-size: 1.2rem;
+    margin: 15vh 2vh;
+    color: #666;
+    font-size: 1.8rem;
 }
 
 .quantity-control input {
@@ -1207,8 +1208,8 @@
 }
 
 .order-cart {
-    background-color: #4caf50;
-    color: #fff;
+    background-color: #eeeeee;
+    color: #000000;
     font-size: 2.5vh;
     padding: 3vh 5vh;
     border-radius: 15px;
@@ -1219,9 +1220,8 @@
 }
 
 .order-cart:hover {
-    background-color: #449d48;
+    background-color: #3dcc44;
 }
-
 
 /* End sidebar */
 

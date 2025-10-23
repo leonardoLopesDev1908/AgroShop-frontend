@@ -1,33 +1,40 @@
-import {createContext, useContext, useState, useEffect} from "react"
+import React, { createContext, useContext, useState, useEffect } from "react";
 
-const CarrinhoContext = createContext()
+const CarrinhoContext = createContext();
 
-export const CarrinhoProvider = ({children}) => {
-    const[contagem, setContagem] = useState(0)
-
-    useEffect(() => {
-        localStorage.setItem("cartCount", contagem);
-    }, [contagem]);
-
-    useEffect(() => {
-    const saved = localStorage.getItem("cartCount");
-    if (saved !== null && contagem === 0) {
-        setContagem(parseInt(saved, 10));
+export const CarrinhoProvider = ({ children }) => {
+  const [contagem, setContagem] = useState(() => {
+    try {
+      const saved = localStorage.getItem("cartCount");
+      return saved !== null ? Math.max(0, parseInt(saved, 10) || 0) : 0;
+    } catch (e) {
+      console.error("Erro lendo cartCount do localStorage:", e);
+      return 0;
     }
-    }, []); 
-    
-    const addToCarrinho = (quantidade = 1) => {
-        setContagem((prev) => prev + quantidade)
-    }
+  });
 
-    const removeFromCarrinho = (quantidade = 1) => {
-        setContagem((prev) => prev - quantidade)
+  useEffect(() => {
+    try {
+      localStorage.setItem("cartCount", String(contagem));
+    } catch (e) {
+      console.error("Erro salvando cartCount no localStorage:", e);
     }
+  }, [contagem]);
 
-    const clearCarrinhoContagem = () => setContagem(0)
-    
-    return (
-    <CarrinhoContext.Provider value={{ contagem, addToCarrinho, clearCarrinhoContagem, removeFromCarrinho}}>
+  const addToCarrinho = (quantidade = 1) => {
+    setContagem((prev) => Math.max(0, prev + Number(quantidade)));
+  };
+
+  const removeFromCarrinho = (quantidade = 1) => {
+    setContagem((prev) => Math.max(0, prev - Number(quantidade)));
+  };
+
+  const clearCarrinhoContagem = () => setContagem(0);
+
+  return (
+    <CarrinhoContext.Provider
+      value={{ contagem, addToCarrinho, removeFromCarrinho, clearCarrinhoContagem }}
+    >
       {children}
     </CarrinhoContext.Provider>
   );

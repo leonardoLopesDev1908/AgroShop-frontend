@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {useParams} from "react-router-dom"
-import {getProdutoById, addProductToCart} from "../services/ProdutoService"
+import {getProdutoById} from "../services/ProdutoService"
+import {addProductToCart} from "../services/CarrinhoService"
 import {Spinner} from "react-bootstrap"
 import ProductImage from '../utils/ProductImage'
 import { useCart } from '../../store/CarrinhoContext'
@@ -109,13 +110,15 @@ const Produto = () => {
         </p>
 
         <div className="produto-acoes">
-          <button
+          {produto.estoque > 0 &&(
+            <button
             className="btn-principal"
             disabled={produto.estoque === 0}
             onClick={handleAdicionarProduto}
-          >
-            Adicionar ao carrinho
-          </button>
+            >
+              Adicionar ao carrinho
+            </button>
+          )}
         </div>
 
         <div className="produto-frete">
