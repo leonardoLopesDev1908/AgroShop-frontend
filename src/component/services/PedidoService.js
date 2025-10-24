@@ -16,6 +16,20 @@ export const fazerPedido = async () => {
     }
 }
 
+export const getPedido = async () => {
+    try{
+        const token = localStorage.getItem("item")
+        const response = api.get(`/pedidos/usuario/pedidos`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch(error){
+        throw error
+    }
+}
+
 export const cancelarPedido = async (id) => {
     try{
         const token = localStorage.getItem("token")
