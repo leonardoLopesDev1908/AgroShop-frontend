@@ -21,14 +21,14 @@ const Carrinho = () => {
 
     useEffect(() => {
         const fetchItens = async () => {
-        try {
-            const data = await getItensCarrinho();
-            setItens(data);
-        } catch (error) {
-            console.error("Erro ao buscar itens:", error.message);
-        } finally {
-            setLoading(false);
-        }
+            try {
+                const data = await getItensCarrinho();
+                setItens(data);
+            } catch (error) {
+                console.error("Erro ao buscar itens:", error.message);
+            } finally {
+                setLoading(false);
+            }
         }; 
         fetchItens();
     }, [user]);
@@ -119,7 +119,7 @@ const Carrinho = () => {
                 setMessage("Falha ao processar pedido");
             }
         } catch (error) {
-            console.error("Erro ao fazer pedido: ", error);
+            console.error("Erro ao fazer pedido: ", error.message);
             setMessage("Erro ao fazer pedido: " + error.message);
         } finally {
             setLoading(false);

@@ -31,9 +31,9 @@ const NavBar = () => {
                         </Nav.Link>
                     </Nav>
 
-                    <RoleGuard allowedRoles={["Gerente", "ADM"]}>
+                    <RoleGuard allowedRoles={["Gerente", "ADM", "Funcionario"]}>
                         <Nav className='me-auto'>
-                            <Nav.Link to={"#"} as={Link}>
+                            <Nav.Link to={"/gerenciamento"} as={Link}>
                                 <span>Gerenciar pedidos</span>
                             </Nav.Link>
                         </Nav>
@@ -49,7 +49,7 @@ const NavBar = () => {
 
                                 <NavDropdown.Divider/>
 
-                                <NavDropdown.Item to={"#"} as={Link}>
+                                <NavDropdown.Item to={"/pedidos"} as={Link}>
                                     Meus pedidos
                                 </NavDropdown.Item>
 
@@ -71,9 +71,13 @@ const NavBar = () => {
                         <a href="/carrinho" className="carrinho-link">
                             <div className="carrinho-container">
                                 <img src="carrinho.png" alt="Carrinho de compras" />
-                                <span className="carrinho-badge">
-                                    {contagem}
-                                </span>
+                                {contagem > 0 && (
+                                    <div>
+                                        <span className="carrinho-badge">
+                                            {contagem}
+                                        </span>
+                                    </div>
+                                )}
                             </div>
                         </a>
                     </Nav>

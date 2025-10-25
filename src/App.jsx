@@ -13,6 +13,8 @@ import Carrinho from "./store/Carrinho"
 import Produto from "./component/utils/Produto"
 import FormProdutos from "./store/features/FormProdutos"
 import Pedido from "./store/Pedido"
+import Management from "./component/utils/Management"
+import SearchPedido from "./store/SearchPedidos"
 
 function App() {
 
@@ -25,7 +27,9 @@ function App() {
         <Route path="/produtos/produto/:id/:nome" element={<Produto />} />
         <Route path="/login" element={<Login/>}/>
         <Route path="/cadastro" element={<Cadastro/>}/>
+        <Route path="/gerenciamento" element={<Management/>}/>
         <Route path="/cadastro-produto" element={<FormProdutos/>}/>
+        <Route path="/pesquisa-pedidos" element={<SearchPedido/>}/>
         <Route path="/pedidos" element={<Pedido/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Route>
