@@ -96,9 +96,9 @@ const Home = () => {
                                 </Link>
                                 <Card.Body>
                                     <p className='product-description'>
-                                        {product.nome} - {product.descricao}
+                                        <strong>{product.nome}</strong> - {product.descricao}
                                     </p>
-                                    <h4 className='price'>R$ {product.preco.toFixed(2)}</h4>
+                                    <h4 className='price'>R$ {product.preco.toFixed(2).replace('.', ',')}</h4>
                                     <Link to={`/produtos/produto/${product.id}/${createSlug(product.nome)}`}>
                                         <button className='btn btn-primary w-100'>Ver produto</button>
                                     </Link>

@@ -67,20 +67,24 @@ const NavBar = () => {
                                 </Nav.Link>
                             )}
                     </Nav>
-                    <Nav className='ms-auto'>
-                        <a href="/carrinho" className="carrinho-link">
-                            <div className="carrinho-container">
-                                <img src="carrinho.png" alt="Carrinho de compras" />
-                                {contagem > 0 && (
-                                    <div>
-                                        <span className="carrinho-badge">
-                                            {contagem}
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-                        </a>
-                    </Nav>
+                    {isAuthenticated ? (
+                        <Nav className='ms-auto'>
+                            <a href="/carrinho" className="carrinho-link">
+                                <div className="carrinho-container">
+                                    <img src="carrinho.png" alt="Carrinho de compras" />
+                                    {contagem > 0 && (
+                                        <div>
+                                            <span className="carrinho-badge">
+                                                {contagem}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                            </a>
+                        </Nav>
+                    ) : (
+                        <div></div>
+                    )}
                 </Navbar.Collapse>
             </Container>
         </Navbar>

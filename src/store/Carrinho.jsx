@@ -11,6 +11,7 @@ import { useAuth } from "../auth/AuthContext/";
 import ProductImage from "../component/utils/ProductImage";
 import lixeira from "../assets/imagens/lixeira-de-reciclagem.png";
 import { fazerPedido } from "../component/services/PedidoService";
+import {createSlug} from "../component/utils/utils"
 
 const Carrinho = () => {
     const { clearCarrinhoContagem, removeFromCarrinho } = useCart();
@@ -32,16 +33,6 @@ const Carrinho = () => {
         }; 
         fetchItens();
     }, [user]);
-
-    function createSlug(name) {
-        return name
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9 ]/g, "")
-        .trim()
-        .replace(/\s+/g, "-");
-    }
 
     const handleExcluirProduto = async (item) => {
         setLoading(true);

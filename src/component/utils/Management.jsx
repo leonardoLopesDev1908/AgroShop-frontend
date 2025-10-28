@@ -19,7 +19,7 @@ const Management = () => {
                 </Link>
 
                 <Link to="/pesquisa-pedidos" className="card">
-                    <h3>Gerenciar Produtos</h3>
+                    <h3>Gerenciar Pedidos</h3>
                     <p>Veja, atualize ou cancele pedidos</p>
                 </Link>
             </div>

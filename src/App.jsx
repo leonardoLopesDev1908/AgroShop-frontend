@@ -12,9 +12,10 @@ import Cadastro from "./profile/Cadastro"
 import Carrinho from "./store/Carrinho"
 import Produto from "./component/utils/Produto"
 import FormProdutos from "./store/features/FormProdutos"
-import Pedido from "./store/Pedido"
+import Pedidos from "./store/Pedidos"
 import Management from "./component/utils/Management"
 import SearchPedido from "./store/SearchPedidos"
+import PedidoDetalhes from "./store/PedidoDetalhes"
 
 function App() {
 
@@ -30,7 +31,8 @@ function App() {
         <Route path="/gerenciamento" element={<Management/>}/>
         <Route path="/cadastro-produto" element={<FormProdutos/>}/>
         <Route path="/pesquisa-pedidos" element={<SearchPedido/>}/>
-        <Route path="/pedidos" element={<Pedido/>}/>
+        <Route path="/pedidos" element={<Pedidos/>}/>
+        <Route path="/pedido/:id" element={<PedidoDetalhes/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Route>
     )

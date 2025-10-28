@@ -9,7 +9,7 @@ const FiltersComponent = () => {
     const [localPrecoMax, setLocalPrecoMax] = useState('')
     const [limparFiltros, setLimparFiltros] = useState(false);
     const dispatch = useDispatch();
-
+        
     const handleFilters = (e) => {
         e.preventDefault();
         dispatch(setCategoria(localCategoria))
@@ -20,20 +20,22 @@ const FiltersComponent = () => {
     return (
         <Form onSubmit={handleFilters}>
             <Form.Group className="mb-3">
-            <Form.Label>Limpar filtros: </Form.Label>
-            <Form.Check 
-                type="checkbox" 
-                label="" 
-                checked={limparFiltros} 
-                onChange={(e) => {
-                    setLimparFiltros(e.target.checked); 
-                    if (e.target.checked) {
-                        setLocalCategoria('');
-                        setLocalPrecoMax('');
-                        setLocalPrecoMin('') 
-                    }
-                }}
-            />
+            <div style={{display: "flex", gap: "1vh"}}>
+                <Form.Label>Limpar filtros:</Form.Label>
+                <Form.Check
+                    type="checkbox"
+                    label=""
+                    checked={limparFiltros}
+                    onChange={(e) => {
+                        setLimparFiltros(e.target.checked);
+                        if (e.target.checked) {
+                            setLocalCategoria('');
+                            setLocalPrecoMax('');
+                            setLocalPrecoMin('')
+                        }
+                    }}
+                />
+            </div>
             <Form.Label>Categoria</Form.Label>
             <Form.Select
                 value={localCategoria}
