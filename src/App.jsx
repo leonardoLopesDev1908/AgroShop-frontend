@@ -16,6 +16,7 @@ import Pedidos from "./store/Pedidos"
 import Management from "./component/utils/Management"
 import SearchPedido from "./store/SearchPedidos"
 import PedidoDetalhes from "./store/PedidoDetalhes"
+import SearchProduto from "./store/SearchProduto"
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/pesquisa-pedidos" element={<SearchPedido/>}/>
         <Route path="/pedidos" element={<Pedidos/>}/>
         <Route path="/pedido/:id" element={<PedidoDetalhes/>}/>
+        <Route path="/pesquisa-produto" element={<SearchProduto/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Route>
     )

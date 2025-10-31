@@ -1,3 +1,4 @@
+
 /* Hero.css */
 .hero {
     background-size: cover;
@@ -571,6 +572,7 @@
     background-color: #333;
     color: white;
     padding: 20px 0;
+    margin-top: auto;
 }
 
 .footer-container {
@@ -1241,6 +1243,22 @@
     color: #003366; /* azul escuro */
 }
 
+.title-line{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-filters{
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+    flex-direction: row;
+    justify-content: center;
+    
+}
+
 /* Bloco de cada pedido */
 .order-block {
     border: 1px solid #ccc;
@@ -1396,6 +1414,7 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
+/*Search pedidos */
 .pesquisa-page {
     padding: 2rem;
     max-width: 700px;
@@ -1407,7 +1426,7 @@
 .pesquisa-page h2 {
     text-align: center;
     margin-bottom: 2rem;
-    color: #1a3e7c; /* azul escuro */
+    color: #1a3e7c; 
 }
 
 .pesquisa-container{
@@ -1455,7 +1474,7 @@
 .pesquisa-form button {
     padding: 0.7rem;
     border: none;
-    background: #1a3e7c; /* azul escuro */
+    background: #1a3e7c; 
     color: white;
     border-radius: 8px;
     cursor: pointer;
@@ -1574,6 +1593,7 @@
 .btn-voltar {
   display: inline-block;
   margin-top: 2rem;
+  margin-bottom: 2rem;
   padding: 0.7rem 1.2rem;
   background: #1a3e7c;
   color: white;
@@ -1585,9 +1605,116 @@
   background: var(--search-button-color-hover);
 }
 
-/* End sidebar */
+.btn-voltar img{
+    width: 3vh;
+}
 
-/* product update form */
+/*Search produtos*/
+.produtos-page {
+  max-width: 900px;
+  margin-bottom: 5vh;
+}
+
+.produtos-page h2 {
+  font-weight: 600;
+  color: #333;
+}
+
+.table img {
+  max-height: 60px;
+  object-fit: cover;
+}
+
+.pagination button {
+  border-radius: 50px;
+}
+
+.form-produtos {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px; /* espaçamento entre os elementos */
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* quebra em telas menores */
+}
+
+.form-produtos input {
+  max-width: 220px;
+  border-radius: 8px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-produtos input:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.2);
+}
+
+.form-produtos button {
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 500;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.form-produtos button:hover {
+  background-color: #0b5ed7;
+}
+
+/* Alinhamento geral da tabela */
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 2vh;
+    justify-content: center;
+}
+
+.table {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+  text-align: center;
+  padding: 12px 8px;
+}
+
+.table thead th {
+  background-color: #f8f9fa;
+  color: #333;
+  font-weight: 600;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr {
+  transition: background-color 0.2s ease-in-out;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f3f5;
+}
+
+.table td:first-child img {
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+  max-width: 60px;
+  max-height: 60px;
+  object-fit: cover;
+}
+
+.table td button {
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+}
 
 .image-gallery {
     display: flex;

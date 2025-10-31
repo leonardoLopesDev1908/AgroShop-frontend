@@ -4,10 +4,13 @@ import {Link} from "react-router-dom"
 import { useAuth } from "../auth/AuthContext"
 import ProductImage from "../component/utils/ProductImage"
 import {createSlug, formatarData} from "../component/utils/utils"
+import lupa from "../assets/imagens/lupa.png"
 
 const Pedidos = () => {
     const {user} = useAuth();
     const[pedidos, setPedidos] = useState([])
+    const[pedidosOriginais, setPedidosOriginais] = useState([])
+    const[status, setStatus] = useState("")
     const[loading, setLoading] = useState(true)
     const[error, setError] = useState("")
     
@@ -16,7 +19,8 @@ const Pedidos = () => {
             try{   
                 const data = await getPedidos();
                 setPedidos(data.data);
-                console.log("Pedidos: ", data.data)
+                setPedidosOriginais(data.data)
+                setLoading(false)
             }catch(error){
                 console.error("Erro ao buscar pedidos: " + error.message)
                 setError(error.message)
@@ -27,11 +31,43 @@ const Pedidos = () => {
         fetchPedidos();
     }, [user])
 
+    const handleFiltrar = () => {
+        if (status === "") {
+            setPedidos(pedidosOriginais)
+        } else {
+            const pedidosFiltrados = pedidosOriginais.filter(
+                (p) => p.status === status
+            );
+            setPedidos(pedidosFiltrados);
+        }
+    };
+
     return (
         <div className="order-page">
             <div className="order-details">
-                <div className="order-title">Seus pedidos</div>
-
+                <div className="title-line">
+                    <div className="order-title">
+                        Seus pedidos
+                    </div>
+                    <div className="order-filters">
+                        <select onChange={(e) => setStatus(e.target.value)}>
+                        <option value="">TODOS</option>
+                        <option value="PENDENTE">PENDENTE</option>
+                        <option value="CONFIRMADO">CONFIRMADO</option>
+                        <option value="PROCESSANDO">PROCESSANDO</option>
+                        <option value="ENVIADO">ENVIADO</option>
+                        <option value="ENTREGUE">ENTREGUE</option>
+                        <option value="CANCELADO">CANCELADO</option>
+                        </select>
+                        <button
+                            className="btn-voltar"
+                            onClick={handleFiltrar}
+                        >
+                            <img src={lupa} alt="Filtrar"/>
+                            {/* https://www.flaticon.com/br/autores/freepik */}
+                        </button>
+                    </div>
+                </div>
                 {error && <h6>{error}</h6>}
 
              {Array.isArray(pedidos) && pedidos.length > 0 ? (
@@ -48,7 +84,6 @@ const Pedidos = () => {
                             <div key={i} className="order-item">
                                 <div className="order-item-info">
                                     <h6>{item.produto.nome}</h6>
-
                                     <Link
                                     to={`/produtos/produto/${item.produto.id}/${createSlug(item.produto.nome)}`}
                                     >
