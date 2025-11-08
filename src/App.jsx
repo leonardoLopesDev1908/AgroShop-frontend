@@ -17,6 +17,7 @@ import Management from "./component/utils/Management"
 import SearchPedido from "./store/SearchPedidos"
 import PedidoDetalhes from "./store/PedidoDetalhes"
 import SearchProduto from "./store/SearchProduto"
+import Dashboard from "./component/utils/Dashboard"
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
         <Route path="/pedidos" element={<Pedidos/>}/>
         <Route path="/pedido/:id" element={<PedidoDetalhes/>}/>
         <Route path="/pesquisa-produto" element={<SearchProduto/>}/>
+        <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Route>
     )

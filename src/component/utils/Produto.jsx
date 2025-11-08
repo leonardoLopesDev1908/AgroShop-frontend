@@ -41,7 +41,7 @@ const Produto = () => {
                 setLoading(false)
             }
         }
-            fetchProduto()
+        fetchProduto()
     }, [id])
 
   if (loading) return <Spinner animation="border" className="m-5" />
