@@ -21,6 +21,20 @@ export const NameService = async (email) => {
     }
 }
 
+export const getUsuarioDados = async() => {
+    try{
+        const token = localStorage.getItem("token")
+        const response = await api.get(`/usuarios/usuario/dados`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch(error){
+        throw error
+    }
+}
+
 export const CadastroService = async(nome, sobrenome, email, senha,
                                     endereco, numero, complemento,
                                     cidade, estado, cep
@@ -46,6 +60,23 @@ export const CadastroService = async(nome, sobrenome, email, senha,
     }
 }
 
+export const CadastroEndereco = async(endereco) => {
+    try{
+        const token = localStorage.getItem("token")
+        const response = await api.post(`/usuarios/endereco/cadastrar`, 
+            endereco, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
+        return response.data
+    } catch(error){
+        throw error
+    }                         
+}
+
+
 export async function RefreshService() {
     const response = await fetch("/auth/refresh-token", {
         method: "POST",
@@ -56,4 +87,49 @@ export async function RefreshService() {
     }
 
     return await response.json()
+}
+
+export async function getEnderecos(){
+    try{
+        const token = localStorage.getItem("token")
+        const response = await api.get("/usuarios/usuario/endereco", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    }catch(error){
+        throw error
+    }
+}
+
+export const atualizarUsuario = async(usuarioDTO) => {
+    try{
+        const token = localStorage.getItem("token")
+        const response = await api.put(`/usuarios/usuario/atualizar`,
+            usuarioDTO, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
+        return response.data
+    } catch(error){
+        throw error
+    }
+} 
+
+export const atualizarSenha = async(email, senhaAtual, senhaNova) => {
+    try{
+        const token = localStorage.getItem("token")
+        const response = await api.put(`/usuarios/usuario/alterar-senha`, 
+            {email, senhaAtual, senhaNova}, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch(error){
+        throw error
+    }
 }

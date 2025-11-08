@@ -5,44 +5,62 @@ import {addProductToCart} from "../services/CarrinhoService"
 import {Spinner} from "react-bootstrap"
 import ProductImage from '../utils/ProductImage'
 import { useCart } from '../../store/CarrinhoContext'
+import { getProdutoByCategoria } from '../services/ProdutoService'
+import {Link} from "react-router-dom"
+import {Card} from "react-bootstrap"
+import {createSlug} from "../utils/utils"
 
 const Produto = () => {
-    const { id } = useParams()
-    const {addToCarrinho} = useCart()
-    const [produto, setProduto] = useState({});
-    const[loading, setLoading] = useState(false)
-    const[error, setError] = useState("")
-    const[message, setMessage] = useState("")
+  const { id } = useParams()
+  const {addToCarrinho} = useCart()
+  const [produto, setProduto] = useState({});
+  const [semelhantes, setSemelhantes] = useState([])
+  const[loading, setLoading] = useState(false)
+  const[error, setError] = useState("")
+  const[message, setMessage] = useState("")
+  const[imagemSelecionada, setImagemSelecionada] = useState(null)
 
-    const handleAdicionarProduto = async () => {
-      setError("")
-      setLoading(true)
-      try{
-        const response = await addProductToCart(produto.id, 1)
-        addToCarrinho(1)
-        setMessage("Produto adicionado ao carrinho")
-      }catch(error){
-        setError(error.message)
-        console.log(error.message)
-      }finally {
-        setLoading(false)
-      }
+  const handleAdicionarProduto = async () => {
+    setError("")
+    setLoading(true)
+    try{
+      const response = await addProductToCart(produto.id, 1)
+      addToCarrinho(1)
+      setMessage("Produto adicionado ao carrinho")
+    }catch(error){
+      setError(error.message)
+      console.log(error.message)
+    }finally {
+      setLoading(false)
     }
+  }
 
-    useEffect(() => {
-        const fetchProduto = async () => {
-          setLoading(true)
-            try{
-                const data = await getProdutoById(id)
-                setProduto(data.data)
-            }catch(err){
-                setError("Erro: " + err)
-            }finally{
-                setLoading(false)
-            }
-        }
-            fetchProduto()
-    }, [id])
+  useEffect(() => {
+    if (produto.imagens && produto.imagens.length > 0) {
+      setImagemSelecionada(produto.imagens[0]);
+    }
+  }, [produto]);
+
+  useEffect(() => {
+      const fetchProduto = async () => {
+        setLoading(true)
+          try{
+              const data = await getProdutoById(id)
+              const produto = data.data
+    
+              setProduto(produto)
+              const outros = await getProdutoByCategoria(produto.categoria.nome)
+              
+              const filtrados = outros.filter(p => p.id !== produto.id);
+              setSemelhantes(filtrados) 
+          }catch(err){
+              setError("Erro: " + err)
+          }finally{
+              setLoading(false)
+          }
+      }
+          fetchProduto()
+  }, [id])
 
   if (loading) return <Spinner animation="border" className="m-5" />
   if (error) return <p className="text-danger text-center mt-5">{error}</p>
@@ -50,90 +68,119 @@ const Produto = () => {
 
   return (
     <div className="produto-pagina">
-      <div className="produto-imagens">
-        <div>
-          {produto.imagens && produto.imagens.length > 0 ? (
-            <>
-             <ProductImage productId={produto.imagens[0].id}/>
-              {produto.imagens.length > 1 && (
-                <div className="produto-miniaturas">
-                  {produto.imagens.slice(1).map((img, index) => (
-                    <img key={index} src={img.url} alt={`${produto.nome} ${index + 1}`} />
-                  ))}
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="sem-imagem">Sem imagem disponível</div>
-          )}
-        </div>
-        <div>
-          {/* implementar sequencia de imagens */}
-        </div>
-      </div>
-      
+      <div className="produto-infos">
+        <div className="produto-imagens">
+          <div>
+            {imagemSelecionada ? (
+              <ProductImage productId={imagemSelecionada.id} />
+            ) : (
+              <div className="sem-imagem">Sem imagem disponível</div>
+            )}
 
-      <div className="produto-detalhes">
-        <span className="produto-marca">{produto.marca || "Marca não informada"}</span>
-        <h2 className="produto-nome">{produto.nome}</h2>
-        <p className="produto-codigo">Código: {produto.id || "N/A"}</p>
-        <p className="success-message">{message}</p>
-        <p className="produto-descricao">{produto.descricao}</p>
-
-        <div className="produto-precos">
-          {produto.precoPromocional ? (
-            <>
-              <span className="produto-preco-promocional">
-                R$ {produto.precoPromocional.toFixed(2)}
-              </span>
-              <span className="produto-preco-normal">
-                R$ {produto.preco.toFixed(2)}
-              </span>
-            </>
-          ) : (
-            <span className="produto-preco-promocional">
-              R$ {produto.preco?.toFixed(2) || "Indisponível"}
-            </span>
-          )}
-        </div>
-
-        <p
-          className={`produto-estoque ${
-            produto.estoque > 0 ? "disponivel" : "indisponivel"
-          }`}
-        >
-        {produto.estoque < 20
-        ? (produto.estoque > 0
-            ? `Em estoque: ${produto.estoque}`
-            : "Fora de estoque")
-        : ""}
-        </p>
-
-        <div className="produto-acoes">
-          {produto.estoque > 0 &&(
-            <button
-            className="btn-principal"
-            disabled={produto.estoque === 0}
-            onClick={handleAdicionarProduto}
-            >
-              Adicionar ao carrinho
-            </button>
-          )}
-        </div>
-
-        <div className="produto-frete">
-          <label htmlFor="cep"><strong>Frete e prazo:</strong> </label>
-          <div className="frete-form">
-            <input
-              type="text"
-              id="cep"
-              placeholder="Digite o CEP"
-            />
-            <button type="button" className="">
-              Buscar
-            </button>
+            {produto.imagens && produto.imagens.length > 1 && (
+              <div className="produto-miniaturas">
+                {produto.imagens.map((img, index) => (
+                  <div
+                    key={index}
+                    className={`miniatura ${imagemSelecionada?.id === img.id ? "ativa" : ""}`}
+                    onClick={() => setImagemSelecionada(img)}
+                    style={{ cursor: "pointer", display: "inline-block", marginRight: "5px" }}
+                  >
+                    <ProductImage productId={img.id} />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
+        
+        <div className="produto-detalhes">
+          <span className="produto-marca">{produto.marca || "Marca não informada"}</span>
+          <h2 className="produto-nome">{produto.nome}</h2>
+          <p className="produto-codigo">Código: {produto.id || "N/A"}</p>
+          <p className="success-message">{message}</p>
+          <p className="produto-descricao">{produto.descricao}</p>
+          <div className="produto-precos">
+            {produto.precoPromocional ? (
+              <>
+                <span className="produto-preco-promocional">
+                  R$ {produto.precoPromocional.toFixed(2)}
+                </span>
+                <span className="produto-preco-normal">
+                  R$ {produto.preco.toFixed(2)}
+                </span>
+              </>
+            ) : (
+              <span className="produto-preco-promocional">
+                R$ {produto.preco?.toFixed(2) || "Indisponível"}
+              </span>
+            )}
+          </div>
+          <p
+            className={`produto-estoque ${
+              produto.estoque > 0 ? "disponivel" : "indisponivel"
+            }`}
+          >
+          {produto.estoque < 20
+          ? (produto.estoque > 0
+              ? `Em estoque: ${produto.estoque}`
+              : "Fora de estoque")
+          : ""}
+          </p>
+          <div className="produto-acoes">
+            {produto.estoque > 0 && (
+              <button
+              className="btn-principal"
+              disabled={produto.estoque === 0}
+              onClick={handleAdicionarProduto}
+              >
+                Adicionar ao carrinho
+              </button>
+            )}
+          </div>
+          <div className="produto-frete">
+            <label htmlFor="cep"><strong>Frete e prazo:</strong> </label>
+            <div className="frete-form">
+              <input
+                type="text"
+                id="cep"
+                placeholder="Digite o CEP"
+              />
+              <button type="button" className="">
+                Buscar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3>Semelhantes</h3>
+             <div className="lista-produtos-sec">
+          {semelhantes.map((produto) => (
+            <div className='produto-sec' key={produto.id}>
+              <Card className="home-produto-card m-3" style={{ width: '18rem' }}>
+                <Link to={`/produtos/produto/${produto.id}/${createSlug(produto.nome)}`}>
+                  <div className='image-container'>
+                    {produto.imagens && produto.imagens.length > 0 ? (
+                      <ProductImage productId={produto.imagens[0].id}/>
+                    ) : (
+                      <div className="text-center p-5">Sem imagem</div>
+                    )}
+                  </div>
+                </Link>
+                <Card.Body>
+                  <p className='produto-description'>
+                    <strong>{produto.nome}</strong>
+                  </p>
+                  <h4 className='price'>R$ {produto.preco.toFixed(2).replace('.', ',')}</h4>
+                  <Link to={`/produtos/produto/${produto.id}/${createSlug(produto.nome)}`}>
+                    <button className='btn btn-primary w-100'>Ver produto</button>
+                  </Link>
+                </Card.Body>
+              </Card>
+            </div>
+          ))}
+      </div>
       </div>
     </div>
 

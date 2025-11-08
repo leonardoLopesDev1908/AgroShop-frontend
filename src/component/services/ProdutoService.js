@@ -103,3 +103,25 @@ export const updateProduto = async(id, dto) => {
     throw error
   }
 }
+
+export const getProdutoByCategoria = async(categoria) => {
+  try{
+    const response = await api.get(`/produtos/produtos/categoria`, {
+      params: {categoria}
+    });
+    return response.data.data;
+  }catch(error){
+    throw error
+  }
+}
+
+export const getOutrosProdutos = async(categoria) => {
+  try{
+    const response = await api.get(`/produtos/produtos/outros`, {
+      params: {categoria}
+    })
+    return response.data.data;
+  }catch(error){
+    throw error
+  }
+}

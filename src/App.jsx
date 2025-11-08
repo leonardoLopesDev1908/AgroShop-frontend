@@ -5,7 +5,6 @@ import {Route,
     } from "react-router-dom" 
 import RootLayout from "./component/layout/RootLayout"
 import Home from './home/Home'
-import Profile from './profile/Profile'
 import Login from './profile/Login'
 import NotFound from "./component/error/NotFound"
 import Cadastro from "./profile/Cadastro"
@@ -17,6 +16,8 @@ import Management from "./component/utils/Management"
 import SearchPedido from "./store/SearchPedidos"
 import PedidoDetalhes from "./store/PedidoDetalhes"
 import SearchProduto from "./store/SearchProduto"
+import PerfilUsuario from "./profile/PerfilUsuario"
+import Dashboard from "./component/utils/Dashboard"
 
 function App() {
 
@@ -24,7 +25,6 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<RootLayout/>}>
         <Route index element={<Home/>}/>
-        <Route path="/conta" element={<Profile/>}/>
         <Route path="/carrinho" element={<Carrinho/>}/>
         <Route path="/produtos/produto/:id/:nome" element={<Produto />} />
         <Route path="/login" element={<Login/>}/>
@@ -35,6 +35,8 @@ function App() {
         <Route path="/pedidos" element={<Pedidos/>}/>
         <Route path="/pedido/:id" element={<PedidoDetalhes/>}/>
         <Route path="/pesquisa-produto" element={<SearchProduto/>}/>
+        <Route path="/conta" element={<PerfilUsuario/>}/>
+        <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Route>
     )

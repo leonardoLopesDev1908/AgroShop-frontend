@@ -6,6 +6,7 @@ import {
   getDistintosProdutosByNome,
   deleteProduto,
   updateProduto,
+  uploadImage,
 } from "../component/services/ProdutoService";
 import ProductImage from "../component/utils/ProductImage";
 import {createSlug} from "../component/utils/utils"
@@ -92,8 +93,11 @@ const SearchProduto = () => {
         preco: produtoEditando.preco,
         estoque: produtoEditando.estoque
       }
+      const imagemDTO = produtoEditando.imagem;
+      console.log("imagem: ", imagemDTO)
       console.log("dto: ", produtoDTO)
       await updateProduto(produtoEditando.id, produtoDTO);
+      await uploadImage(imagemDTO, produtoEditando.id)
       toast.success("Produto atualizado com sucesso!");
       setProdutos((prev) =>
         prev.map((p) => (p.id === produtoEditando.id ? produtoEditando : p))
@@ -267,19 +271,19 @@ const SearchProduto = () => {
                 />
               </Form.Group>
 
-              {/* <Form.Group className="mb-2">
-                <Form.Label>Imagem (URL)</Form.Label>
+               <Form.Group className="mb-2">
+                <Form.Label>Imagem </Form.Label>
                 <Form.Control
-                  type="text"
-                  value={produtoEditando.imagem || ""}
+                  type="file"
+                  accept="imagem/*"
                   onChange={(e) =>
                     setProdutoEditando({
                       ...produtoEditando,
-                      imagem: e.target.value,
+                        imagem: e.target.files[0],
                     })
                   }
                 />
-              </Form.Group> */}
+              </Form.Group> 
             </>
           )}
         </Modal.Body>
