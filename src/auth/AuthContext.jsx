@@ -96,7 +96,8 @@ const AuthProvider = ({children}) => {
         isAuthenticated: !!token,
         login,
         logout,
-        refreshToken
+        refreshToken,
+        setUser
     }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

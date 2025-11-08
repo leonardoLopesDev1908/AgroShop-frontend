@@ -25,7 +25,6 @@ const NavBar = () => {
                 <Navbar.Toggle/>
                 
                 <Navbar.Collapse>
-
                     <RoleGuard allowedRoles={["Gerente", "ADM", "Funcionario"]}>
                         <Nav className='me-auto'>
                             <Nav.Link to={"/gerenciamento"} as={Link}>
