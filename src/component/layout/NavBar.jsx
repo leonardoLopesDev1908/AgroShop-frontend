@@ -33,6 +33,14 @@ const NavBar = () => {
                         </Nav>
                     </RoleGuard>
 
+                    <RoleGuard allowedRoles={["Gerente"]}>
+                        <Nav className='me-auto'>
+                            <Nav.Link to={"/dashboard"} as={Link}>
+                                <span>Dashboard</span>
+                            </Nav.Link>
+                        </Nav>
+                    </RoleGuard>
+
                     <Nav className='ms-auto '>
                         {isAuthenticated ? (
                         <NavDropdown title={`Olá, ${user.nome}`}>

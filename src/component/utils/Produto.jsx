@@ -35,6 +35,22 @@ const Produto = () => {
     }
   }
 
+
+    useEffect(() => {
+        const fetchProduto = async () => {
+          setLoading(true)
+            try{
+                const data = await getProdutoById(id)
+                setProduto(data.data)
+            }catch(err){
+                setError("Erro: " + err)
+            }finally{
+                setLoading(false)
+            }
+        }
+        fetchProduto()
+    }, [id])
+  
   useEffect(() => {
     if (produto.imagens && produto.imagens.length > 0) {
       setImagemSelecionada(produto.imagens[0]);
@@ -61,6 +77,7 @@ const Produto = () => {
       }
           fetchProduto()
   }, [id])
+
 
   if (loading) return <Spinner animation="border" className="m-5" />
   if (error) return <p className="text-danger text-center mt-5">{error}</p>
