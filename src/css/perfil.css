@@ -1,0 +1,173 @@
+.perfil-main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 90vh;
+  background: #f5f7fb;
+  padding: 30px;
+}
+
+.perfil-container {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  margin: 20px;
+  padding: 30px;
+  max-width: 900px;
+  width: 100%;
+  transition: transform 0.2s ease-in-out;
+}
+
+.perfil-container:hover {
+  transform: translateY(-3px);
+}
+
+/* HEADER DO PERFIL */
+.perfil-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.perfil-avatar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.avatar-circle {
+  width: 70px;
+  height: 70px;
+  background: #0d6efd;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.perfil-header-info h4 {
+  margin: 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.perfil-header-info p {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.perfil-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* DADOS DO PERFIL */
+.perfil-info {
+  background-color: #f9fafb;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  line-height: 1.6;
+  display: flex;
+  justify-content: space-around;
+}
+
+.perfil-info p {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+/* ENDEREÇOS */
+.perfil-enderecos {
+  margin-top: 10px;
+}
+
+.perfil-title-line{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.perfil-enderecos h5 {
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.enderecos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 15px;
+}
+
+.endereco-card {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+}
+
+.endereco-card:hover {
+  transform: scale(1.02);
+}
+
+.endereco-card p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+
+.d-flex.justify-content-between {
+  width: 100%;
+  margin-top: 20px;
+}
+
+button.btn-primary {
+  background-color: #007bff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+button.btn-primary:hover {
+  background-color: #0069d9;
+}
+
+button.btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+  padding: 8px 18px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+button.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+@media (max-width: 576px) {
+  .perfil-container {
+    padding: 25px;
+  }
+
+  .perfil-info {
+    padding: 15px;
+  }
+
+  .perfil-info p {
+    font-size: 0.9rem;
+  }
+}
+

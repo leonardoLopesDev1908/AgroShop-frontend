@@ -13,7 +13,7 @@ import {getTotalProdutos, getTotalClientes,
 const Dashboard = () => {
   const [vendasPorMes, setVendasPorMes] = useState([]);
   const [produtosMaisVendidos, setProdutosMaisVendidos] = useState([])
-  const [totalVendas, setTotalVendas] = useState(0)
+  const [totalVendas, setTotalVendas] = useState()
   const [produtos, setProdutos] = useState(0)
   const [clientes, setClientes] = useState(0)
   const [anoSelecionado, setAnoSelecionado] = useState(new Date().getFullYear());
@@ -37,7 +37,7 @@ const Dashboard = () => {
       try {
         const produtosValue = await getTotalProdutos()
         const clientesValue = await getTotalClientes()
-        const vendasValue = await getTotalVendas()
+        const vendasValue = await getTotalVendas(anoVendas)
         const vendasMes = await getVendasPorMes(anoSelecionado)
         const produtosVendidos = await getProdutosMaisVendidos(dataInicio, dataFim)
 
@@ -59,8 +59,9 @@ const Dashboard = () => {
         }));
         setVendasPorMes(vendasArray)
 
-        console.log("Vendas: ", vendasArray)
+        console.log("Vendas mes: ", vendasArray)
         console.log("Vendas: ", produtosArray)
+        console.log("Total vendas: ", vendasValue.data)
       } catch (err) {
         console.error("Erro ao buscar dados do dashboard:", err);
         setError(err.message || "Erro desconhecido");
@@ -99,13 +100,16 @@ const Dashboard = () => {
 
   useEffect(() => {
     if(anoVendas){
+      const fetchVendas = async() => {
         try{
-          const vendas = getTotalVendas(anoVendas)
+          const vendas = await getTotalVendas(anoVendas)
           setTotalVendas(vendas.data)
-        }catch(error){
+        }  catch(error){
           setError(error.message)
         }
       }
+      fetchVendas()
+    }
   }, [anoVendas])
 
   const cores = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444"];
