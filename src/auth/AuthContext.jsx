@@ -31,6 +31,24 @@ const AuthProvider = ({children}) => {
             }
         }
     }, [])
+
+    const loginOAuth2 = (token) => {
+        setToken(token);
+        localStorage.setItem('token', token);
+        
+        const payload = parseJwt(token);
+        
+        const userData = {
+            id: payload.id,
+            email: payload.sub || payload.email, // Use sub como fallback
+            roles: payload.roles || [],
+            nome: payload.nome || payload.name, // Adapte conforme seu payload
+            sobrenome: payload.sobrenome || ""
+        };
+        
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+     };
     
     const login = async (email, senha, lembrar) => {
         try{
@@ -95,6 +113,7 @@ const AuthProvider = ({children}) => {
         token,
         isAuthenticated: !!token,
         login,
+        loginOAuth2,
         logout,
         refreshToken,
         setUser
