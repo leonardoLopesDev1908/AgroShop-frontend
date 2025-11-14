@@ -20,10 +20,7 @@ Processo de checkout simples e objetivo.
 
 Login e registro de usuários, com tratamento visual de erros e feedbacks claros.
 
-Dashboard administrativo, permitindo visualizar vendas, produtos mais vendidos e avaliações.
-
-Além disso, o front-end segue boas práticas de design, com estrutura limpa, uso eficiente de React Hooks, tratamento centralizado de erros, customização de estilos via CSS e integração fluida com componentes de UI como cards, tabelas e modais.
-O resultado é uma interface amigável, moderna e eficiente, ideal para um e-commerce profissional.
+Dashboard administrativo, permitindo visualizar vendas, produtos mais vendidos e vendas por mês.
 
 Home
 <img width="1882" height="943" alt="image" src="https://github.com/user-attachments/assets/aab88c8a-28f2-42d8-aaf8-2882efb746c4" />
