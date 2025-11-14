@@ -352,7 +352,7 @@
 .produto-pagina {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 5vh;
   padding: 5vh 5vh;
@@ -362,15 +362,15 @@
   margin: 1vh;
 }
 
-.produto-infos{
-    display: flex;
-    flex-direction: row;
-    background-color: white;
-    gap: 35vh;
-    padding: 2vh;
+.produto-infos {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  gap: 35vh;
+  padding: 2vh;
 }
 
-/* ======= COLUNA ESQUERDA (IMAGEM) ======= */
+/* ======= IMAGENS ======= */
 .produto-imagens {
   flex: 1;
   display: flex;
@@ -398,30 +398,6 @@
 
 .produto-miniaturas {
   display: flex;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.produto-miniaturas img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: transform 0.2s ease-in-out, border 0.2s ease;
-}
-
-.produto-miniaturas img:hover {
-  transform: scale(1.05);
-}
-
-.miniatura.ativa {
-  border: 5px solid #007bff;
-  border-radius: 10px;
-}
-
-.produto-miniaturas {
-  display: flex;
   gap: 10px;
   margin-top: 15px;
 }
@@ -440,7 +416,12 @@
   border-color: #f58220;
 }
 
-/* ======= COLUNA DIREITA (INFORMAÇÕES) ======= */
+.miniatura.ativa {
+  border: 5px solid #007bff;
+  border-radius: 10px;
+}
+
+/* ======= COLUNA DIREITA ======= */
 .produto-detalhes {
   flex: 1;
   display: flex;
@@ -472,9 +453,9 @@
   margin-bottom: 15px;
 }
 
-.success-message{
-    color: green;
-    font-size: 2vh;
+.success-message {
+  color: green;
+  font-size: 2vh;
 }
 
 .produto-descricao {
@@ -505,6 +486,43 @@
   margin-left: 8px;
 }
 
+/* ========================================= */
+/* ✔️ NOVO BLOCO DE AVALIAÇÕES — ENCAIXADO  */
+/* ========================================= */
+
+.avaliacoes-container {
+  width: 100%;
+  max-width: 900px; /* iguala ao conteúdo principal */
+  margin: 4vh auto;
+  padding: 4vh;
+
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.avaliacoes-container h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 1vh;
+}
+
+.avaliacoes-container .card {
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.avaliacao-card{
+  background-color: rgb(249, 249, 249);
+  padding: 5%;
+  
+}
+
+/*PERFIL*/
 .perfil-main {
   display: flex;
   justify-content: center;
@@ -522,11 +540,6 @@
   padding: 30px;
   max-width: 900px;
   width: 100%;
-  transition: transform 0.2s ease-in-out;
-}
-
-.perfil-container:hover {
-  transform: translateY(-3px);
 }
 
 /* HEADER DO PERFIL */

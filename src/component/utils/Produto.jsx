@@ -7,18 +7,30 @@ import ProductImage from '../utils/ProductImage'
 import { useCart } from '../../store/CarrinhoContext'
 import { getProdutoByCategoria } from '../services/ProdutoService'
 import {Link} from "react-router-dom"
-import {Card} from "react-bootstrap"
+import {Card, Modal, Form} from "react-bootstrap"
 import {createSlug} from "../utils/utils"
+import { getAvaliacoes, addAvaliacao, 
+          excluirAvaliacao, jaAvaliou } from '../services/AvaliacaoService'
+import {useAuth } from "../../auth/AuthContext"
 
 const Produto = () => {
+  const {isAuthenticated} = useAuth();
   const { id } = useParams()
   const {addToCarrinho} = useCart()
   const [produto, setProduto] = useState({});
   const [semelhantes, setSemelhantes] = useState([])
+  const[imagemSelecionada, setImagemSelecionada] = useState(null)
+
+  const [avaliacoes, setAvaliacoes] = useState([])
+  const [jaAvaliado, setJaAvaliado] = useState(false)
+  const [titulo, setTitulo] = useState("")
+  const [comentario, setComentario] = useState("")
+  const [nota, setNota] = useState(0)
+  const [showModalAvaliacao, setShowModalAvaliacao] = useState(false)
+  
   const[loading, setLoading] = useState(false)
   const[error, setError] = useState("")
   const[message, setMessage] = useState("")
-  const[imagemSelecionada, setImagemSelecionada] = useState(null)
 
   const handleAdicionarProduto = async () => {
     setError("")
@@ -35,21 +47,20 @@ const Produto = () => {
     }
   }
 
-
-    useEffect(() => {
-        const fetchProduto = async () => {
-          setLoading(true)
-            try{
-                const data = await getProdutoById(id)
-                setProduto(data.data)
-            }catch(err){
-                setError("Erro: " + err)
-            }finally{
-                setLoading(false)
-            }
-        }
-        fetchProduto()
-    }, [id])
+  useEffect(() => {
+      const fetchProduto = async () => {
+        setLoading(true)
+          try{
+              const data = await getProdutoById(id)
+              setProduto(data.data)
+          }catch(err){
+              setError("Erro: " + err)
+          }finally{
+              setLoading(false)
+          }
+      }
+      fetchProduto()
+  }, [id])
   
   useEffect(() => {
     if (produto.imagens && produto.imagens.length > 0) {
@@ -75,9 +86,58 @@ const Produto = () => {
               setLoading(false)
           }
       }
-          fetchProduto()
+      fetchProduto()
   }, [id])
 
+  useEffect(() => {
+    const fetchAvaliacoes = async() => {
+      setLoading(true)
+      try{
+        const data = await getAvaliacoes(id)
+        console.log(data)
+        setAvaliacoes(data.data)
+      } catch(error){
+        setError(error.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchAvaliacoes();
+  }, [id])
+
+  useEffect(() => {
+    if (!id) return;
+    const fetchJaAvaliado = async () => {
+      try{
+        const data = await jaAvaliou(id);
+        console.log(data.data)
+        setJaAvaliado(data.data);
+      }catch(error){
+        setError(error.message);
+      }
+    }
+    fetchJaAvaliado();
+  }, [id]);
+
+  const handleFecharModal = async() => {
+    setShowModalAvaliacao(false)
+  }
+
+  const handleSalvarAvaliacao = async () => {
+    try {
+      const avaliacaoDTO = {
+        titulo,
+        comentario,
+        nota
+      };
+      await addAvaliacao(avaliacaoDTO, id);
+      setShowModalAvaliacao(false);
+      const { data } = await getAvaliacoes(id);
+      setAvaliacoes(data);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   if (loading) return <Spinner animation="border" className="m-5" />
   if (error) return <p className="text-danger text-center mt-5">{error}</p>
@@ -169,6 +229,76 @@ const Produto = () => {
             </div>
           </div>
         </div>
+      </div>
+      {isAuthenticated && !jaAvaliado  &&(
+          <div className="avaliacoes-container">
+            <button className="btn btn-outline-primary" onClick={() => setShowModalAvaliacao(true)}>
+              Avaliar este produto
+            </button>
+          </div>
+      )}
+      <div className="avaliacoes-container mt-4">
+          <h3>Avaliações ({avaliacoes.length})</h3>
+
+          {avaliacoes.length === 0 ? (
+            <p className="text-muted">Nenhuma avaliação ainda.</p>
+          ) : (
+            avaliacoes.map((a, index) => (
+                <div className="avaliacao-card">
+                  <p style={{fontWeight: "700"}}>{a.usuario?.nome || "Usuário anônimo"}</p>
+                  <h5>{a.titulo}</h5>
+                  <p className="mb-1">{a.comentario}</p>
+                  <p className="text-warning">{"★".repeat(Math.round(a.nota))}</p>
+                </div>
+            ))
+          )}
+      </div>
+      <div className="avaliacao-section">
+        <Modal show={showModalAvaliacao} onHide={() => setShowModalAvaliacao(false)} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Avaliar produto</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Group className='mb-2'>
+              <Form.Label>Título</Form.Label>
+              <Form.Control
+                type="text"
+                value={titulo}
+                onChange={(e) => setTitulo(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group className='mb-2'>
+              <Form.Label>Comentário</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={comentario}
+                onChange={(e) => setComentario(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group className='mb-2'>
+              <Form.Label>Nota</Form.Label>
+              <Form.Range
+                min="0"
+                max="5"
+                step="0.5"
+                value={nota}
+                onChange={(e) => setNota(parseFloat(e.target.value))}
+              />
+              <p>Nota: {nota} ★</p>
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <button className="btn btn-secondary" onClick={() => setShowModalAvaliacao(false)}>
+              Cancelar
+            </button>
+            <button className="btn btn-primary" onClick={handleSalvarAvaliacao}>
+              Salvar Avaliação
+            </button>
+          </Modal.Footer>
+        </Modal>
       </div>
       <div>
         <h3>Semelhantes</h3>
