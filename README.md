@@ -24,3 +24,14 @@ Dashboard administrativo, permitindo visualizar vendas, produtos mais vendidos e
 
 Além disso, o front-end segue boas práticas de design, com estrutura limpa, uso eficiente de React Hooks, tratamento centralizado de erros, customização de estilos via CSS e integração fluida com componentes de UI como cards, tabelas e modais.
 O resultado é uma interface amigável, moderna e eficiente, ideal para um e-commerce profissional.
+
+Home
+<img width="1882" height="943" alt="image" src="https://github.com/user-attachments/assets/aab88c8a-28f2-42d8-aaf8-2882efb746c4" />
+Dashboard
+<img width="1887" height="937" alt="image" src="https://github.com/user-attachments/assets/ff603a50-0f2c-4c60-8e29-007ddf316122" />
+Pesquisa de produtos
+<img width="1548" height="873" alt="image" src="https://github.com/user-attachments/assets/88af93d6-38ae-417e-afa8-d20d48bf6246" />
+Pesquisa de Pedidos
+<img width="1366" height="922" alt="image" src="https://github.com/user-attachments/assets/e4820c8f-cced-4c41-8ba3-1ae86c682d2c" />
+Perfil
+<img width="1611" height="846" alt="image" src="https://github.com/user-attachments/assets/76b2d572-e7ea-46e7-9efd-32e5b9373b0d" />
