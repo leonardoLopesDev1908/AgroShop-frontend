@@ -36,9 +36,9 @@ export const getProdutosMaisVendidos = async (dataInicio, dataFim) => {
 
 export const getTotalVendas = async(anoVendas) => {
     try{
-        console.log(anoVendas)
+        console.log("anovendas: ", anoVendas)
         const token = localStorage.getItem("token")
-        const response = await api.get(`/dashboard/total-vendas?dataInicio=2025-11-05&dataFim=2025-11-10`,{
+        const response = await api.get(`/dashboard/total-vendas?dataInicio=${anoVendas}-01-01&dataFim=${anoVendas}-12-31`,{
             headers: {
                 Authorization: `Bearer ${token}`
             }

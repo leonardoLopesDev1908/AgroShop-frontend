@@ -12,6 +12,8 @@ const Login = () =>{
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
 
+    const GOOGLE_AUTH_URL = "http://localhost:8080/oauth2/authorization/google";
+
     useEffect(() => {
         if(isAuthenticated){
             navigate("/")
@@ -31,6 +33,10 @@ const Login = () =>{
             setLoading(false)
         }
     } 
+
+    const handleLogin = () => {
+        window.location.href = GOOGLE_AUTH_URL;
+    } ;
 
     return (
         <div className="login-container">
@@ -76,6 +82,27 @@ const Login = () =>{
                         />
                         Lembrar de mim
                     </label>
+                    <button
+                        onClick={handleLogin}
+                        style={{
+                            backgroundColor: "#fff",
+                            border: "1px solid #ddd",
+                            borderRadius: "8px",
+                            padding: "10px 10px",
+                            display: "flex",
+                            cursor: "pointer",
+                            fontSize: "16px",
+                            fontWeight: "bold",
+                            color: "#444",
+                            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                        }}
+                        >
+                        <img
+                            src="https://developers.google.com/identity/images/g-logo.png"
+                            alt="Google Logo"
+                            style={{ width: "20px" }}
+                        />
+                        </button>
                     
                     <a href="/esqueci-senha" className="forgot-password">
                         Esqueci a senha

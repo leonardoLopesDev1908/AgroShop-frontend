@@ -23,6 +23,8 @@ const Carrinho = () => {
     const { user } = useAuth();
     const [itens, setItens] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [totalItens, setTotalItens] = useState(0)
+    const [frete, setFrete] = useState(15)
     const [outros, setOutros] = useState([])
     const [message, setMessage] = useState("");
 
@@ -57,6 +59,10 @@ const Carrinho = () => {
                 });
                 setOutros(filtrados)
                 
+                const total = data.reduce((acumulator, item) => {
+                    return acumulator + item.preco
+                })
+
             } catch (error) {
                 console.error("Erro ao buscar itens:", error.message);
             } finally {
@@ -65,6 +71,14 @@ const Carrinho = () => {
         }; 
         fetchItens();
     }, [user]);
+
+    useEffect(() => {
+        const total = itens.reduce(
+            (soma, item) => soma + item.precoUnitario * item.quantidade,
+            0
+        );
+        setTotalItens(total);
+    }, [itens]);
 
     const handleExcluirProduto = async (item) => {
         setLoading(true);
@@ -90,6 +104,7 @@ const Carrinho = () => {
     };
 
     const handleDiminuirQuantidade = (item) => {
+        console.log(item)
         const novosItens = itens.map((i) =>
         i.produto.id === item.produto.id && i.quantidade > 1
             ? { ...i, quantidade: i.quantidade - 1 }
@@ -108,11 +123,8 @@ const Carrinho = () => {
 
     const limparCarrinho = async () => {
         try {
-            console.log("Entrou no limparCarrinho()");
             await clearCarrinho();
-            console.log("clearCarrinho() feito");
             setItens([]);
-            console.log("setItens([])");
             clearCarrinhoContagem();
             console.log("clearCarrinhoContagem() feito");
         } catch (err) {
@@ -229,17 +241,29 @@ const Carrinho = () => {
                 )}
                 </div>
             </div>
-            {itens.length > 0 ? (
-                <button
-                className="order-cart"
-                onClick={confirmarPedido}
-                disabled={loading}
-                >
-                {loading ? "Processando..." : "Fazer pedido"}
-                </button>
-            ) : (
-                <h6>{message}</h6>
-            )}
+            <div className="confirmar-container">
+                <div>
+                    {itens.length > 0 ? (
+                        <button
+                        className="order-cart"
+                        onClick={confirmarPedido}
+                        disabled={loading}
+                        >
+                        {loading ? "Processando..." : "Confirmar pedido"}
+                        </button>
+                    ) : (
+                        <h6>{message}</h6>
+                    )}
+                </div>
+                <div>
+                    <p>Subtotal: R$ {totalItens.toFixed(2)}</p>
+                    <p>Frete: R$ {frete.toFixed(2)}</p>
+                    <p>Descontos: R$ -</p>
+                    <strong>
+                        <p>Total: R$ {(totalItens + frete).toFixed(2)}</p>
+                    </strong>
+                </div>
+            </div>
         </div>
             <h2 style={{marginBottom: "0"}}>Veja também</h2>
             <Slider {...settings} className="lista-produtos-sec">

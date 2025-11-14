@@ -18,6 +18,7 @@ import PedidoDetalhes from "./store/PedidoDetalhes"
 import SearchProduto from "./store/SearchProduto"
 import PerfilUsuario from "./profile/PerfilUsuario"
 import Dashboard from "./component/utils/Dashboard"
+import OAuth2RedirectHandler from "./auth/OAuth2RedirectHandler"
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/carrinho" element={<Carrinho/>}/>
         <Route path="/produtos/produto/:id/:nome" element={<Produto />} />
         <Route path="/login" element={<Login/>}/>
+        <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
         <Route path="/cadastro" element={<Cadastro/>}/>
         <Route path="/gerenciamento" element={<Management/>}/>
         <Route path="/cadastro-produto" element={<FormProdutos/>}/>
@@ -43,9 +45,7 @@ function App() {
   )
 
   return (
-    <RouterProvider router={router}>
-
-    </RouterProvider>
+    <RouterProvider router={router}/>
   )
 }
 

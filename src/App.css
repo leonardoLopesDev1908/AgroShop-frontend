@@ -1,15 +1,21 @@
-html, body {
+html, body, #root {
   height: 100%;
   margin: 0;
 }
 
-#root,
-#root-layout {
+#root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
 main {
-  flex: 1;  
+  flex: 1; /* empurra o footer pro fim */
+}
+
+:root {
+  --search-button-color: #c38212;
+  --search-button-color-hover: #a16c11;
+  --dark-background: #000000b3;
+  --nav-background: #f1f0f0;
 }

@@ -1,0 +1,162 @@
+.nav-bg {
+    background-color: #0D6efd;
+    border-bottom: 3px solid #083880;
+}
+
+.nav-bg .nav-link,
+.nav-bg .navbar-brand,
+.nav-bg .navbar-nav .nav-link {
+    color: white !important;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-bg img {
+    border-radius: 35%;
+    padding: 5px; 
+    max-height: 35px;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-bg img:hover {
+    background-color: #4f93fa;
+    border-radius: 35%;
+    padding: 5px; 
+}
+
+.nav-bg .nav-link:hover {
+    text-decoration: underline;
+}
+
+.carrinho-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 8px;
+}
+
+.carrinho-container {
+    position: relative;
+    display: inline-block;
+}
+
+.carrinho-container img {
+    width: 32px;
+    height: 32px;
+    transition: transform 0.2s ease;
+}
+
+.carrinho-link:hover img {
+    transform: scale(1.1);
+}
+
+.carrinho-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--search-button-color);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    animation: pulse 2s infinite;
+}
+
+/* Versão alternativa com fundo diferente */
+.carrinho-badge.alternative {
+    background: linear-gradient(135deg, 
+                    var(--search-button-color),
+                    var(--search-button-color-hover));
+}
+
+/* Para tema escuro */
+.carrinho-badge.dark {
+    background: #4CAF50;
+    color: white;
+}
+
+.shop-home {
+    color: var(--search-button-color);
+    font-weight: 900;
+    padding: 1vh 2vh
+}
+
+.shop-home:hover{
+    background-color: #4b91fa;
+    border-radius: 35px;
+}
+
+.sidebar {
+    padding: 1rem;
+    background-color: var(--nav-background);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 150px;
+    margin: 0 20px;
+    position: sticky;
+}
+
+.sidebar-container {
+    display: flex;
+}
+
+.brand-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.brand-item {
+    margin: 0.5rem 0;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.checkbox-container input {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    background-color: #be9898;
+    border-radius: 3px;
+    margin-right: 10px;
+    position: relative;
+}
+
+.checkbox-container input:checked+.checkmark {
+    background-color: var(--search-button-color);
+}
+
+.checkmark::after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked+.checkmark::after {
+    display: block;
+}
+
+.checkbox-container .checkmark::after {
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
