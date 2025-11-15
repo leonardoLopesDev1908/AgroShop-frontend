@@ -43,7 +43,7 @@ const NavBar = () => {
 
                     <Nav className='ms-auto '>
                         {isAuthenticated ? (
-                        <NavDropdown title={`Olá, ${user.nome}`}>
+                        <NavDropdown title={`${user.nome || user.email}`}>
                             <>
                                 <NavDropdown.Item to={"/conta"} as={Link}>
                                     Minha conta
