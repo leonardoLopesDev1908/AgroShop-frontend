@@ -40,9 +40,9 @@ const AuthProvider = ({children}) => {
         
         const userData = {
             id: payload.id,
-            email: payload.sub || payload.email, // Use sub como fallback
+            email: payload.sub || payload.email, 
             roles: payload.roles || [],
-            nome: payload.nome || payload.name, // Adapte conforme seu payload
+            nome: payload.nome || payload.name, 
             sobrenome: payload.sobrenome || ""
         };
         
