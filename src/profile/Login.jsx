@@ -83,6 +83,7 @@ const Login = () =>{
                         Lembrar de mim
                     </label>
                     <button
+                        type="button"
                         onClick={handleLogin}
                         style={{
                             backgroundColor: "#fff",

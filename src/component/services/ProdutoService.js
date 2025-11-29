@@ -31,7 +31,7 @@ export const getProdutoById = async (id) => {
 }
 
 export const addProduct = async (nome, marca, descricao, preco, categoria, 
-  estoque) =>{
+  estoque, peso, altura, largura, comprimento) =>{
     try{
       const token = localStorage.getItem("token")
       const response = await api.post('/produtos/cadastrar', 
@@ -41,7 +41,11 @@ export const addProduct = async (nome, marca, descricao, preco, categoria,
           descricao: descricao,
           preco: preco,
           categoria: categoria,
-          estoque: estoque
+          estoque: estoque,
+          peso: peso,
+          altura: altura,
+          largura: largura,
+          comprimento: comprimento
         },
        {
           headers: {

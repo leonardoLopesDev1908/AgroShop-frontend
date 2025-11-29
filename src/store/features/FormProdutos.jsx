@@ -8,6 +8,10 @@ const FormProdutos = () => {
     const[preco, setPreco] = useState(0)
     const[categoria, setCategoria] = useState('')
     const[estoque, setEstoque] = useState(0)
+    const[peso, setPeso] = useState(0)
+    const[altura, setAltura] = useState(0)
+    const[largura, setLargura] = useState(0)
+    const[comprimento, setComprimento] = useState(0)
     const[imagens, setImagem] = useState(null) 
     const[error, setError] = useState('')
     const[loading, setLoading] = useState(false)
@@ -18,7 +22,9 @@ const FormProdutos = () => {
         setLoading(true)
 
         try{
-            const response = await addProduct(nome, marca, descricao, preco, categoria, estoque)
+            const response = await addProduct(nome, marca, descricao, preco, categoria, estoque,
+                        peso, altura, largura, comprimento
+            )
             if(imagens){
                 await uploadImage(imagens, response.data.id)
             }
@@ -30,6 +36,10 @@ const FormProdutos = () => {
             setPreco(0)
             setCategoria('')
             setEstoque(0)
+            setPeso(0)
+            setAltura(0)
+            setLargura(0)
+            setComprimento(0)
             setImagem(null)
         }catch(error){
             setError(error.message)
@@ -48,29 +58,34 @@ const FormProdutos = () => {
                 <div className='datas'>
                     <div className="form-group">
                         <label htmlFor="nome">Nome</label>
-                        <input type="text" id="nome" value={nome} onChange={e => setNome(e.target.value)} placeholder="Nome do produto" disabled={loading}/>
+                        <input type="text" id="nome" value={nome} onChange={e => setNome(e.target.value)} 
+                                        placeholder="Nome do produto" disabled={loading}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="sobrenome">Marca</label>
-                        <input type="text" id="marca" value={marca} onChange={e => setMarca(e.target.value)} placeholder="Marca do produto" disabled={loading}/>
+                        <input type="text" id="marca" value={marca} onChange={e => setMarca(e.target.value)} 
+                                        placeholder="Marca do produto" disabled={loading}/>
                     </div>
                 </div>
 
                 <div className='datas'>
                     <div className="form-group">
                         <label htmlFor="descricao">Descrição</label>
-                        <input type="text" id="descricao" value={descricao} onChange={e => setDescricao(e.target.value)} placeholder="Descrição do produto" disabled={loading}/>
+                        <input type="text" id="descricao" value={descricao} onChange={e => setDescricao(e.target.value)}
+                                        placeholder="Descrição do produto" disabled={loading}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="preco">Preço</label>
-                        <input type="number" step="0.01" id="preco" value={preco} onChange={e => setPreco(e.target.value)} placeholder="Preço do produto" disabled={loading}/>
+                        <input type="number" step="0.01" id="preco" value={preco} onChange={e => setPreco(e.target.value)} 
+                                        placeholder="Preço do produto" disabled={loading}/>
                     </div>
                 </div>
 
                 <div className='datas'>
                     <div className="form-group"> 
                         <label htmlFor="categoria">Categoria</label> 
-                        <select type="text" id="categoria" value={categoria} onChange={e => setCategoria(e.target.value)} placeholder="Categoria do produto" disabled={loading}> 
+                        <select type="text" id="categoria" value={categoria} onChange={e => setCategoria(e.target.value)} 
+                                        placeholder="Categoria do produto" disabled={loading}> 
                             <option value="Racoes">Rações</option> 
                             <option value="Transporte">Transporte</option> 
                             <option value="Remedios">Remédios</option> 
@@ -80,7 +95,34 @@ const FormProdutos = () => {
                     </div>    
                     <div className="form-group">
                         <label htmlFor="estoque">Estoque</label>
-                        <input type="number" id="estoque" value={estoque} onChange={e=>setEstoque(e.target.value)} placeholder="Quantidade em estoque"/>
+                        <input type="number" id="estoque" value={estoque} onChange={e=>setEstoque(e.target.value)} 
+                                        placeholder="Quantidade em estoque"/>
+                    </div>
+                </div>
+
+                <div className='datas'>
+                    <div className="form-group">
+                        <label htmlFor="peso">Peso (kg)</label>
+                        <input type="text" id="peso" value={peso} onChange={e => setPeso(e.target.value)} 
+                                        placeholder="Peso do produto" disabled={loading}/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="altura">Altura (em centímetros)</label>
+                        <input type="number" step="0.01" id="altura" value={altura} onChange={e => setAltura(e.target.value)} 
+                                        placeholder="Altura do produto" disabled={loading}/>
+                    </div>
+                </div>
+
+                <div className='datas'>
+                    <div className="form-group">
+                        <label htmlFor="largura">Largura (em centímetros)</label>
+                        <input type="text" id="largura" value={largura} onChange={e => setLargura(e.target.value)} 
+                                        placeholder="Largura do produto" disabled={loading}/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="comprimento">Comprimento (em centímetros)</label>
+                        <input type="number" step="0.01" id="comprimento" value={comprimento} onChange={e => setComprimento(e.target.value)}
+                                         placeholder="Preço do produto" disabled={loading}/>
                     </div>
                 </div>
                     

@@ -231,6 +231,18 @@
   transform: translateY(-2px);
 }
 
+.fretes{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2vh;
+  padding: 0vh 2vh;
+}
+
+.img-frete{
+  max-width: 80px;
+  max-height: auto;
+}
+
 @media (max-width: 900px) {
   .produto-pagina {
     flex-direction: column;

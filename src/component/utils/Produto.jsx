@@ -12,6 +12,7 @@ import {createSlug} from "../utils/utils"
 import { getAvaliacoes, addAvaliacao, 
           excluirAvaliacao, jaAvaliou } from '../services/AvaliacaoService'
 import {useAuth } from "../../auth/AuthContext"
+import {calculaFrete} from "../services/FreteService"
 
 const Produto = () => {
   const {isAuthenticated} = useAuth();
@@ -27,7 +28,9 @@ const Produto = () => {
   const [comentario, setComentario] = useState("")
   const [nota, setNota] = useState(0)
   const [showModalAvaliacao, setShowModalAvaliacao] = useState(false)
-  
+  const [cepDestino, setCepDestino] = useState("")
+  const [fretes, setFretes] = useState([])
+
   const[loading, setLoading] = useState(false)
   const[error, setError] = useState("")
   const[message, setMessage] = useState("")
@@ -106,7 +109,7 @@ const Produto = () => {
   }, [id])
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || !isAuthenticated) return;
     const fetchJaAvaliado = async () => {
       try{
         const data = await jaAvaliou(id);
@@ -139,6 +142,19 @@ const Produto = () => {
     }
   };
 
+  const handleGetFrete = async() => {
+    setLoading(true)
+    try{
+      const response = await calculaFrete(produto.id, cepDestino)
+      setFretes(response.data)
+      console.log(response.data)
+    }catch(error){
+      setError(error.message)
+    } finally{
+      setLoading(false)
+    }
+  }
+
   if (loading) return <Spinner animation="border" className="m-5" />
   if (error) return <p className="text-danger text-center mt-5">{error}</p>
   if (!produto) return <p className="text-center mt-5">Produto não encontrado</p>
@@ -146,29 +162,37 @@ const Produto = () => {
   return (
     <div className="produto-pagina">
       <div className="produto-infos">
-        <div className="produto-imagens">
-          <div>
-            {imagemSelecionada ? (
-              <ProductImage productId={imagemSelecionada.id} />
-            ) : (
-              <div className="sem-imagem">Sem imagem disponível</div>
-            )}
-
-            {produto.imagens && produto.imagens.length > 1 && (
-              <div className="produto-miniaturas">
-                {produto.imagens.map((img, index) => (
-                  <div
-                    key={index}
-                    className={`miniatura ${imagemSelecionada?.id === img.id ? "ativa" : ""}`}
-                    onClick={() => setImagemSelecionada(img)}
-                    style={{ cursor: "pointer", display: "inline-block", marginRight: "5px" }}
-                  >
-                    <ProductImage productId={img.id} />
-                  </div>
-                ))}
-              </div>
-            )}
+        <div>
+          <div className="produto-imagens">
+            <div>
+              {imagemSelecionada ? (
+                <ProductImage productId={imagemSelecionada.id} />
+              ) : (
+                <div className="sem-imagem">Sem imagem disponível</div>
+              )}
+              {produto.imagens && produto.imagens.length > 1 && (
+                <div className="produto-miniaturas">
+                  {produto.imagens.map((img, index) => (
+                    <div
+                      key={index}
+                      className={`miniatura ${imagemSelecionada?.id === img.id ? "ativa" : ""}`}
+                      onClick={() => setImagemSelecionada(img)}
+                      style={{ cursor: "pointer", display: "inline-block", marginRight: "5px" }}
+                    >
+                      <ProductImage productId={img.id} />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
+          {isAuthenticated && !jaAvaliado  &&(
+          <div className="avaliacoes-container">
+            <button className="btn btn-outline-primary" onClick={() => setShowModalAvaliacao(true)}>
+              Avaliar este produto
+            </button>
+          </div>
+      )}
         </div>
         
         <div className="produto-detalhes">
@@ -222,11 +246,26 @@ const Produto = () => {
                 type="text"
                 id="cep"
                 placeholder="Digite o CEP"
+                onChange={(e) => {setCepDestino(e.target.value)}}
               />
-              <button type="button" className="">
+              <button 
+                type="button" 
+                className=""
+                onClick={handleGetFrete}>
                 Buscar
               </button>
             </div>
+          <div>
+            {fretes && fretes.map((frete) => {
+              return (
+                <div key={frete.id} className='fretes'>
+                  <img className="img-frete" src={frete.company.picture}></img> - 
+                  <strong>R$ {Number(frete.price).toFixed(2)}</strong>
+                  até {frete.delivery_time} dias
+                </div>
+              );
+            })}
+          </div>
           </div>
         </div>
       </div>
