@@ -12,7 +12,7 @@ import {createSlug} from "../utils/utils"
 import { getAvaliacoes, addAvaliacao, 
           excluirAvaliacao, jaAvaliou } from '../services/AvaliacaoService'
 import {useAuth } from "../../auth/AuthContext"
-import {calculaFrete} from "../services/FreteService"
+import {calculaFreteProduto} from "../services/FreteService"
 
 const Produto = () => {
   const {isAuthenticated} = useAuth();
@@ -145,7 +145,7 @@ const Produto = () => {
   const handleGetFrete = async() => {
     setLoading(true)
     try{
-      const response = await calculaFrete(produto.id, cepDestino)
+      const response = await calculaFreteProduto(produto.id, cepDestino)
       setFretes(response.data)
       console.log(response.data)
     }catch(error){

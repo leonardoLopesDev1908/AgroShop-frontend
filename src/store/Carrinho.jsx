@@ -17,6 +17,7 @@ import { getOutrosProdutos } from "../component/services/ProdutoService";
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
+import {calculaFreteItens} from "../component/services/FreteService"
 
 const Carrinho = () => {
     const { clearCarrinhoContagem, removeFromCarrinho } = useCart();
@@ -25,6 +26,7 @@ const Carrinho = () => {
     const [loading, setLoading] = useState(true);
     const [totalItens, setTotalItens] = useState(0)
     const [frete, setFrete] = useState(15)
+    const [cepDestino, setCepDestino] = useState("")
     const [outros, setOutros] = useState([])
     const [message, setMessage] = useState("");
 
@@ -132,6 +134,16 @@ const Carrinho = () => {
             throw err; 
         }
     };
+
+    const handleFrete = async() => {
+        try{
+            const response = await calculaFreteItens(cepDestino)
+            setFretes(response.data)
+            console.log(response.data)
+        } catch(error){
+            setError(error.message)
+        } 
+    }
 
     const confirmarPedido = async () => {
         setLoading(true);
