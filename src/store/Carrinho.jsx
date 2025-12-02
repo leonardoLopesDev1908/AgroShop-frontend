@@ -25,7 +25,8 @@ const Carrinho = () => {
     const [itens, setItens] = useState([]);
     const [loading, setLoading] = useState(true);
     const [totalItens, setTotalItens] = useState(0)
-    const [frete, setFrete] = useState(15)
+    const [fretes, setFretes] = useState([])
+    const [freteSelecionado, setFreteSelecionado] = useState(null)
     const [cepDestino, setCepDestino] = useState("")
     const [outros, setOutros] = useState([])
     const [message, setMessage] = useState("");
@@ -135,16 +136,6 @@ const Carrinho = () => {
         }
     };
 
-    const handleFrete = async() => {
-        try{
-            const response = await calculaFreteItens(cepDestino)
-            setFretes(response.data)
-            console.log(response.data)
-        } catch(error){
-            setError(error.message)
-        } 
-    }
-
     const confirmarPedido = async () => {
         setLoading(true);
         try {
@@ -153,7 +144,7 @@ const Carrinho = () => {
                 console.log("Produto atualizado:", item.produto.id);
             }
             
-            const response = await fazerPedido();
+            const response = await fazerPedido(freteSelecionado);
             console.log("Pedido feito, response:", response);
             
             if (response && response.success !== false) {
@@ -172,6 +163,19 @@ const Carrinho = () => {
             setLoading(false);
         }
     };
+
+    const handleGetFrete = async() => {
+        setLoading(true)
+        try{
+            const response = await calculaFreteItens(cepDestino)
+            setFretes(response.data)
+            console.log("Fretes: ", response.data)
+        }catch(error){
+            setError(error.message)
+        } finally{
+            setLoading(false)
+        }
+    }
 
     if (loading) {
         return (
@@ -193,64 +197,96 @@ const Carrinho = () => {
     return (
     <div className="cart-page">
         <div className="carrinho-info"> 
-            <div className="cart-details">
-                <div className="cart-title">Seu carrinho</div>
-                <div className="cart-items">
-                {itens.map((item, index) => (
-                    <div key={index} className="cart-item">
-                    <div>
-                        <h6>{item.produto.nome}</h6>
-                        <Link
-                        to={`/produtos/produto/${item.produto.id}/${createSlug(
-                            item.produto.nome
-                        )}`}
-                        >
-                        {item.produto?.imagens?.length > 0 && (
-                            <ProductImage productId={item.produto.imagens[0].id} />
-                        )}
-                        </Link>
-                    </div>
-                    <div className="cart-item-details">
-                        <p>R$ {item.precoUnitario.toFixed(2)}</p>
-                        <div className="quantity-control">
-                        <button
-                            onClick={() => handleDiminuirQuantidade(item)}
-                            disabled={item.quantidade <= 1}
-                        >
-                            -
-                        </button>
-                        <input
-                            type="number"
-                            min="1"
-                            value={item.quantidade}
-                            onChange={(e) =>
-                                handleMudarQuantidade(item, e.target.value)
-                            }
-                        />
-                        <button onClick={() => handleAumentarQuantidade(item)}>
-                            +
-                        </button>
+            <div className="left-column">
+                <div className="cart-details">
+                    <div className="cart-title">Seu carrinho</div>
+                    <div className="cart-items">
+                    {itens.map((item, index) => (
+                        <div key={index} className="cart-item">
+                        <div>
+                            <h6>{item.produto.nome}</h6>
+                            <Link
+                            to={`/produtos/produto/${item.produto.id}/${createSlug(
+                                item.produto.nome
+                            )}`}
+                            >
+                            {item.produto?.imagens?.length > 0 && (
+                                <ProductImage productId={item.produto.imagens[0].id} />
+                            )}
+                            </Link>
                         </div>
-                        <p>
-                        Total:{" "}
-                        <strong>
-                            R$ {(item.quantidade * item.precoUnitario).toFixed(2)}
-                        </strong>
-                        </p>
-                        <button
-                        className="btn-excluir"
-                        onClick={() => handleExcluirProduto(item)}
-                        >
-                        <img src={lixeira} alt="Excluir" />
+                        <div className="cart-item-details">
+                            <p>R$ {item.precoUnitario.toFixed(2)}</p>
+                            <div className="quantity-control">
+                            <button
+                                onClick={() => handleDiminuirQuantidade(item)}
+                                disabled={item.quantidade <= 1}
+                            >
+                                -
+                            </button>
+                            <input
+                                type="number"
+                                min="1"
+                                value={item.quantidade}
+                                onChange={(e) =>
+                                    handleMudarQuantidade(item, e.target.value)
+                                }
+                            />
+                            <button onClick={() => handleAumentarQuantidade(item)}>
+                                +
+                            </button>
+                            </div>
+                            <p>
+                            Total:{" "}
+                            <strong>
+                                R$ {(item.quantidade * item.precoUnitario).toFixed(2)}
+                            </strong>
+                            </p>
+                            <button
+                            className="btn-excluir"
+                            onClick={() => handleExcluirProduto(item)}
+                            >
+                            <img src={lixeira} alt="Excluir" />
+                            </button>
+                        </div>
+                        </div>
+                    ))}
+                    {itens.length > 0 && (
+                        <button className="btn-limpar" onClick={limparCarrinho}>
+                        Limpar Carrinho
                         </button>
+                    )}
                     </div>
-                    </div>
-                ))}
-                {itens.length > 0 && (
-                    <button className="btn-limpar" onClick={limparCarrinho}>
-                    Limpar Carrinho
+                </div>
+                <div className="frete-details">
+                    <label htmlFor="cep"><strong>Frete e prazo:</strong> </label>
+                    <input
+                        type="text"
+                        id="cep"
+                        placeholder="Digite o CEP"
+                        onChange={(e) => {setCepDestino(e.target.value)}}
+                    />
+                    <button 
+                        type="button" 
+                        className=""
+                        onClick={handleGetFrete}>
+                        Buscar
                     </button>
-                )}
+                    <div>
+                        {fretes && fretes.map((frete) => {
+                            return (
+                                <div
+                                    key={frete.id}
+                                    className="fretes"
+                                    onClick={() => setFreteSelecionado(frete)}
+                                >
+                                    <img className="img-frete" src={frete.company.picture} /> - 
+                                    <strong>R$ {Number(frete.price).toFixed(2)}</strong>
+                                    até {frete.delivery_time} dias
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
             <div className="confirmar-container">
@@ -269,10 +305,21 @@ const Carrinho = () => {
                 </div>
                 <div>
                     <p>Subtotal: R$ {totalItens.toFixed(2)}</p>
-                    <p>Frete: R$ {frete.toFixed(2)}</p>
+                    {freteSelecionado &&(
+                        <p>Frete: R$ {Number(freteSelecionado.price).toFixed(2)}</p>
+                    ) || (
+                        <p>Frete: R$ -</p>
+                    )}
                     <p>Descontos: R$ -</p>
                     <strong>
-                        <p>Total: R$ {(totalItens + frete).toFixed(2)}</p>
+                        <p>
+                            Total: R$ {
+                                (freteSelecionado?.price
+                                    ? totalItens + Number(freteSelecionado.price)
+                                    : totalItens
+                                ).toFixed(2)
+                            }
+                        </p>
                     </strong>
                 </div>
             </div>
