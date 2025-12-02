@@ -1,11 +1,11 @@
 import {api} from "../services/api"
 
 
-export const fazerPedido = async () => {
+export const fazerPedido = async (freteSelecionado) => {
     try{
         const token = localStorage.getItem("token")
         const response = await api.post(`/pedidos/usuario/solicitar`,
-            {}, {
+            freteSelecionado, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

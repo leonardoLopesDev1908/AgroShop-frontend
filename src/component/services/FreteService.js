@@ -10,3 +10,20 @@ export const calculaFreteProduto = async(idProduto, cepDestino) => {
         throw error;
     }
 }
+
+export const calculaFreteItens = async(cepDestino) => {
+    try{
+        const token = localStorage.getItem("token")
+        const response =  await api.post(
+            `/melhorenvio/frete/itens/cotar?cepDestino=${cepDestino}`, {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+        return response.data
+    } catch(error){
+        throw error
+    }
+}

@@ -96,10 +96,11 @@ const Pedidos = () => {
                             <div className="order-item-details">
                                 <p>Preço unitário: R$ {item.produto.preco.toFixed(2)}</p>
                                 <p>Quantidade: {item.quantidade}</p>
+                                <p>Frete: R$ {pedido.frete}</p>
                                 <p>
                                 Total item:{" "}
                                 <strong>
-                                    R$ {(item.quantidade * item.produto.preco).toFixed(2)}
+                                    R$ {((item.quantidade * item.produto.preco) + pedido.frete).toFixed(2)}
                                 </strong>
                                 </p>
                             </div>
