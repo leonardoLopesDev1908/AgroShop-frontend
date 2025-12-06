@@ -1,4 +1,5 @@
- import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect} from 'react'
+import {api} from "../services/"
 
  const ProductImage = ({productId}) => {
     const[productImg, setProductImg] = useState(null)
@@ -6,8 +7,8 @@
     useEffect(() => {
         const fetchProductImage = async (id) => {
             try{
-                const response = await fetch(
-                    `http://localhost:8080/api/v1/imagens/imagem/download/${id}`
+                const response = await api.get(
+                    `/produto/imagens/${id}/download`
                 );
                 const blob = await response.blob();
                 const reader = new FileReader();

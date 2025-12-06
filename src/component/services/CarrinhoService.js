@@ -4,7 +4,7 @@ import {api} from "../services/api"
     try {
       const token = localStorage.getItem("token"); 
       const response = await api.post(
-        `/itens/item/cadastrar?produtoId=${produtoId}&quantidade=${quantidade}`,
+        `/usuario/me/carrinho/item?produtoId=${produtoId}&quantidade=${quantidade}`,
         {},
         {
           headers: {
@@ -22,7 +22,7 @@ import {api} from "../services/api"
   export const removeItemFromCart = async (produtoId) => {
     try{
       const token = localStorage.getItem("token")
-      const response = await api.delete(`/itens/carrinho/item/${produtoId}/excluir`,
+      const response = await api.delete(`/usuario/me/carrinho/item/${produtoId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -39,7 +39,7 @@ import {api} from "../services/api"
   export const getItensCarrinho = async() => {
     try{
       const token = localStorage.getItem("token")
-      const response = await api.get(`/carrinho/itens`, {
+      const response = await api.get(`/usuario/me/carrinho/itens`, {
         headers: {Authorization: `Bearer ${token}`}
       });
       return response.data.data
@@ -52,7 +52,7 @@ import {api} from "../services/api"
   export const clearCarrinho = async() => {
     try{
       const token = localStorage.getItem("token")
-      const response = await api.delete(`/carrinho/carrinho/limpar`, {
+      const response = await api.delete(`/usuario/me/carrinho/limpar`, {
         headers: {Authorization: `Bearer ${token}`}
       })
       return response.data
@@ -64,7 +64,7 @@ import {api} from "../services/api"
   export const updateCarrinho = async(produtoId, quantidade) => {
     try{
       const token = localStorage.getItem("token")
-      const response = await api.put(`/itens/carrinho/atualizar`,
+      const response = await api.put(`/usuario/me/carrinho/atualizacao`,
         {produtoId, quantidade}, 
         {
             headers: {

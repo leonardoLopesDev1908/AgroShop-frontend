@@ -12,9 +12,13 @@ export const LoginService = async (email, senha) => {
     }
 }
 
-export const NameService = async (email) => {
+export const NameService = async (accessToken) => {
     try{
-        const response = await api.get(`/usuarios/usuario/${email}`)
+        const response = await api.get(`/usuarios/usuario`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
         return response.data.data
     }catch(error){
         throw new Error(error.response?.data?.message)
