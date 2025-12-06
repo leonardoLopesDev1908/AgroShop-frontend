@@ -54,8 +54,10 @@ const AuthProvider = ({children}) => {
         try{
             const response = await LoginService(email, senha)
             const {accessToken} = response  
-    
-            const data = await NameService(email)
+
+            const tempPayload = parseJwt(accessToken)
+
+            const data = await NameService(tempPayload.id)
             const nome = data.nome
             const sobrenome = data.sobrenome
 

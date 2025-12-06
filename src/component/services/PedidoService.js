@@ -4,7 +4,7 @@ import {api} from "../services/api"
 export const fazerPedido = async (freteSelecionado) => {
     try{
         const token = localStorage.getItem("token")
-        const response = await api.post(`/pedidos/usuario/solicitar`,
+        const response = await api.post(`/usuario/me/pedido`,
             freteSelecionado, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -19,7 +19,7 @@ export const fazerPedido = async (freteSelecionado) => {
 export const getPedidos = async() => {
     try{
         const token = localStorage.getItem("token")
-        const response = await api.get(`/pedidos/usuario/pedidos`, {
+        const response = await api.get(`/usuario/me/pedidos`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -33,7 +33,7 @@ export const getPedidos = async() => {
 export const getPedidoPorId = async (id) => {
     try{
         const token = localStorage.getItem("token")
-        const response = await api.get(`/pedidos/pedido/${id}`, {
+        const response = await api.get(`/usuario/me/pedido/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -48,7 +48,7 @@ export const searchPedidos = async(query) => {
     try{
         const token = localStorage.getItem("token")
         console.log(query)
-        const response = await api.get(`/pedidos/pesquisar?${query}`, {
+        const response = await api.get(`/usuario/pedidos/pesquisa?${query}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -59,10 +59,11 @@ export const searchPedidos = async(query) => {
     }
 }
 
-export const atualizarStatus = async(id, status) => {
+//Esse endpoint não é de acesso do usuário
+export const atualizarStatus = async(id, status) => { 
     try{
         const token = localStorage.getItem("token")
-        const response = await api.put(`/pedidos/pedido/${id}/atualizar`, 
+        const response = await api.put(`/usuario/pedido/${id}/atualizacao`, 
             {status}, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -77,7 +78,7 @@ export const atualizarStatus = async(id, status) => {
 export const excluirPedido = async(id) => {
     try{
         const token = localStorage.getItem("token")
-        const response = await api.delete(`/pedidos/pedido/${id}/excluir`, {
+        const response = await api.delete(`/usuario/pedido/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                  "Content-Type": "application/json"
@@ -92,7 +93,7 @@ export const excluirPedido = async(id) => {
 export const cancelarPedido = async (id) => {
     try {
         const token = localStorage.getItem("token");
-        const response = await api.put(`/pedidos/pedido/${id}/cancelar`,
+        const response = await api.put(`/usuario/me/pedido/${id}/cancelar`,
             null, 
             {
                 headers: {
