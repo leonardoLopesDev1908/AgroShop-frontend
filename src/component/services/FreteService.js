@@ -1,12 +1,23 @@
-import {api} from "./api"
+import api from "./api"
 
 export const calculaFreteProduto = async(idProduto, cepDestino) => {
     try{
         const response = await api.post(
-            `/melhorenvio/frete/produto/cotar?idProduto=${idProduto}&cepDestino=${cepDestino}`
+            `/produto/frete/cotacao?idProduto=${idProduto}&cepDestino=${cepDestino}`
         );
         return response.data;
     } catch(error){
         throw error;
+    }
+}
+
+export const calculaFreteItens = async(cepDestino) => {
+    try{
+        const response = await api.post(
+            `/itens/frete/cotacao`
+        )
+        return response.data
+    } catch(error){
+        throw error
     }
 }

@@ -1,129 +1,103 @@
-import {React, useState, createContext, useContext, useEffect} from "react"
-import { LoginService, NameService, RefreshService } from "../component/services/UserService"
-import { store } from "../store/store";
+import { React, useState, createContext, useContext, useEffect } from "react";
+import api from "../component/services/api"; 
+import { NameService } from "../component/services/UserService";
 
-const AuthContext = createContext()
+const AuthContext = createContext();
 
-function parseJwt(token) {
-    try {
-        return JSON.parse(atob(token.split('.')[1]));
-    } catch (e) {
-        return null;
-    }
-}
-
-const AuthProvider = ({children}) => {
-    const[user, setUser] = useState(null)
-    const[token, setToken] = useState(null)
+export const AuthProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const storedToken = localStorage.getItem("token")
-        const storedUser = localStorage.getItem("user")
+        checkAuth();
+    }, []);
 
-        if (storedToken && storedUser) {
-            const payload = parseJwt(storedToken)
-            
-            if(payload && payload.exp * 1000 < Date.now()){
-                refreshToken()
-            } else {
-                setToken(storedToken)
-                setUser(JSON.parse(storedUser))
-            }
-        }
-    }, [])
-
-    const loginOAuth2 = (token) => {
-        setToken(token);
-        localStorage.setItem('token', token);
-        
-        const payload = parseJwt(token);
-        
-        const userData = {
-            id: payload.id,
-            email: payload.sub || payload.email, 
-            roles: payload.roles || [],
-            nome: payload.nome || payload.name, 
-            sobrenome: payload.sobrenome || ""
-        };
-        
-        setUser(userData);
-        localStorage.setItem('user', JSON.stringify(userData));
-     };
-    
-    const login = async (email, senha, lembrar) => {
-        try{
-            const response = await LoginService(email, senha)
-            const {accessToken} = response  
-    
-            const data = await NameService(email)
-            const nome = data.nome
-            const sobrenome = data.sobrenome
-
-            setToken(accessToken)
-
-            const payload = parseJwt(accessToken)
-            if(payload){
-                const userData = {
-                    id: payload.id,
-                    email: payload.sub,
-                    roles: payload.roles,
-                    nome: nome,
-                    sobrenome: sobrenome
-                }
-                setUser(userData)
-                if(lembrar){
-                    localStorage.setItem("user", JSON.stringify(userData))
-                    localStorage.setItem("token", accessToken)
-                }
-            }
-        } catch(err){
-            alert(err.message)
-        }
-    }
-
-    const refreshToken = async () => {
+    const checkAuth = async () => {
         try {
-            const { accessToken } = await RefreshService();
-
-            setToken(accessToken);
-            localStorage.setItem("token", accessToken);
-
-            const payload = parseJwt(accessToken);
-            if (payload && user) {
-                setUser({ ...user, email: payload.sub, roles: payload.roles });
-            }
-
-            return accessToken;
+            const response = await api.get("/api/v1/auth/me");
+            setUser(response.data);
         } catch (error) {
-            console.error("Erro ao atualizar token:", error);
-            logout();
+            setUser(null);
+        } finally {
+            setLoading(false);
         }
     };
 
+    const login = async (email, senha, lembrar) => {
+        try {
+            const response = await api.post("/api/v1/auth/login", {
+                email,
+                senha
+            });
 
-    const logout = () => {
-        setUser(null)
-        setToken(null)
-        localStorage.removeItem("token")
-        localStorage.removeItem("user")
-    }
+            const userData = {
+                id: response.data.id,
+                email: response.data.email,
+                roles: response.data.roles || [],
+                nome: response.data.nome,
+                sobrenome: response.data.sobrenome || ""
+            };
+
+            setUser(userData);
+            
+            if (lembrar) {
+                localStorage.setItem("rememberedEmail", email);
+            } else {
+                localStorage.removeItem("rememberedEmail");
+            }
+
+            return { success: true, user: userData };
+            
+        } catch (error) {
+            console.error("Login error:", error);
+            return { 
+                success: false, 
+                error: error.response?.data?.message || "Erro no login" 
+            };
+        }
+    };
+
+    const logout = async () => {
+        try {
+            await api.post("/api/v1/auth/logout");
+        } catch (error) {
+            console.error("Logout error:", error);
+        } finally {
+            setUser(null);
+            setLoading(false);
+        }
+    };
+
+    const updateUser = (updatedData) => {
+        setUser(prev => ({ ...prev, ...updatedData }));
+    };
+
+    const loginOAuth2 = async (oauthToken) => {
+        console.warn("OAuth2 precisa ser adaptado para cookies");
+    };
 
     const value = {
         user,
-        token,
-        isAuthenticated: !!token,
+        loading,
+        isAuthenticated: !!user,
         login,
-        loginOAuth2,
         logout,
-        refreshToken,
-        setUser
-    }
+        updateUser,
+        checkAuth,
+        loginOAuth2 
+    };
 
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
-
-export default AuthProvider
+    return (
+        <AuthContext.Provider value={value}>
+            {!loading ? children : <div>Carregando autenticação...</div>}
+        </AuthContext.Provider>
+    );
+};
 
 export const useAuth = () => {
-    return useContext(AuthContext)
-}
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("useAuth deve ser usado dentro de AuthProvider");
+    }
+    return context;
+};
