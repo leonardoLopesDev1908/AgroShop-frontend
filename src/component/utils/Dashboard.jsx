@@ -59,11 +59,7 @@ const Dashboard = () => {
         }));
         setVendasPorMes(vendasArray)
 
-        console.log("Vendas mes: ", vendasArray)
-        console.log("Vendas: ", produtosArray)
-        console.log("Total vendas: ", vendasValue.data)
       } catch (err) {
-        console.error("Erro ao buscar dados do dashboard:", err);
         setError(err.message || "Erro desconhecido");
       }
     };
@@ -81,8 +77,6 @@ const Dashboard = () => {
         })
         .catch(err => setError(err.message));
       }
-    console.log("vendas: ", vendasPorMes)
-    console.log("anoSeleciona: ", anoSelecionado)
   }, [anoSelecionado]);
 
   useEffect(() => {

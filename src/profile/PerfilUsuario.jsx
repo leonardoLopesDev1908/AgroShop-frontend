@@ -32,7 +32,7 @@ const PerfilUsuario = () => {
         const response = await getEnderecos();
         const usuarioAtual = await getUsuarioDados();
 
-        console.log("Usuario: ", usuarioAtual)
+        console.log("Usuario: ", user)
         setUsuarioEditando(usuarioAtual.data)
         setEnderecos(response.data || []);
       } catch (error) {
@@ -231,19 +231,6 @@ const PerfilUsuario = () => {
                 setUsuarioEditando({
                   ...usuarioEditando,
                   telefone: e.target.value
-                })
-              }
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-2">
-            <Form.Label>Senha atual</Form.Label>
-            <Form.Control
-              type="password" 
-              onChange={(e) =>
-                setUsuarioEditando({
-                  ...usuarioEditando,
-                  senhaAtual: e.target.value
                 })
               }
             />

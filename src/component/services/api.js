@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = 'http://localhost:8080/api/v1';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -25,7 +25,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       
       try {
-        await api.post('/api/v1/auth/refresh-token');
+        await api.post('/auth/refresh-token');
         return api(originalRequest);
       } catch (refreshError) {
         window.location.href = '/login';

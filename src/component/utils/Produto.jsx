@@ -97,7 +97,6 @@ const Produto = () => {
       setLoading(true)
       try{
         const data = await getAvaliacoes(id)
-        console.log(data)
         setAvaliacoes(data.data)
       } catch(error){
         setError(error.message)

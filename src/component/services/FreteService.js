@@ -13,9 +13,8 @@ export const calculaFreteProduto = async(idProduto, cepDestino) => {
 
 export const calculaFreteItens = async(cepDestino) => {
     try{
-        const response = await api.post(
-            `/itens/frete/cotacao`
-        )
+        const response =  await api.post(
+            `/itens/frete/cotacao?cepDestino=${cepDestino}`, {});
         return response.data
     } catch(error){
         throw error

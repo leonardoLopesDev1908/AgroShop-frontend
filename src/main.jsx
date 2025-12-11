@@ -18,7 +18,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import {Provider} from "react-redux"
 import {store} from "./store/store.js"
 import ErrorBoundaryClass from "./component/error/ErrorBoundary.jsx"
-import AuthProvider from './auth/AuthContext.jsx'
+import {AuthProvider} from './auth/AuthContext.jsx'
 import { CarrinhoProvider } from './store/CarrinhoContext.jsx'
 
 createRoot(document.getElementById('root')).render(

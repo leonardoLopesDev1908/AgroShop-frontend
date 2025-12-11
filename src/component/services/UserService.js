@@ -6,29 +6,17 @@ export const LoginService = async (email, senha) => {
             email: email,
             senha: senha
         })
+
+        console.log(response)
         return response.data
     } catch(error){
         throw new Error(error.response?.data?.message || "Erro ao fazer login")
     }
 }
 
-export const NameService = async (email) => {
-    try{
-        const response = await api.get(`/usuarios/usuario/${email}`)
-        return response.data.data
-    }catch(error){
-        throw new Error(error.response?.data?.message)
-    }
-}
-
 export const getUsuarioDados = async() => {
     try{
-        const token = localStorage.getItem("token")
-        const response = await api.get(`/usuarios/usuario/dados`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
+        const response = await api.get(`/usuarios/me/dados`)
         return response.data
     } catch(error){
         throw error
@@ -40,7 +28,7 @@ export const CadastroService = async(nome, sobrenome, email, senha,
                                     cidade, estado, cep
 ) => {
     try{
-        const response = await api.post(`/usuarios/cadastrar`, {
+        const response = await api.post(`/usuarios/cadastro`, {
             nome: nome,
             sobrenome: sobrenome,
             email: email,
@@ -62,14 +50,8 @@ export const CadastroService = async(nome, sobrenome, email, senha,
 
 export const CadastroEndereco = async(endereco) => {
     try{
-        const token = localStorage.getItem("token")
-        const response = await api.post(`/usuarios/endereco/cadastrar`, 
-            endereco, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        )
+        const response = await api.post(`/usuarios/me/endereco/cadastro`, 
+            endereco)
         return response.data
     } catch(error){
         throw error
@@ -91,12 +73,7 @@ export async function RefreshService() {
 
 export async function getEnderecos(){
     try{
-        const token = localStorage.getItem("token")
-        const response = await api.get("/usuarios/usuario/endereco", {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
+        const response = await api.get("/usuarios/me/enderecos")
         return response.data
     }catch(error){
         throw error
@@ -105,14 +82,8 @@ export async function getEnderecos(){
 
 export const atualizarUsuario = async(usuarioDTO) => {
     try{
-        const token = localStorage.getItem("token")
         const response = await api.put(`/usuarios/usuario/atualizar`,
-            usuarioDTO, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        )
+            usuarioDTO)
         return response.data
     } catch(error){
         throw error
@@ -121,13 +92,8 @@ export const atualizarUsuario = async(usuarioDTO) => {
 
 export const atualizarSenha = async(email, senhaAtual, senhaNova) => {
     try{
-        const token = localStorage.getItem("token")
-        const response = await api.put(`/usuarios/usuario/alterar-senha`, 
-            {email, senhaAtual, senhaNova}, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
+        const response = await api.put(`/usuarios/me/atualizacao`, 
+            {email, senhaAtual, senhaNova})
         return response.data
     } catch(error){
         throw error

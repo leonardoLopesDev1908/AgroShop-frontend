@@ -26,7 +26,7 @@ const Login = () =>{
        setLoading(true)
 
         try{
-            const response = await login(email, senha);
+            const response = await login(email, senha, lembrar);
         } catch(err){
             setError("Erro ao fazer login!")
         }finally{

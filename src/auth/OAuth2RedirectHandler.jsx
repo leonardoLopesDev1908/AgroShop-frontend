@@ -1,32 +1,20 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext'; 
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
 const OAuth2RedirectHandler = () => {
     const navigate = useNavigate();
-    const { loginOAuth2 } = useAuth(); 
+    const { isAuthenticated } = useAuth();
 
     useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-
-        if (token) {
-            try {
-                loginOAuth2(token);
-                
-                window.history.replaceState({}, '', '/');
-                
-                navigate('/');
-            } catch (error) {
-                console.error('Erro no login OAuth2:', error);
-                navigate('/login?error=oauth_failed');
-            }
+        if (isAuthenticated) {
+            navigate("/");
         } else {
-            navigate('/login?error=no_token');
+            navigate("/");
         }
-    }, [navigate, loginOAuth2]);
+    }, [isAuthenticated]);
 
-    return <div>Processando login...</div>;
+    return <div>Processando login via OAuth2...</div>;
 };
 
 export default OAuth2RedirectHandler;
