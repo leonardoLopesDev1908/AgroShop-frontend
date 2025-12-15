@@ -11,7 +11,7 @@ export const getDistintosProdutosByNome = async () => {
 
 export const getProdutosFiltrados = async (query) => {
     try {
-        const response = await api.get(`/produtos/pesquisa?${query}`)
+        const response = await api.get(`/produtos?${query}`)
         return response.data
     }catch(error){
         throw error
@@ -21,7 +21,7 @@ export const getProdutosFiltrados = async (query) => {
 
 export const getProdutoById = async (id) => {
   try{
-    const response = await api.get(`/produtos/produto/${id}`)
+    const response = await api.get(`/produtos/${id}`)
     return response.data
   }catch(error){
     throw error
@@ -31,7 +31,7 @@ export const getProdutoById = async (id) => {
 export const addProduct = async (nome, marca, descricao, preco, categoria, 
   estoque, peso, altura, largura, comprimento) =>{
     try{
-      const response = await api.post('/produtos/cadastro', 
+      const response = await api.post('/produtos', 
         {
           nome: nome,
           marca: marca,
@@ -56,7 +56,7 @@ export const uploadImage = async (imagem, produtoId) => {
     formData.append("files", imagem);
     formData.append("produtoId", produtoId);
     
-    const response = await api.post(`/produto/imagens/upload`, formData, {
+    const response = await api.post(`/produto/imagens`, formData, {
       headers: {
          "Content-Type": "multipart/form-data" },
     });
@@ -69,7 +69,7 @@ export const uploadImage = async (imagem, produtoId) => {
 
 export const deleteProduto = async(id) => {
   try{
-    const response = await api.delete(`/produtos/produto/${id}`)
+    const response = await api.delete(`/produtos/${id}`)
   } catch(error){
     throw error
   }
@@ -77,7 +77,7 @@ export const deleteProduto = async(id) => {
 
 export const updateProduto = async(id, dto) => {
   try{
-    const response = await api.put(`/produtos/produto/${id}/atualizacao`,
+    const response = await api.put(`/produtos/${id}`,
       dto, {
         headers: {
           "Content-Type": "application/json"

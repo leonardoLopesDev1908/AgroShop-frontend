@@ -35,7 +35,7 @@ import api from "../services/api"
 
   export const clearCarrinho = async() => {
     try{
-      const response = await api.delete(`/usuario/me/carrinho/limpar`)
+      const response = await api.delete(`/usuario/me/carrinho/itens`)
       return response.data
     }catch(error){
       throw new Error(error.response?.data || error.message)
@@ -44,7 +44,7 @@ import api from "../services/api"
 
   export const updateCarrinho = async(produtoId, quantidade) => {
     try{
-      const response = await api.put(`/usuario/me/carrinho/atualizacao`,
+      const response = await api.put(`/usuario/me/carrinho`,
         {produtoId, quantidade},)
       return response.data
     } catch(error){

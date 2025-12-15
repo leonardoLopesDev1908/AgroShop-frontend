@@ -7,7 +7,7 @@ import api from "../services/api"
     useEffect(() => {
         const fetchProductImage = async (id) => {
             try {
-                const response = await api.get(`/produto/imagens/${id}/download`, {
+                const response = await api.get(`/produto/imagens/${id}`, {
                     responseType: "blob"
                 });
 

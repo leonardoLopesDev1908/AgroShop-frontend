@@ -4,15 +4,13 @@ import { useAuth } from "./AuthContext";
 
 const OAuth2RedirectHandler = () => {
     const navigate = useNavigate();
-    const { isAuthenticated } = useAuth();
+    const {loadingUser } = useAuth();
 
     useEffect(() => {
-        if (isAuthenticated) {
-            navigate("/");
-        } else {
+        if (!loadingUser) {
             navigate("/");
         }
-    }, [isAuthenticated]);
+    }, [loadingUser]);
 
     return <div>Processando login via OAuth2...</div>;
 };

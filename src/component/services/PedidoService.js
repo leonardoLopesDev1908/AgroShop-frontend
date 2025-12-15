@@ -33,7 +33,7 @@ export const getPedidoPorId = async (id) => {
 export const searchPedidos = async(query) => {
     try{
         console.log(query)
-        const response = await api.get(`/usuario/pedidos/pesquisa?${query}`)
+        const response = await api.get(`/usuario/pedidos?${query}`)
         return response.data
     }catch(error){
         throw error
@@ -42,7 +42,7 @@ export const searchPedidos = async(query) => {
 
 export const atualizarStatus = async(id, status) => { 
     try{
-        const response = await api.put(`/usuario/pedido/${id}/atualizacao`, 
+        const response = await api.put(`/usuario/pedido/${id}`, 
             {status})
         return response.data
     } catch(error){
@@ -63,7 +63,7 @@ export const excluirPedido = async(id) => {
 
 export const cancelarPedido = async (id) => {
     try {
-        const response = await api.put(`/usuario/me/pedido/${id}/cancelar`,
+        const response = await api.put(`/usuario/me/pedido/${id}`,
             null, 
         );
         return response.data;

@@ -14,12 +14,6 @@ const Login = () =>{
 
     const GOOGLE_AUTH_URL = "http://localhost:8080/oauth2/authorization/google";
 
-    useEffect(() => {
-        if(isAuthenticated){
-            navigate("/")
-        }
-    }, [isAuthenticated, navigate])
-
     const handleSubmit = async (e) => {
        e.preventDefault()
        setError("")
@@ -27,6 +21,7 @@ const Login = () =>{
 
         try{
             const response = await login(email, senha, lembrar);
+            navigate("/")
         } catch(err){
             setError("Erro ao fazer login!")
         }finally{
