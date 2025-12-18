@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getPedidoPorId, atualizarStatus, excluirPedido } from "../component/services/PedidoService"
+import { getPedidoPorId, atualizarStatus, excluirPedido } from "../services/PedidoService"
 import {formatarData} from "../component/utils/utils"
 
 const PedidoDetalhes = () => {

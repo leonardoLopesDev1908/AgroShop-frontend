@@ -7,7 +7,7 @@ import {
   Pie, Cell} from "recharts";
 import {getTotalProdutos, getTotalClientes, 
         getTotalVendas, getProdutosMaisVendidos,
-        getVendasPorMes} from "../services/Dashboardservice"
+        getVendasPorMes} from "../../services/Dashboardservice"
 
 
 const Dashboard = () => {

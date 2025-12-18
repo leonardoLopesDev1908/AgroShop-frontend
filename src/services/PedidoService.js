@@ -1,10 +1,14 @@
 import api from "../services/api"
 
 
-export const fazerPedido = async (freteSelecionado) => {
+export const fazerPedido = async (freteSelecionado, enderecoEntrega) => {
     try{
+        const payload = {
+            frete: freteSelecionado,
+            endereco: enderecoEntrega
+        }
         const response = await api.post(`/usuario/me/pedido`,
-            freteSelecionado, {
+            payload, {
         })
         return response
     }catch(error){
@@ -24,6 +28,15 @@ export const getPedidos = async() => {
 export const getPedidoPorId = async (id) => {
     try{
         const response = await api.get(`/usuario/me/pedido/${id}`)
+        return response.data
+    } catch(error){
+        throw error
+    }
+}
+
+export const getPedidoCompletoPorId = async (id) => {
+    try{
+        const response =  await api.get(`/usuario/me/pedido-completo/${id}`)
         return response.data
     } catch(error){
         throw error

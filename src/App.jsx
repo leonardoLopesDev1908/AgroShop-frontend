@@ -4,21 +4,26 @@ import {Route,
         createRoutesFromElements
     } from "react-router-dom" 
 import RootLayout from "./component/layout/RootLayout"
-import Home from './home/Home'
-import Login from './profile/Login'
+import Home from './pages/Home'
+import Login from './pages/user/Login'
 import NotFound from "./component/error/NotFound"
-import Cadastro from "./profile/Cadastro"
-import Carrinho from "./store/Carrinho"
-import Produto from "./component/utils/Produto"
-import FormProdutos from "./store/features/FormProdutos"
-import Pedidos from "./store/Pedidos"
+import Cadastro from './pages/cadastros/Cadastro'
+import Carrinho from "./pages/user/Carrinho"
+import Produto from "./component/product/Produto"
+import FormProdutos from "./pages/cadastros/FormProdutos"
+import Pedidos from "./pages/user/Pedidos"
 import Management from "./component/utils/Management"
-import SearchPedido from "./store/SearchPedidos"
+import SearchPedido from "./pages/pesquisas/SearchPedidos"
 import PedidoDetalhes from "./store/PedidoDetalhes"
-import SearchProduto from "./store/SearchProduto"
-import PerfilUsuario from "./profile/PerfilUsuario"
+import SearchProduto from "./pages/pesquisas/SearchProduto"
+import PerfilUsuario from "./pages/user/PerfilUsuario"
 import Dashboard from "./component/utils/Dashboard"
 import OAuth2RedirectHandler from "./auth/OAuth2RedirectHandler"
+import Pagamento from "./pages/user/Pagamento"
+import Failure from "./pages/user/pos-pagamento/Failure"
+import Pending from "./pages/user/pos-pagamento/Pending"
+import Success from "./pages/user/pos-pagamento/Failure"
+
 
 function App() {
 
@@ -39,6 +44,11 @@ function App() {
         <Route path="/pesquisa-produto" element={<SearchProduto/>}/>
         <Route path="/conta" element={<PerfilUsuario/>}/>
         <Route path="/dashboard" element={<Dashboard/>}/>
+        <Route path="/pagamento/:pedidoId" element={<Pagamento/>}/>
+        <Route path="/payment/success" element={<Success/>}/>
+        <Route path="/payment/pending" element={<Pending/>}/>
+        <Route path="/payment/failure" element={<Failure/>}/>
+
         <Route path="*" element={<NotFound/>}/>
       </Route>
     )

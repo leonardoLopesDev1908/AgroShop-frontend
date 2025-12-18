@@ -1,6 +1,6 @@
 import {configureStore} from "@reduxjs/toolkit"
-import filtersReducer from "./features/filtersSlice"
-import filtersPedidoReducer from "./features/filtersPedidoSlices"
+import filtersReducer from "../component/search/filtersSlice"
+import filtersPedidoReducer from "../component/search/filtersPedidoSlices"
 
 export const store = configureStore({
     reducer: {

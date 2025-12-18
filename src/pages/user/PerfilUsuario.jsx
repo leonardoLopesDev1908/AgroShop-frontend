@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button, Spinner, Form, Table, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../auth/AuthContext";
+import { useAuth } from "../../auth/AuthContext";
 import { toast } from "react-toastify";
 import { getEnderecos, CadastroEndereco, 
-    atualizarUsuario, getUsuarioDados, atualizarSenha } from "../component/services/UserService";
+    atualizarUsuario, getUsuarioDados, atualizarSenha } from "../../services/UserService";
 
 const PerfilUsuario = () => {
   const { user, setUser } = useAuth();

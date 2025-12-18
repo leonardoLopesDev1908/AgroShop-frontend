@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
+import './css/index.css'
 import './css/home.css'
 import './css/produto.css'
 import './css/perfil.css'
@@ -12,7 +12,8 @@ import './css/cart.css'
 import './css/order.css'
 import './css/management.css'
 import './css/dashboard.css'
-import './App.css'
+import './css/App.css'
+import './css/pagamento.css'
 import App from './App.jsx'
 import "bootstrap/dist/css/bootstrap.min.css"
 import {Provider} from "react-redux"

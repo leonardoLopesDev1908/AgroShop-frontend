@@ -1,7 +1,7 @@
 import {React, useState} from 'react'
 import {useNavigate} from "react-router-dom"
-import {CadastroService} from "../component/services/UserService"
-import {useAuth} from '../auth/AuthContext'
+import {CadastroService} from "../../services/UserService"
+import {useAuth} from '../../auth/AuthContext'
 
 const Cadastro = () => {
     const navigate = useNavigate()

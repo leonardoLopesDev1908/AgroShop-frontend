@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import {LoginService} from '../component/services/UserService'
-import {useAuth} from '../auth/AuthContext'
+import {LoginService} from '../../services/UserService'
+import {useAuth} from '../../auth/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
 const Login = () =>{

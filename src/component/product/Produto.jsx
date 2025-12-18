@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react'
 import {useParams} from "react-router-dom"
-import {getProdutoById} from "../services/ProdutoService"
-import {addProductToCart} from "../services/CarrinhoService"
+import {getProdutoById} from "../../services/ProdutoService"
+import {addProductToCart} from "../../services/CarrinhoService"
 import {Spinner} from "react-bootstrap"
-import ProductImage from '../utils/ProductImage'
+import ProductImage from '../product/ProductImage'
 import { useCart } from '../../store/CarrinhoContext'
-import { getProdutoByCategoria } from '../services/ProdutoService'
+import { getProdutoByCategoria } from '../../services/ProdutoService'
 import {Link} from "react-router-dom"
 import {Card, Modal, Form} from "react-bootstrap"
 import {createSlug} from "../utils/utils"
 import { getAvaliacoes, addAvaliacao, 
-          excluirAvaliacao, jaAvaliou } from '../services/AvaliacaoService'
+          excluirAvaliacao, jaAvaliou } from '../../services/AvaliacaoService'
 import {useAuth } from "../../auth/AuthContext"
-import {calculaFreteProduto} from "../services/FreteService"
+import {calculaFreteProduto} from "../../services/FreteService"
 
 const Produto = () => {
   const {isAuthenticated} = useAuth();

@@ -7,9 +7,9 @@ import {
   deleteProduto,
   updateProduto,
   uploadImage,
-} from "../component/services/ProdutoService";
-import ProductImage from "../component/utils/ProductImage";
-import {createSlug} from "../component/utils/utils"
+} from "../../services/ProdutoService";
+import ProductImage from "../../component/product/ProductImage";
+import {createSlug} from "../../component/utils/utils"
 
 const SearchProduto = () => {
   const [produtos, setProdutos] = useState([]);

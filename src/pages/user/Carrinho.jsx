@@ -1,31 +1,37 @@
 import { React, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import {initMercadoPago, Wallet} from "@mercadopago/sdk-react"
+import { Link, useNavigate } from "react-router-dom";
 import {Card} from "react-bootstrap"
-import { useCart } from "./CarrinhoContext";
+import { useCart } from "../../store/CarrinhoContext";
 import {
   getItensCarrinho,
   removeItemFromCart,
   clearCarrinho,
   updateCarrinho,
-} from "../component/services/CarrinhoService";
-import { useAuth } from "../auth/AuthContext/";
-import ProductImage from "../component/utils/ProductImage";
-import lixeira from "../assets/imagens/lixeira-de-reciclagem.png";
-import { fazerPedido } from "../component/services/PedidoService";
-import {createSlug} from "../component/utils/utils"
-import { getOutrosProdutos } from "../component/services/ProdutoService";
+} from "../../services/CarrinhoService";
+import { useAuth } from "../../auth/AuthContext";
+import ProductImage from "../../component/product/ProductImage";
+import lixeira from "../../assets/imagens/lixeira-de-reciclagem.png";
+import { fazerPedido } from "../../services/PedidoService";
+import {createSlug} from "../../component/utils/utils"
+import { getOutrosProdutos } from "../../services/ProdutoService";
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
-import {calculaFreteItens} from "../component/services/FreteService"
+import {calculaFreteItens} from "../../services/FreteService"
+import {getEnderecos} from "../../services/UserService"
+
 
 const Carrinho = () => {
     const { clearCarrinhoContagem, removeFromCarrinho } = useCart();
+    const navigate = useNavigate();
     const {user, loadingUser} = useAuth();
     const [itens, setItens] = useState([]);
     const [loading, setLoading] = useState(true);
     const [totalItens, setTotalItens] = useState(0)
     const [fretes, setFretes] = useState([])
+    const [enderecos, setEnderecos] = useState([])
+    const [enderecoEntrega, setEnderecoEntrega] = useState(null)
     const [freteSelecionado, setFreteSelecionado] = useState(null)
     const [cepDestino, setCepDestino] = useState("")
     const [outros, setOutros] = useState([])
@@ -85,6 +91,20 @@ const Carrinho = () => {
         setTotalItens(total);
     }, [itens]);
 
+    useEffect(() => {
+    const fetchEnderecos = async () => {
+        try {
+        const response = await getEnderecos();
+        setEnderecos(response.data || []);
+        } catch (error) {
+        setError(error.message);
+        } finally {
+        setLoading(false);
+        }
+    };
+    fetchEnderecos();
+    }, []);
+
     const handleExcluirProduto = async (item) => {
         setLoading(true);
         try {
@@ -136,18 +156,21 @@ const Carrinho = () => {
         }
     };
 
-    const confirmarPedido = async () => {
+    const criarPedido = async () => {
         setLoading(true);
         try {
             for (const item of itens) {
                 await updateCarrinho(item.produto.id, item.quantidade);
             }
             
-            const response = await fazerPedido(freteSelecionado);
-            
+            const response = await fazerPedido(freteSelecionado, enderecoEntrega);
+            const pedidoId = response.data.data.id
+
             if (response && response.success !== false) {
                 await limparCarrinho();
                 setMessage("Pedido feito com sucesso!");
+                console.log(response.data.data)
+                navigate(`/pagamento/${pedidoId}`)
             } else {
                 setMessage("Falha ao processar pedido");
             }
@@ -194,20 +217,20 @@ const Carrinho = () => {
                 <div className="cart-details">
                     <div className="cart-title">Seu carrinho</div>
                     <div className="cart-items">
-                    {itens.map((item, index) => (
+                        {itens.map((item, index) => (
                         <div key={index} className="cart-item">
-                        <div>
-                            <h6>{item.produto.nome}</h6>
-                            <Link
-                            to={`/produtos/produto/${item.produto.id}/${createSlug(
-                                item.produto.nome
-                            )}`}
-                            >
-                            {item.produto?.imagens?.length > 0 && (
-                                <ProductImage productId={item.produto.imagens[0].id} />
-                            )}
-                            </Link>
-                        </div>
+                            <div>
+                                <h6>{item.produto.nome}</h6>
+                                <Link
+                                to={`/produtos/produto/${item.produto.id}/${createSlug(
+                                    item.produto.nome
+                                )}`}
+                                >
+                                {item.produto?.imagens?.length > 0 && (
+                                    <ProductImage productId={item.produto.imagens[0].id} />
+                                )}
+                                </Link>
+                            </div>
                         <div className="cart-item-details">
                             <p>R$ {item.precoUnitario.toFixed(2)}</p>
                             <div className="quantity-control">
@@ -251,49 +274,75 @@ const Carrinho = () => {
                     )}
                     </div>
                 </div>
-                <div className="frete-details">
-                    <label htmlFor="cep"><strong>Frete e prazo:</strong> </label>
-                    <input
-                        type="text"
-                        id="cep"
-                        placeholder="Digite o CEP"
-                        onChange={(e) => {setCepDestino(e.target.value)}}
-                    />
-                    <button 
-                        type="button" 
-                        className=""
-                        onClick={handleGetFrete}>
-                        Buscar
-                    </button>
-                    <div>
-                        {fretes && fretes.map((frete) => {
-                            return (
-                                <div
-                                    key={frete.id}
-                                    className="fretes"
-                                    onClick={() => setFreteSelecionado(frete)}
+                <div className="second-line">
+                    <div className="frete-details">
+                        <label htmlFor="cep"><strong>Frete e prazo:</strong> </label>
+                        <input
+                            type="text"
+                            id="cep"
+                            placeholder="Digite o CEP"
+                            onChange={(e) => {setCepDestino(e.target.value)}}
+                        />
+                        <button
+                            type="button"
+                            className=""
+                            onClick={handleGetFrete}>
+                            Buscar
+                        </button>
+                        <div>
+                            {fretes && fretes.map((frete) => {
+                                return (
+                                    <div
+                                        key={frete.id}
+                                        className="fretes"
+                                        onClick={() => setFreteSelecionado(frete)}
+                                    >
+                                        <img className="img-frete" src={frete.company.picture} /> -
+                                        <strong>R$ {Number(frete.price).toFixed(2)}</strong>
+                                        até {frete.delivery_time} dias
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                    <div className="enderecos">
+                        <strong><p>Selecione o endereço de entrega: </p></strong>
+                        {enderecos.length === 0 ? (
+                            <p className="text-muted">Nenhum endereço cadastrado ainda.</p>
+                        ) : (
+                            <div className="enderecos-grid">
+                            {enderecos.map((end, index) => (
+                                <div 
+                                key={index} 
+                                className={`endereco-card ${enderecoEntrega === end ? 'selecionado' : ''}`}
+                                onClick={() => setEnderecoEntrega(end)}
                                 >
-                                    <img className="img-frete" src={frete.company.picture} /> - 
-                                    <strong>R$ {Number(frete.price).toFixed(2)}</strong>
-                                    até {frete.delivery_time} dias
+                                <div 
+                                    className={`confirmacao ${enderecoEntrega === end ? 'selecionada' : ''}`}
+                                ></div>
+                                <p><strong>Rua:</strong> {end.endereco}</p>
+                                <p><strong>Número:</strong> {end.numero}</p>
+                                <p><strong>Bairro:</strong> {end.bairro}</p>
+                                <p><strong>Cidade:</strong> {end.cidade}</p>
+                                <p><strong>UF:</strong> {end.estado}</p>
+                                <p><strong>CEP:</strong> {end.cep}</p>
                                 </div>
-                            );
-                        })}
+                            ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
             <div className="confirmar-container">
                 <div>
-                    {itens.length > 0 ? (
+                    {itens.length > 0 && freteSelecionado && (
                         <button
                         className="order-cart"
-                        onClick={confirmarPedido}
+                        onClick={criarPedido}
                         disabled={loading}
                         >
-                        {loading ? "Processando..." : "Confirmar pedido"}
+                        {loading ? "Processando..." : "Finalizar pedido"}
                         </button>
-                    ) : (
-                        <h6>{message}</h6>
                     )}
                 </div>
                 <div>

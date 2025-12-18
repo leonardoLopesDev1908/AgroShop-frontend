@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react"
-import { cancelarPedido, getPedidos } from "../component/services/PedidoService";
+import { cancelarPedido, getPedidos } from "../../services/PedidoService";
 import {Link} from "react-router-dom"
-import { useAuth } from "../auth/AuthContext"
-import ProductImage from "../component/utils/ProductImage"
-import {createSlug, formatarData} from "../component/utils/utils"
-import lupa from "../assets/imagens/lupa.png"
+import { useAuth } from "../../auth/AuthContext"
+import ProductImage from "../../component/product/ProductImage"
+import {createSlug, formatarData} from "../../component/utils/utils"
+import lupa from "../../assets/imagens/lupa.png"
 
 const Pedidos = () => {
     const {user} = useAuth();
@@ -107,24 +107,34 @@ const Pedidos = () => {
                             </div>
                         ))}
                         </div>
-                            {["PENDENTE", "CONFIRMADO", "PROCESSANDO"].includes(pedido.status) && (
-                            <button
-                                className="btn-cancelar"
-                                style={{ backgroundColor: "#d9534f", color: "white" }}
-                                onClick={async () => {
-                                if (window.confirm("Deseja realmente cancelar este pedido?")) {
-                                    try {
-                                        await cancelarPedido(pedido.id); 
-                                        alert("Pedido cancelado com sucesso!");
-                                    } catch (err) {
-                                        alert("Erro ao cancelar pedido: " + err.message);
+                            <div className="botoes">
+                                {["PENDENTE", "CONFIRMADO", "PROCESSANDO"].includes(pedido.status) && (
+                                <button
+                                    className="btn-cancelar"
+                                    onClick={async () => {
+                                    if (window.confirm("Deseja realmente cancelar este pedido?")) {
+                                        try {
+                                            await cancelarPedido(pedido.id);
+                                            alert("Pedido cancelado com sucesso!");
+                                        } catch (err) {
+                                            alert("Erro ao cancelar pedido: " + err.message);
+                                        }
                                     }
-                                }
-                                }}
-                            >
-                                Cancelar Pedido
-                            </button>
-                            )}
+                                    }}
+                                >
+                                    Cancelar Pedido
+                                </button>
+                                )}
+                                    <Link to={`/pagamento/${pedido.id}`}>
+                                        {["PENDENTE"].includes(pedido.status) && (
+                                        <button
+                                            className="btn-editar"
+                                        >
+                                            Finalizar pagamento
+                                        </button>
+                                        )}
+                                    </Link>
+                            </div>
                         </div>
                         ))
                     ) : (

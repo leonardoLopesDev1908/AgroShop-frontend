@@ -1,7 +1,7 @@
 import {React, useState} from 'react'
 import {Form, Button} from "react-bootstrap"
 import {useDispatch} from 'react-redux'
-import { setCategoria, setPrecoMin, setPrecoMax } from '../../store/features/filtersSlice'
+import { setCategoria, setPrecoMin, setPrecoMax } from '../search/filtersSlice'
 
 const FiltersComponent = () => {
     const [localCategoria, setLocalCategoria] = useState('')

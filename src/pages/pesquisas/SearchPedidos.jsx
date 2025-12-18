@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {Link} from "react-router-dom"
 import { Form, Button } from "react-bootstrap";
-import { setId, setEmail, setDataInicio, setDataFim } from "../store/features/filtersPedidoSlices";
-import { searchPedidos } from "../component/services/PedidoService";
+import { setId, setEmail, setDataInicio, setDataFim } from "../../component/search/filtersPedidoSlices";
+import { searchPedidos } from "../../services/PedidoService";
 import { toast } from "react-toastify";
-import {formatarData} from "../component/utils/utils"
+import {formatarData} from "../../component/utils/utils"
 
 
 const SearchPedido = () => {

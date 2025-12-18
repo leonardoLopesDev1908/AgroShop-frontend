@@ -1,5 +1,5 @@
 import {React, useState} from "react"
-import { addProduct, uploadImage } from "../../component/services/ProdutoService"
+import { addProduct, uploadImage } from "../../services/ProdutoService"
 
 const FormProdutos = () => {
     const[nome, setNome] = useState('')

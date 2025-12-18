@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {useDispatch} from 'react-redux'
-import { setSearch } from '../../store/features/filtersSlice'
+import { setSearch } from '../search/filtersSlice'
 
 const SearchBar =() => {
     const [localSearch, setLocalSearch] = useState('');

@@ -1,0 +1,267 @@
+/* Container principal */
+.pedido-resumo {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  border: 1px solid #eaeaea;
+}
+
+/* Título */
+.pedido-resumo h2 {
+  margin: 0 0 25px 0;
+  color: #2c3e50;
+  font-size: 1.8rem;
+  font-weight: 700;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #4a90e2;
+  text-align: center;
+}
+
+/* Seção de produtos */
+.produtos-resumo {
+  margin-bottom: 25px;
+  padding: 20px;
+  background-color: #f8fafc;
+  border-radius: 10px;
+  border-left: 4px solid #3498db;
+}
+
+.produtos-resumo h3 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.produtos-resumo h3:before {
+  content: "🛒";
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+.produtos-resumo ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.produtos-resumo li {
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e8e8e8;
+  transition: all 0.2s ease;
+}
+
+.produtos-resumo li:hover {
+  transform: translateX(5px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  border-left: 3px solid #4a90e2;
+}
+
+.produtos-resumo li:last-child {
+  margin-bottom: 0;
+}
+
+/* Seção de valores */
+.valores-resumo {
+  margin-bottom: 25px;
+  padding: 20px;
+  background-color: #f8fafc;
+  border-radius: 10px;
+  border-left: 4px solid #27ae60;
+}
+
+.linha-valor {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px dashed #ddd;
+}
+
+.linha-valor:last-child {
+  border-bottom: none;
+}
+
+.linha-valor span:first-child {
+  color: #555;
+  font-weight: 500;
+}
+
+.linha-valor span:last-child {
+  color: #333;
+  font-weight: 600;
+}
+
+.linha-valor.total {
+  margin-top: 10px;
+  padding-top: 15px;
+  border-top: 2px solid #27ae60;
+  border-bottom: none;
+  font-size: 1.2rem;
+}
+
+.linha-valor.total span:last-child {
+  color: #27ae60;
+  font-size: 1.3rem;
+}
+
+/* Seção de entrega */
+.entrega-resumo {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #f8fafc;
+  border-radius: 10px;
+  border-left: 4px solid #e74c3c;
+}
+
+.entrega-resumo h3 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.entrega-resumo h3:before {
+  content: "🚚";
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+.entrega-resumo p {
+  margin: 0;
+  padding: 12px 15px;
+  background-color: white;
+  border-radius: 8px;
+  color: #444;
+  line-height: 1.5;
+  border: 1px solid #e8e8e8;
+}
+
+/* Seção de pagamento */
+.pagamento-resumo {
+  padding: 20px;
+  background-color: #f0f8ff;
+  border-radius: 10px;
+  border-left: 4px solid #9b59b6;
+}
+
+.pagamento-resumo h3 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.pagamento-resumo h3:before {
+  content: "💳";
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+.pagamento-resumo p {
+  margin: 0;
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  border: 1px solid #e8e8e8;
+}
+
+.botao-mercadopago {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.carregando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.carregando-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .pedido-resumo {
+    padding: 20px 15px;
+    margin: 0 10px;
+  }
+  
+  .pedido-resumo h2 {
+    font-size: 1.5rem;
+  }
+  
+  .produtos-resumo,
+  .valores-resumo,
+  .entrega-resumo,
+  .pagamento-resumo {
+    padding: 15px;
+  }
+  
+  .produtos-resumo li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}
+
+.pedido-resumo {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.produtos-resumo,
+.valores-resumo,
+.entrega-resumo,
+.pagamento-resumo {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.produtos-resumo:hover,
+.valores-resumo:hover,
+.entrega-resumo:hover,
+.pagamento-resumo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
