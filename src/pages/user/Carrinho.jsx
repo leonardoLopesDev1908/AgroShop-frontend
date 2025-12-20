@@ -62,11 +62,11 @@ const Carrinho = () => {
             try {
                 const data = await getItensCarrinho();
                 setItens(data);
-
-                const outrosProdutos = await getOutrosProdutos(data[0].produto.categoria.nome);
+                console.log(data)
+                const outrosProdutos = await getOutrosProdutos(data[0].product.category.nome);
 
                const filtrados = outrosProdutos.filter(p => {
-                    return !data.some(item => item.produto.id === p.id);
+                    return !data.some(item => item.product.id === p.id);
                 });
                 setOutros(filtrados)
                 
@@ -108,7 +108,7 @@ const Carrinho = () => {
     const handleExcluirProduto = async (item) => {
         setLoading(true);
         try {
-            await removeItemFromCart(item.produto.id);
+            await removeItemFromCart(item.product.id);
             removeFromCarrinho(item.quantidade); 
             const data = await getItensCarrinho();
             setItens(data);
@@ -121,7 +121,7 @@ const Carrinho = () => {
 
     const handleAumentarQuantidade = (item) => {
         const novosItens = itens.map((i) =>
-        i.produto.id === item.produto.id
+        i.product.id === item.product.id
             ? { ...i, quantidade: i.quantidade + 1 }
             : i
         );
@@ -130,7 +130,7 @@ const Carrinho = () => {
 
     const handleDiminuirQuantidade = (item) => {
         const novosItens = itens.map((i) =>
-        i.produto.id === item.produto.id && i.quantidade > 1
+        i.product.id === item.product.id && i.quantidade > 1
             ? { ...i, quantidade: i.quantidade - 1 }
             : i
         );
@@ -140,7 +140,7 @@ const Carrinho = () => {
     const handleMudarQuantidade = (item, novaQuantidade) => {
         const quantidade = Math.max(1, Number(novaQuantidade));
         const novosItens = itens.map((i) =>
-        i.produto.id === item.produto.id ? { ...i, quantidade } : i
+        i.product.id === item.product.id ? { ...i, quantidade } : i
         );
         setItens(novosItens);
     };
@@ -160,7 +160,7 @@ const Carrinho = () => {
         setLoading(true);
         try {
             for (const item of itens) {
-                await updateCarrinho(item.produto.id, item.quantidade);
+                await updateCarrinho(item.product.id, item.quantidade);
             }
             
             const response = await fazerPedido(freteSelecionado, enderecoEntrega);
@@ -220,14 +220,14 @@ const Carrinho = () => {
                         {itens.map((item, index) => (
                         <div key={index} className="cart-item">
                             <div>
-                                <h6>{item.produto.nome}</h6>
+                                <h6>{item.product.nome}</h6>
                                 <Link
-                                to={`/produtos/produto/${item.produto.id}/${createSlug(
-                                    item.produto.nome
+                                to={`/produtos/produto/${item.product.id}/${createSlug(
+                                    item.product.nome
                                 )}`}
                                 >
-                                {item.produto?.imagens?.length > 0 && (
-                                    <ProductImage productId={item.produto.imagens[0].id} />
+                                {item.product?.imagens?.length > 0 && (
+                                    <ProductImage productId={item.product.imagens[0].id} />
                                 )}
                                 </Link>
                             </div>
@@ -368,22 +368,22 @@ const Carrinho = () => {
         </div>
             <h2 style={{marginBottom: "0"}}>Veja também</h2>
             <Slider {...settings} className="lista-produtos-sec">
-                {outros.map((produto) => (
-                    <div className="produto-sec" key={produto.id}>
+                {outros.map((product) => (
+                    <div className="produto-sec" key={product.id}>
                         <Card className="produto-card">
-                            <Link to={`/produtos/produto/${produto.id}/${createSlug(produto.nome)}`}>
+                            <Link to={`/produtos/produto/${product.id}/${createSlug(product.nome)}`}>
                                 <div className="image-container">
-                                    {produto.imagens?.length ? (
-                                    <ProductImage productId={produto.imagens[0].id} />
+                                    {product.imagens?.length ? (
+                                    <ProductImage productId={product.imagens[0].id} />
                                     ) : (
                                     <div className="text-center p-5">Sem imagem</div>
                                     )}
                                 </div>
                             </Link>
                             <Card.Body>
-                                <p className="produto-description"><strong>{produto.nome}</strong></p>
-                                <h4 className="price">R$ {produto.preco.toFixed(2).replace('.', ',')}</h4>
-                                <Link to={`/produtos/produto/${produto.id}/${createSlug(produto.nome)}`}>
+                                <p className="produto-description"><strong>{product.nome}</strong></p>
+                                <h4 className="price">R$ {product.preco.toFixed(2).replace('.', ',')}</h4>
+                                <Link to={`/produtos/produto/${product.id}/${createSlug(product.nome)}`}>
                                     <button className="btn btn-primary w-100">Ver produto</button>
                                 </Link>
                             </Card.Body>

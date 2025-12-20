@@ -28,7 +28,7 @@ export const getProdutoById = async (id) => {
   }
 }
 
-export const addProduct = async (nome, marca, descricao, preco, categoria, 
+export const addProduct = async (nome, marca, descricao, preco, category, 
   estoque, peso, altura, largura, comprimento) =>{
     try{
       const response = await api.post('/produtos', 
@@ -37,7 +37,7 @@ export const addProduct = async (nome, marca, descricao, preco, categoria,
           marca: marca,
           descricao: descricao,
           preco: preco,
-          categoria: categoria,
+          category: category,
           estoque: estoque,
           peso: peso,
           altura: altura,
@@ -50,10 +50,10 @@ export const addProduct = async (nome, marca, descricao, preco, categoria,
     }
 }
   
-export const uploadImage = async (imagem, produtoId) => {
+export const uploadImage = async (image, produtoId) => {
   try {
     const formData = new FormData();
-    formData.append("files", imagem);
+    formData.append("files", image);
     formData.append("produtoId", produtoId);
     
     const response = await api.post(`/produto/imagens`, formData, {
@@ -90,10 +90,10 @@ export const updateProduto = async(id, dto) => {
   }
 }
 
-export const getProdutoByCategoria = async(categoria) => {
+export const getProdutoByCategoria = async(category) => {
   try{
     const response = await api.get(`/produtos/produto/categoria`, {
-      params: {categoria}
+      params: {category}
     });
     return response.data.data;
   }catch(error){
@@ -101,10 +101,10 @@ export const getProdutoByCategoria = async(categoria) => {
   }
 }
 
-export const getOutrosProdutos = async(categoria) => {
+export const getOutrosProdutos = async(category) => {
   try{
     const response = await api.get(`/produtos/outros`, {
-      params: {categoria}
+      params: {category}
     })
     return response.data.data;
   }catch(error){

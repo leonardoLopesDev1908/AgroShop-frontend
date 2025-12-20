@@ -33,7 +33,7 @@ const Pagamento = () => {
         if (!pedido?.itens) return 0;
 
         return pedido.itens.reduce((soma, item) => {
-            const precoUnitario = Number(item.produto.preco) || 0;
+            const precoUnitario = Number(item.product.preco) || 0;
             const quantidade = Number(item.quantidade) || 0;
 
             return soma + precoUnitario * quantidade;
@@ -58,13 +58,13 @@ const Pagamento = () => {
                     {pedido.itens.map((item, index) => (
                         <li key={index} className="cart-item">
                             <div className="item-info">
-                                <h6>{item.produto.nome}</h6>
+                                <h6>{item.product.nome}</h6>
                                 <p>
-                                    {item.quantidade} × R$ {Number(item.produto.preco).toFixed(2)}
+                                    {item.quantidade} × R$ {Number(item.product.preco).toFixed(2)}
                                 </p>
                                 <Link
-                                    to={`/produtos/produto/${item.produto.id}/${createSlug(
-                                        item.produto.nome
+                                    to={`/produtos/produto/${item.product.id}/${createSlug(
+                                        item.product.nome
                                     )}`}
                                     className="item-link"
                                 >

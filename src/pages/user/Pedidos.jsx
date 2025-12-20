@@ -19,6 +19,7 @@ const Pedidos = () => {
         const fetchPedidos = async () => {
             try{   
                 const data = await getPedidos();
+                console.log(data.data)
                 setPedidos(data.data);
                 setPedidosOriginais(data.data)
             }catch(error){
@@ -83,24 +84,24 @@ const Pedidos = () => {
                         {pedido.itens.map((item, i) => (
                             <div key={i} className="order-item">
                                 <div className="order-item-info">
-                                    <h6>{item.produto.nome}</h6>
+                                    <h6>{item.product.nome}</h6>
                                     <Link
-                                    to={`/produtos/produto/${item.produto.id}/${createSlug(item.produto.nome)}`}
+                                    to={`/produtos/produto/${item.product.id}/${createSlug(item.product.nome)}`}
                                     >
-                                    {item.produto?.imagens?.length > 0 && (
-                                        <ProductImage productId={item.produto.imagens[0].id} />
+                                    {item.product?.imagens?.length > 0 && (
+                                        <ProductImage productId={item.product.imagens[0].id} />
                                     )}
                                     </Link>
                                 </div>
 
                             <div className="order-item-details">
-                                <p>Preço unitário: R$ {item.produto.preco.toFixed(2)}</p>
+                                <p>Preço unitário: R$ {item.product.preco.toFixed(2)}</p>
                                 <p>Quantidade: {item.quantidade}</p>
                                 <p>Frete: R$ {pedido.frete}</p>
                                 <p>
                                 Total item:{" "}
                                 <strong>
-                                    R$ {((item.quantidade * item.produto.preco) + pedido.frete).toFixed(2)}
+                                    R$ {((item.quantidade * item.product.preco) + pedido.frete).toFixed(2)}
                                 </strong>
                                 </p>
                             </div>

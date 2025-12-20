@@ -27,6 +27,7 @@ const SearchProduto = () => {
     const fetchProdutos = async () => {
       try {
         const response = await getDistintosProdutosByNome();
+        console.log(response.data)
         setProdutos(response.data);
         setFilteredProdutos(response.data);
       } catch (error) {
@@ -74,7 +75,6 @@ const SearchProduto = () => {
 
   const handleAbrirModal = (produto) => {
     setProdutoEditando({ ...produto });
-    console.log("Produto: ", produto)
     setShowModal(true);
   };
 
@@ -94,8 +94,6 @@ const SearchProduto = () => {
         estoque: produtoEditando.estoque
       }
       const imagemDTO = produtoEditando.imagem;
-      console.log("imagem: ", imagemDTO)
-      console.log("dto: ", produtoDTO)
       await updateProduto(produtoEditando.id, produtoDTO);
       await uploadImage(imagemDTO, produtoEditando.id)
       toast.success("Produto atualizado com sucesso!");

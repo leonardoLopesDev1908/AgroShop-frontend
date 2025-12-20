@@ -41,10 +41,12 @@ const FiltersComponent = () => {
                 value={localCategoria}
                 onChange={(e) => setLocalCategoria(e.target.value)}>
                 <option value="">Todos</option>
-                <option value="Racoes">Rações</option>
-                <option value="Petiscos">Petiscos</option>
+                <option value="Racao">Rações</option>
+                <option value="Petisco">Petiscos</option>
                 <option value="Transporte">Transporte</option>
-                <option value="Remedios">Remédios</option>
+                <option value="Remedio">Remédios</option>
+                <option value="Higiene">Higiêne</option>
+                <option value="Outros">Outros</option>
             </Form.Select>
             </Form.Group>
 

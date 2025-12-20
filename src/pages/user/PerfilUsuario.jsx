@@ -30,11 +30,12 @@ const PerfilUsuario = () => {
     const fetchEnderecos = async () => {
       try {
         const response = await getEnderecos();
+        console.log(response.data)
         const usuarioAtual = await getUsuarioDados();
 
         console.log("Usuario: ", user)
         setUsuarioEditando(usuarioAtual.data)
-        setEnderecos(response.data || []);
+        setEnderecos(response.data);
       } catch (error) {
         setError(error.message);
       } finally {

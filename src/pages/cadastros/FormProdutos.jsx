@@ -86,10 +86,11 @@ const FormProdutos = () => {
                         <label htmlFor="categoria">Categoria</label> 
                         <select type="text" id="categoria" value={categoria} onChange={e => setCategoria(e.target.value)} 
                                         placeholder="Categoria do produto" disabled={loading}> 
-                            <option value="Racoes">Rações</option> 
+                            <option value="Racao">Ração</option> 
                             <option value="Transporte">Transporte</option> 
-                            <option value="Remedios">Remédios</option> 
-                            <option value="Petiscos">Petiscos</option> 
+                            <option value="Remedio">Remédio</option> 
+                            <option value="Petisco">Petisco</option> 
+                            <option value="Higiene">Higiene</option> 
                             <option value="Outros">Outros</option> 
                         </select>
                     </div>    

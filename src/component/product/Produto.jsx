@@ -79,7 +79,7 @@ const Produto = () => {
               const produto = data.data
     
               setProduto(produto)
-              const outros = await getProdutoByCategoria(produto.categoria.nome)
+              const outros = await getProdutoByCategoria(produto.category.nome)
               
               const filtrados = outros.filter(p => p.id !== produto.id);
               setSemelhantes(filtrados) 
@@ -165,7 +165,9 @@ const Produto = () => {
           <div className="produto-imagens">
             <div>
               {imagemSelecionada ? (
+                <div className='imagem-selecionada'>
                 <ProductImage productId={imagemSelecionada.id} />
+                </div>
               ) : (
                 <div className="sem-imagem">Sem imagem disponível</div>
               )}
