@@ -120,7 +120,7 @@ const SearchPedido = () => {
                         {pedidos.map((pedido) => (
                             <Link to={`/pedido/${pedido.id}`} className="pesquisa-link">
                                 <li key={pedido.id}>
-                                <strong>Pedido:</strong> {pedido.id} | <strong>Usuário:</strong> {pedido.usuario?.email} |{" "}
+                                <strong>Pedido:</strong> {pedido.id} | <strong>Usuário:</strong> {pedido.user?.email} |{" "}
                                 <strong>Data:</strong> {formatarData(pedido.data)} | {" "}
                                 <strong>Status: </strong> {pedido.status}
                                 </li>

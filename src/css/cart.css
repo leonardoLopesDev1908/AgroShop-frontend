@@ -103,21 +103,23 @@
     background-color: var(--search-button-color-hover);
 }
 
-.fretes{
+.fretes-cart{
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 16px;
   margin-top: 2vh;
-  padding: 1vh 2vh;
+  padding: 5px;
 }
 
-.fretes:hover{
+.fretes-cart:hover{
     background-color: rgb(199, 199, 199);
     cursor: pointer;
 }
 
 .img-frete{
   max-width: 80px;
-  max-height: auto;
+  max-height: 25px;
 }
 
 .loading-state {
@@ -212,13 +214,22 @@
 }
 
 .order-cart:hover {
-    background-color: var(--search-button-color-hover);
+  background-color: var(--search-button-color-hover);
+}
+
+.order-cart:disabled{
+  cursor: not-allowed;
+}
+
+.order-cart:disabled:hover{
+  background-color: gray;
 }
 
 .second-line{
     display: flex;
     flex-direction: row;
     gap: 10vh;
+    align-items: flex-start;
 }
 
 .enderecos {
@@ -333,22 +344,100 @@
 }
 
 @media (max-width: 768px) {
+
+  /* ===== PÁGINA ===== */
+  .cart-page {
+    padding: 16px;
+    margin: 0;
+    gap: 40px;
+  }
+
+  /* ===== CONTAINERS ===== */
+  .cart-details {
+    width: 100%;
+    padding: 20px;
+    gap: 30px;
+  }
+
+  .cart-title {
+    width: 100%;
+    font-size: 1.6rem;
+    max-height: none;
+  }
+
+  /* ===== ITENS ===== */
+  .cart-itens {
+    padding: 16px;
+  }
+
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .cart-item img {
+    max-width: 80px;
+  }
+
+  .cart-item-details {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .quantity-control input {
+    max-width: 80px;
+  }
+
+  .carrinho-info {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .second-line {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .frete-details {
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .frete-details input,
+  .frete-details button {
+    width: 100%;
+  }
+
+  .confirmar-container {
+    width: 100%;
+    height: auto;
+    gap: 30px;
+  }
+
+  .order-cart {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 16px;
+  }
+
+  .enderecos {
+    width: 100%;
+  }
+
   .enderecos-grid {
     flex-direction: column;
   }
-  
+
   .endereco-card {
     max-width: 100%;
   }
-  
-  .confirmacao {
-    width: 20px;
-    height: 20px;
-    top: -8px;
-    right: -8px;
-  }
-  
-  .confirmacao.selecionada::before {
-    font-size: 10px;
+
+  .empty-state {
+    margin: 40px 10px;
+    font-size: 1.4rem;
+    text-align: center;
   }
 }

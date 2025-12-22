@@ -159,7 +159,9 @@ const SearchProduto = () => {
               <tr key={produto.id}>
                 <td style={{ width: "80px" }}>
                   <Link to={`/produtos/produto/${produto.id}/${createSlug(produto.nome)}`}>
-                    <ProductImage productId={produto.imagens[0].id} />
+                    {produto.imagens?.length > 0 && (
+                      <ProductImage productId={produto.imagens[0].id} />
+                    )}
                   </Link>
                 </td>
                 <td>{produto.nome}</td>

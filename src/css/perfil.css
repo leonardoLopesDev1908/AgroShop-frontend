@@ -171,3 +171,52 @@ button.btn-outline-danger:hover {
   }
 }
 
+@media (max-width: 768px) {
+
+  .perfil-main {
+    padding: 15px;
+  }
+
+  .perfil-container {
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .perfil-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .perfil-actions {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .perfil-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .enderecos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .perfil-title-line {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .d-flex.justify-content-between {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  button.btn-primary,
+  button.btn-outline-danger {
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -54,12 +54,13 @@ const PerfilUsuario = () => {
   const handleSalvarEndereco = async () => {
     try{
       const enderecoDTO = {
-        endereco: novoEndereco.endereco,
-        numero: novoEndereco.numero,
-        complemento: novoEndereco.complemento,
-        cidade: novoEndereco.cidade,
-        estado: novoEndereco.estado,
-        cep: novoEndereco.cep
+        street: novoEndereco.street,
+        number: novoEndereco.number,
+        neighborhood: novoEndereco.neighborhood,
+        complement: novoEndereco.complement,
+        city: novoEndereco.city,
+        state: novoEndereco.state,
+        zipcode: novoEndereco.zipcode
       }
       const response = await CadastroEndereco(enderecoDTO)
       toast.success("Produto atualizado com sucesso!");
@@ -163,12 +164,12 @@ const PerfilUsuario = () => {
             <div className="enderecos-grid">
               {enderecos.map((end, index) => (
                 <div key={index} className="endereco-card">
-                  <p><strong>Rua:</strong> {end.endereco}</p>
-                  <p><strong>Número:</strong> {end.numero}</p>
-                  <p><strong>Bairro:</strong> {end.bairro}</p>
-                  <p><strong>Cidade:</strong> {end.cidade}</p>
-                  <p><strong>UF:</strong> {end.estado}</p>
-                  <p><strong>CEP:</strong> {end.cep}</p>
+                  <p><strong>Rua:</strong> {end.street}</p>
+                  <p><strong>Número:</strong> {end.number}</p>
+                  <p><strong>Bairro:</strong> {end.neighborhood}</p>
+                  <p><strong>Cidade:</strong> {end.city}</p>
+                  <p><strong>UF:</strong> {end.state}</p>
+                  <p><strong>CEP:</strong> {end.zipcode}</p>
                 </div>
               ))}
             </div>
@@ -256,13 +257,13 @@ const PerfilUsuario = () => {
         <Modal.Body>
 
           <Form.Group className="mb-2">
-            <Form.Label>Endereço</Form.Label>
+            <Form.Label>Rua</Form.Label>
             <Form.Control 
               type="text" 
               onChange={(e) => 
                 setNovoEndereco({
                 ...novoEndereco, 
-                endereco: e.target.value
+                street: e.target.value
               })
             }
             />
@@ -275,7 +276,19 @@ const PerfilUsuario = () => {
               onChange={(e) =>
                 setNovoEndereco({
                   ...novoEndereco,
-                  numero: e.target.value
+                  number: e.target.value
+                })
+              }
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-2">
+            <Form.Label>Bairro</Form.Label>
+            <Form.Control type="text"
+              onChange={(e) => 
+                setNovoEndereco({
+                  ...novoEndereco,
+                  neighborhood: e.target.value
                 })
               }
             />
@@ -287,7 +300,7 @@ const PerfilUsuario = () => {
               onChange={(e) => 
                 setNovoEndereco({
                   ...novoEndereco,
-                  complemento: e.target.value
+                  complement: e.target.value
                 })
               }
             />
@@ -300,7 +313,7 @@ const PerfilUsuario = () => {
               onChange={(e) => 
                 setNovoEndereco({
                   ...novoEndereco,
-                  cidade: e.target.value
+                  city: e.target.value
                 })
               }
             />
@@ -312,7 +325,7 @@ const PerfilUsuario = () => {
               onChange={(e) => 
                 setNovoEndereco({
                   ...novoEndereco,
-                  estado: e.target.value
+                  state: e.target.value
                 })}
               disabled={loading}
             >
@@ -355,7 +368,7 @@ const PerfilUsuario = () => {
               onChange={(e) => 
                 setNovoEndereco({
                   ...novoEndereco,
-                  cep: e.target.value
+                  zipcode: e.target.value
                 })
               }
             />

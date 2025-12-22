@@ -27,6 +27,7 @@ const Produto = () => {
   const [titulo, setTitulo] = useState("")
   const [comentario, setComentario] = useState("")
   const [nota, setNota] = useState(0)
+  const [mostrarAvaliacoes, setMostrarAvaliacoes] = useState(false);
   const [showModalAvaliacao, setShowModalAvaliacao] = useState(false)
   const [cepDestino, setCepDestino] = useState("")
   const [fretes, setFretes] = useState([])
@@ -44,7 +45,6 @@ const Produto = () => {
       setMessage("Produto adicionado ao carrinho")
     }catch(error){
       setError(error.message)
-      console.log(error.message)
     }finally {
       setLoading(false)
     }
@@ -97,6 +97,7 @@ const Produto = () => {
       setLoading(true)
       try{
         const data = await getAvaliacoes(id)
+        console.log(data.data)
         setAvaliacoes(data.data)
       } catch(error){
         setError(error.message)
@@ -146,7 +147,6 @@ const Produto = () => {
     try{
       const response = await calculaFreteProduto(produto.id, cepDestino)
       setFretes(response.data)
-      console.log(response.data)
     }catch(error){
       setError(error.message)
     } finally{
@@ -161,12 +161,12 @@ const Produto = () => {
   return (
     <div className="produto-pagina">
       <div className="produto-infos">
-        <div>
+        <div className='produto-avaliacoes'>
           <div className="produto-imagens">
             <div>
               {imagemSelecionada ? (
                 <div className='imagem-selecionada'>
-                <ProductImage productId={imagemSelecionada.id} />
+                  <ProductImage productId={imagemSelecionada.id} />
                 </div>
               ) : (
                 <div className="sem-imagem">Sem imagem disponível</div>
@@ -187,13 +187,43 @@ const Produto = () => {
               )}
             </div>
           </div>
-          {isAuthenticated && !jaAvaliado  &&(
-          <div className="avaliacoes-container">
-            <button className="btn btn-outline-primary" onClick={() => setShowModalAvaliacao(true)}>
-              Avaliar este produto
+            <button
+              className="btn btn-outline-primary"
+              onClick={() => setMostrarAvaliacoes(prev => !prev)}
+            >
+              {mostrarAvaliacoes
+                ? `Ocultar avaliações (${avaliacoes.length})`
+                : `Ver avaliações (${avaliacoes.length})`}
             </button>
+          <div className='avaliacoes'> 
+            {isAuthenticated && !jaAvaliado  &&(
+            <div className="avaliacoes-container">
+              <button className="btn btn-outline-primary" onClick={() => setShowModalAvaliacao(true)}>
+                Avaliar este produto
+              </button>
+            </div>
+            )}
+            {mostrarAvaliacoes && (
+              <div className="avaliacoes-container mt-4">
+                <h3>Avaliações ({avaliacoes.length})</h3>
+
+                {avaliacoes.length === 0 ? (
+                  <p className="text-muted">Nenhuma avaliação ainda.</p>
+                ) : (
+                  avaliacoes.map((a, index) => (
+                    <div key={index} className="avaliacao-card">
+                      <p style={{ fontWeight: "700" }}>
+                        {a.user ? `${a.user.nome} ${a.user.sobrenome}` : "Usuário anônimo"}
+                      </p>
+                      <h5>{a.titulo}</h5>
+                      <p className="mb-1">{a.comentario}</p>
+                      <p className="text-warning">{"★".repeat(Math.round(a.nota))}</p>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
           </div>
-      )}
         </div>
         
         <div className="produto-detalhes">
@@ -269,29 +299,6 @@ const Produto = () => {
           </div>
           </div>
         </div>
-      </div>
-      {isAuthenticated && !jaAvaliado  &&(
-          <div className="avaliacoes-container">
-            <button className="btn btn-outline-primary" onClick={() => setShowModalAvaliacao(true)}>
-              Avaliar este produto
-            </button>
-          </div>
-      )}
-      <div className="avaliacoes-container mt-4">
-          <h3>Avaliações ({avaliacoes.length})</h3>
-
-          {avaliacoes.length === 0 ? (
-            <p className="text-muted">Nenhuma avaliação ainda.</p>
-          ) : (
-            avaliacoes.map((a, index) => (
-                <div className="avaliacao-card">
-                  <p style={{fontWeight: "700"}}>{a.usuario?.nome || "Usuário anônimo"}</p>
-                  <h5>{a.titulo}</h5>
-                  <p className="mb-1">{a.comentario}</p>
-                  <p className="text-warning">{"★".repeat(Math.round(a.nota))}</p>
-                </div>
-            ))
-          )}
       </div>
       <div className="avaliacao-section">
         <Modal show={showModalAvaliacao} onHide={() => setShowModalAvaliacao(false)} centered>

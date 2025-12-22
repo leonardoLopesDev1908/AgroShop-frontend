@@ -11,7 +11,6 @@ export const getAvaliacoes = async(idProduto) => {
 
 export const addAvaliacao = async(dto, idProduto) => {
     try{
-        console.log(dto)
         const response = await api.post(`/produtos/${idProduto}/avaliacoes`,
             dto, {
         })

@@ -31,7 +31,7 @@ const PedidoDetalhes = () => {
   if (error) return <p>{error}</p>;
   if (!pedido) return <p>Pedido não encontrado.</p>;
   const totalPedido = pedido.itens?.reduce(
-    (acc, item) => acc + item.quantidade * item.produto.preco,
+    (acc, item) => acc + item.quantidade * item.product.preco,
     0
   );
 
@@ -51,14 +51,14 @@ const PedidoDetalhes = () => {
             {pedido.itens.map((item, index) => (
               <li key={index} className="pedido-item">
                 <div className="pedido-item-info">
-                  <strong>{item.produto.nome}</strong>
-                  <p>{item.produto.descricao}</p>
+                  <strong>{item.product.nome}</strong>
+                  <p>{item.product.descricao}</p>
                   <p>Quantidade: {item.quantidade}</p>
-                  <p>Preço unitário: R$ {item.produto.preco.toFixed(2)}</p>
+                  <p>Preço unitário: R$ {item.product.preco.toFixed(2)}</p>
                   <p>
                     Total:{" "}
                     <strong>
-                      R$ {(item.quantidade * item.produto.preco).toFixed(2)}
+                      R$ {(item.quantidade * item.product.preco).toFixed(2)}
                     </strong>
                   </p>
                 </div>

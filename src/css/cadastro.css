@@ -113,3 +113,39 @@
     cursor: not-allowed;
     transform: none;
 }
+
+@media (max-width: 768px) {
+
+  .cadastro-container {
+    min-height: 100dvh;
+    padding: 15px;
+  }
+
+  .cadastro-form {
+    padding: 30px 20px;
+    max-width: 100%;
+  }
+
+  .cadastro-form h2 {
+    font-size: 24px;
+  }
+
+  .datas {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .datas .form-group {
+    flex: 1 1 100%;
+  }
+
+  .form-group input {
+    font-size: 16px; 
+    padding: 14px;
+  }
+
+  .cadastro-button {
+    padding: 14px;
+    font-size: 16px;
+  }
+}

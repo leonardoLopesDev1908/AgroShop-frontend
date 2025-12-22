@@ -91,6 +91,7 @@ const FormProdutos = () => {
                             <option value="Remedio">Remédio</option> 
                             <option value="Petisco">Petisco</option> 
                             <option value="Higiene">Higiene</option> 
+                            <option value="Brinquedo">Brinquedo</option> 
                             <option value="Outros">Outros</option> 
                         </select>
                     </div>    

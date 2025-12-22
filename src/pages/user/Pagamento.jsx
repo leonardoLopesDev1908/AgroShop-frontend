@@ -94,10 +94,10 @@ const Pagamento = () => {
             <div className="entrega-resumo">
                 <h3>Entrega:</h3>
                 <p>
-                    {endereco.endereco}, {endereco.numero}
-                    {endereco.complemento && ` – ${endereco.complemento}`}
+                    {endereco.street}, {endereco.number}
+                    {endereco.complement && ` – ${endereco.complement}`}
                     <br />
-                    {endereco.bairro} – {endereco.cidade}/{endereco.estado}
+                    {endereco.neighborhood} – {endereco.city}/{endereco.state}
                 </p>
             </div>
 

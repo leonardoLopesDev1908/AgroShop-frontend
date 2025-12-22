@@ -234,23 +234,23 @@ const Carrinho = () => {
                         <div className="cart-item-details">
                             <p>R$ {item.precoUnitario.toFixed(2)}</p>
                             <div className="quantity-control">
-                            <button
-                                onClick={() => handleDiminuirQuantidade(item)}
-                                disabled={item.quantidade <= 1}
-                            >
-                                -
-                            </button>
-                            <input
-                                type="number"
-                                min="1"
-                                value={item.quantidade}
-                                onChange={(e) =>
-                                    handleMudarQuantidade(item, e.target.value)
-                                }
-                            />
-                            <button onClick={() => handleAumentarQuantidade(item)}>
-                                +
-                            </button>
+                                <button
+                                    onClick={() => handleDiminuirQuantidade(item)}
+                                    disabled={item.quantidade <= 1}
+                                >
+                                    -
+                                </button>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    value={item.quantidade}
+                                    onChange={(e) =>
+                                        handleMudarQuantidade(item, e.target.value)
+                                    }
+                                />
+                                <button onClick={() => handleAumentarQuantidade(item)}>
+                                    +
+                                </button>
                             </div>
                             <p>
                             Total:{" "}
@@ -259,48 +259,48 @@ const Carrinho = () => {
                             </strong>
                             </p>
                             <button
-                            className="btn-excluir"
-                            onClick={() => handleExcluirProduto(item)}
-                            >
+                                className="btn-excluir"
+                                onClick={() => handleExcluirProduto(item)}
+                                >
                             <img src={lixeira} alt="Excluir" />
                             </button>
                         </div>
-                        </div>
+                    </div>
                     ))}
                     {itens.length > 0 && (
                         <button className="btn-limpar" onClick={limparCarrinho}>
                         Limpar Carrinho
                         </button>
                     )}
-                    </div>
                 </div>
-                <div className="second-line">
-                    <div className="frete-details">
-                        <label htmlFor="cep"><strong>Frete e prazo:</strong> </label>
-                        <input
-                            type="text"
-                            id="cep"
-                            placeholder="Digite o CEP"
-                            onChange={(e) => {setCepDestino(e.target.value)}}
-                        />
-                        <button
-                            type="button"
-                            className=""
-                            onClick={handleGetFrete}>
-                            Buscar
-                        </button>
+            </div>
+            <div className="second-line">
+                <div className="frete-details">
+                    <label htmlFor="cep"><strong>Frete e prazo:</strong> </label>
+                    <input
+                        type="text"
+                        id="cep"
+                        placeholder="Digite o CEP"
+                        onChange={(e) => {setCepDestino(e.target.value)}}
+                    />
+                    <button
+                        type="button"
+                        className=""
+                        onClick={handleGetFrete}>
+                        Buscar
+                    </button>
                         <div>
-                            {fretes && fretes.map((frete) => {
-                                return (
-                                    <div
-                                        key={frete.id}
-                                        className="fretes"
-                                        onClick={() => setFreteSelecionado(frete)}
-                                    >
-                                        <img className="img-frete" src={frete.company.picture} /> -
-                                        <strong>R$ {Number(frete.price).toFixed(2)}</strong>
-                                        até {frete.delivery_time} dias
-                                    </div>
+                        {fretes && fretes.map((frete) => {
+                            return (
+                                <div
+                                    key={frete.id}
+                                    className="fretes-cart"
+                                    onClick={() => setFreteSelecionado(frete)}
+                                >
+                                    <img className="img-frete" src={frete.company.picture} /> -
+                                    <strong>R$ {Number(frete.price).toFixed(2)}</strong>
+                                    até {frete.delivery_time} dias
+                                </div>
                                 );
                             })}
                         </div>
@@ -320,12 +320,12 @@ const Carrinho = () => {
                                 <div 
                                     className={`confirmacao ${enderecoEntrega === end ? 'selecionada' : ''}`}
                                 ></div>
-                                <p><strong>Rua:</strong> {end.endereco}</p>
-                                <p><strong>Número:</strong> {end.numero}</p>
-                                <p><strong>Bairro:</strong> {end.bairro}</p>
-                                <p><strong>Cidade:</strong> {end.cidade}</p>
-                                <p><strong>UF:</strong> {end.estado}</p>
-                                <p><strong>CEP:</strong> {end.cep}</p>
+                                <p><strong>Rua:</strong> {end.street}</p>
+                                <p><strong>Número:</strong> {end.number}</p>
+                                <p><strong>Bairro:</strong> {end.neighborhood}</p>
+                                <p><strong>Cidade:</strong> {end.city}</p>
+                                <p><strong>UF:</strong> {end.state}</p>
+                                <p><strong>CEP:</strong> {end.zipcode}</p>
                                 </div>
                             ))}
                             </div>
@@ -334,17 +334,18 @@ const Carrinho = () => {
                 </div>
             </div>
             <div className="confirmar-container">
-                <div>
-                    {itens.length > 0 && freteSelecionado && (
-                        <button
-                        className="order-cart"
-                        onClick={criarPedido}
-                        disabled={loading}
-                        >
-                        {loading ? "Processando..." : "Finalizar pedido"}
-                        </button>
-                    )}
-                </div>
+                    <button
+                    className="order-cart"
+                    onClick={criarPedido}
+                    disabled={
+                        loading ||
+                        itens.length === 0 ||
+                        !freteSelecionado ||
+                        !enderecoEntrega
+                    }
+                    >
+                    {loading ? "Processando..." : "Finalizar pedido"}
+                    </button>
                 <div>
                     <p>Subtotal: R$ {totalItens.toFixed(2)}</p>
                     {freteSelecionado &&(

@@ -46,6 +46,7 @@ const FiltersComponent = () => {
                 <option value="Transporte">Transporte</option>
                 <option value="Remedio">Remédios</option>
                 <option value="Higiene">Higiêne</option>
+                <option value="Brinquedo">Brinquedos</option>
                 <option value="Outros">Outros</option>
             </Form.Select>
             </Form.Group>
