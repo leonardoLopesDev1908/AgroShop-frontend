@@ -7,7 +7,7 @@ function MercadoPagoButton({pedidoId}) {
     const [preferenceId, setPreferenceId] = useState(null)
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/v1/payment/preference/${pedidoId}`, {
+        fetch(`http://agroshop-lb-966627813.us-east-2.elb.amazonaws.com/api/v1/payment/preference/${pedidoId}`, {
             method: 'POST',
             credentials: 'include',
             headers: {

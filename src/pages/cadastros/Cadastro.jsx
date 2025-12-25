@@ -9,8 +9,10 @@ const Cadastro = () => {
     const[nome, setNome] = useState("")
     const[sobrenome, setSobrenome] = useState("")
     const[email, setEmail] = useState("")
+    const[telefone, setTelefone] = useState("")
     const[senha, setSenha] = useState("")
-    const[endereco, setEndereco] = useState("")
+    const[rua, setRua] = useState("")
+    const[bairro, setBairro] = useState("")
     const[numero, setNumero] = useState("")
     const[complemento, setComplemento] = useState("")
     const[cidade, setCidade] = useState("")
@@ -26,9 +28,27 @@ const Cadastro = () => {
         setError("")
         setLoading(true)
         try{
-            await CadastroService(nome, sobrenome, email, senha, 
-                                        endereco, numero, complemento,
-                                        cidade, estado, cep)
+
+            const userDTO = {
+                nome: nome,
+                sobrenome: sobrenome,
+                email: email,
+                senha: senha,
+                telefone: telefone,
+                 endereco: [
+                    {
+                        street: rua,
+                        neighborhood: bairro,
+                        number: numero,
+                        complement: complemento,
+                        city: cidade,
+                        state: estado,
+                        zipcode: cep
+                    }
+                ]
+            }
+
+            await CadastroService(userDTO)
             alert("Cadastro realizado com sucesso")
             await login(email, senha, true)
             navigate("/")
@@ -63,34 +83,47 @@ const Cadastro = () => {
                         <input type="text" id="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Digite seu email" disabled={loading}/>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="senha">Senha</label>
-                        <input type="password" id="senha" value={senha} onChange={e => setSenha(e.target.value)} placeholder="Digite sua senha" disabled={loading}/>
+                        <label htmlFor="telefone">Telefone</label>
+                        <input type="text" id="telefone" value={telefone} onChange={e => setTelefone(e.target.value)} placeholder="Digite seu telefone" disabled={loading}/>
                     </div>
                 </div>
 
                 <div className='datas'>
                     <div className="form-group">
-                        <label  htmlFor="endereco">Endereço</label>
-                        <input type="text" id="endereco" value={endereco} onChange={e => setEndereco(e.target.value)} placeholder="Rua, número, complemento" disabled={loading}/>
+                        <label htmlFor="senha">Senha</label>
+                        <input type="password" id="senha" value={senha} onChange={e => setSenha(e.target.value)} placeholder="Digite sua senha" disabled={loading}/>
                     </div>
+                    <div className='form-group'>
+                    </div>
+                </div>
+
+                <div className="datas">
+                    <div className="form-group">
+                        <label  htmlFor="rua">Rua</label>
+                        <input type="text" id="rua" value={rua} onChange={e => setRua(e.target.value)} placeholder="Rua" disabled={loading}/>
+                    </div>
+                    <div className="form-group">
+                        <label  htmlFor="bairro">Bairro</label>
+                        <input type="text" id="bairro" value={bairro} onChange={e => setBairro(e.target.value)} placeholder="Bairro" disabled={loading}/>
+                    </div>
+                </div>
+
+                <div className='datas'>
                     <div className="form-group">
                         <label  htmlFor="numero">Número</label>
                         <input type="text" id="numero" value={numero} onChange={e => setNumero(e.target.value)} placeholder="Número" disabled={loading}/>
                     </div>
-                </div>
-
-                <div className='datas'>
                     <div className="form-group">
                         <label  htmlFor="complemento">Complemento</label>
                         <input type="text" id="complemento" value={complemento} onChange={e => setComplemento(e.target.value)} placeholder="Complemento, ap., bloco... " disabled={loading}/>
                     </div>
+                </div>
+
+                <div className='datas'>
                     <div className="form-group">
                         <label  htmlFor="cidade">Cidade</label>
                         <input type="text" id="cidade" value={cidade} onChange={e => setCidade(e.target.value)} placeholder="Digite sua cidade" disabled={loading}/>
                     </div>
-                </div>
-
-                <div className='datas'>
                     <div className="form-group">
                         <label  htmlFor="estado">Estado</label>
                         <select type="text" id="estado" value={estado} onChange={e => setEstado(e.target.value)} placeholder="Digite seu estado" disabled={loading}>
@@ -124,10 +157,14 @@ const Cadastro = () => {
                             <option value="TO">TO</option>
                         </select>
                     </div>
+                </div>
+
+                <div className='datas'>
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
                         <input type="text" id="cep" value={cep} onChange={e => setCep(e.target.value)} placeholder="Digite seu CEP" disabled={loading}/>
                     </div>
+                    <div className="form-group"></div>
                 </div>
 
                 <button type="submit" className="cadastro-button" disabled={loading}>

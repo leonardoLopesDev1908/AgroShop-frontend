@@ -6,8 +6,6 @@ export const LoginService = async (email, senha, lembrar) => {
             email: email,
             senha: senha
         })
-
-        console.log(response)
         return response.data
     } catch(error){
         throw new Error(error.response?.data?.message || "Erro ao fazer login")
@@ -23,25 +21,9 @@ export const getUsuarioDados = async() => {
     }
 }
 
-export const CadastroService = async(nome, sobrenome, email, senha,
-                                    endereco, numero, complemento,
-                                    cidade, estado, cep
-) => {
+export const CadastroService = async(dto) => {
     try{
-        const response = await api.post(`/usuarios/cadastro`, {
-            nome: nome,
-            sobrenome: sobrenome,
-            email: email,
-            senha: senha,
-            endereco: {
-                endereco: endereco,
-                numero: numero,
-                complemento: complemento,
-                cidade: cidade,
-                estado: estado,
-                cep: cep
-            }
-        })
+        const response = await api.post(`/usuarios/cadastro`, dto)
         return response.data;
     }catch(error){
         throw new Error(error.response?.data?.message)
