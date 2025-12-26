@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://agroshop-lb-966627813.us-east-2.elb.amazonaws.com/api/v1';
+const API_BASE_URL = 'http://agroshop.app.br/api/v1';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
