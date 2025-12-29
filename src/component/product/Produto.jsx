@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {useParams} from "react-router-dom"
+import {useParams, useNavigate} from "react-router-dom"
 import {getProdutoById} from "../../services/ProdutoService"
 import {addProductToCart} from "../../services/CarrinhoService"
 import {Spinner} from "react-bootstrap"
@@ -15,6 +15,7 @@ import {useAuth } from "../../auth/AuthContext"
 import {calculaFreteProduto} from "../../services/FreteService"
 
 const Produto = () => {
+  const navigate = useNavigate()
   const {isAuthenticated} = useAuth();
   const { id } = useParams()
   const {addToCarrinho} = useCart()
@@ -39,14 +40,22 @@ const Produto = () => {
   const handleAdicionarProduto = async () => {
     setError("")
     setLoading(true)
-    try{
-      const response = await addProductToCart(produto.id, 1)
-      addToCarrinho(1)
-      setMessage("Produto adicionado ao carrinho")
-    }catch(error){
-      setError(error.message)
-    }finally {
-      setLoading(false)
+    if(isAuthenticated){
+      try{
+        const response = await addProductToCart(produto.id, 1)
+        addToCarrinho(1)
+        setMessage("Produto adicionado ao carrinho")
+      }catch (error) {
+        if (error.response) {
+          setError(error.response.data.message || "Erro ao adicionar produto")
+        } else {
+          setError("Erro de conexão com o servidor")
+        }
+      }finally {
+        setLoading(false)
+      }
+    } else {
+      navigate("/login")
     }
   }
 

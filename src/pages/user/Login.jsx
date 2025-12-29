@@ -22,9 +22,13 @@ const Login = () =>{
         try{
             const response = await login(email, senha, lembrar);
             navigate("/")
-        } catch(err){
-            setError("Erro ao fazer login!")
-        }finally{
+        }catch (err) {
+            if (err.response) {
+                setError(err.response.data.message || "Erro ao fazer login")
+            } else {
+                setError("Não foi possível conectar ao servidor")
+            }
+        } finally{
             setLoading(false)
         }
     } 
