@@ -25,29 +25,21 @@ export const AuthProvider = ({ children }) => {
     };
 
     const login = async (email, senha, lembrar) => {
-        try {
-            const response = await api.post(
-                "/auth/login",
-                { email, senha },
-                { withCredentials: true }
-            );
+        const response = await api.post(
+            "/auth/login",
+            { email, senha },
+            { withCredentials: true }
+        );
 
-            setUser(response.data);
+        setUser(response.data);
 
-            if (lembrar) {
-                localStorage.setItem("rememberedEmail", email);
-            } else {
-                localStorage.removeItem("rememberedEmail");
-            }
-
-            return { success: true, user: response.data };
-
-        } catch (error) {
-            return {
-                success: false,
-                error: error.response?.data?.message || "Erro no login"
-            };
+        if (lembrar) {
+            localStorage.setItem("rememberedEmail", email);
+        } else {
+            localStorage.removeItem("rememberedEmail");
         }
+
+        return response.data;
     };
 
     const logout = async () => {
